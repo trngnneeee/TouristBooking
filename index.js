@@ -7,6 +7,9 @@ const port = 3000
 app.set('views', path.join(__dirname, "views"));
 app.set('view engine', 'pug');
 
+// Thiết lập thư mục chứa file tĩnh của Frontend
+app.use(express.static(path.join(__dirname, "public")));
+
 app.get('/', (req, res) => {
   res.render("client/pages/home.pug", {
     pageTitle: "Trang chủ"
