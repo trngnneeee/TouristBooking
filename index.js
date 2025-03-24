@@ -6,10 +6,7 @@ require('dotenv').config()
 const mongoose = require('mongoose');
 mongoose.connect(process.env.DATABASE);
 
-const Tour = mongoose.model('Tour', { 
-  name: String,
-  vehicle: String
-}, "tours");
+const Tour = require("./models/tour.model");
 
 const app = express()
 const port = 3000
