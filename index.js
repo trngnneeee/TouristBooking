@@ -16,11 +16,8 @@ app.set('view engine', 'pug');
 // Thiết lập thư mục chứa file tĩnh của Frontend
 app.use(express.static(path.join(__dirname, "public")));
 
-const homeController = require("./controllers/home.controller");
-app.get('/', homeController.home);
-
-const tourController =  require("./controllers/client/tour.controller");
-app.get('/tour', tourController.list);
+const clientRoutes = require("./routes/client/index.router");
+app.use("/", clientRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
