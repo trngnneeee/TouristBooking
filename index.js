@@ -1,13 +1,15 @@
 const express = require('express')
 const path = require('path');
-// Thiết lập Mongoose + Kết nối với CSDL Online
+
 // Thiết lập dotevn
 require('dotenv').config()
-const mongoose = require('mongoose');
-mongoose.connect(process.env.DATABASE);
 
 const app = express()
 const port = 3000
+
+// Kết nối database
+const database = require('./config/database.config');
+database.connect();
 
 // Thiết lập views
 app.set('views', path.join(__dirname, "views"));
@@ -17,6 +19,7 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, "public")));
 
 const clientRoutes = require("./routes/client/index.router");
+const { data } = require('autoprefixer');
 app.use("/", clientRoutes);
 
 app.listen(port, () => {
