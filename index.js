@@ -19,7 +19,6 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, "public")));
 
 const clientRoutes = require("./routes/client/index.router");
-const { data } = require('autoprefixer');
 app.use("/", clientRoutes);
 
 app.listen(port, () => {
