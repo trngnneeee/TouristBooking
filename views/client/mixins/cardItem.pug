@@ -1,0 +1,45 @@
+mixin cardItem(item)
+  // Product Item
+  .product-item
+    .inner-image
+      a(href=item.slug)
+        img(
+          alt="" 
+          src=item.avatar
+          )
+    .inner-discount
+      i.fa-solid.fa-bolt
+      | Giảm -#{item.discount}%
+    .inner-content
+      h3.inner-title
+        a(href=item.slug) #{item.name}
+      .inner-prices
+        .inner-price-old
+          | #{item.priceOld.toLocaleString()}
+          span.inner-unit đ
+        .inner-price-new
+          | #{item.priceNew.toLocaleString()}
+          span.inner-unit đ
+      .inner-desc
+        .inner-desc-item
+          | Mã Tour:
+          b #{item.code}
+        .inner-desc-item
+          | Ngày Khởi Hành:
+          b #{item.departureDate}
+        .inner-desc-item
+          | Thời Gian:
+          b #{item.time}
+      .inner-meta
+        .inner-rating
+          .inner-stars
+            i.fa-solid.fa-star
+            i.fa-solid.fa-star
+            i.fa-solid.fa-star
+            i.fa-solid.fa-star
+            i.fa-solid.fa-star
+          .inner-number (#{item.ratingStars})
+        .inner-stock
+          .inner-label Số chỗ còn:
+          .inner-number #{item.stock}
+  // End Product Item
