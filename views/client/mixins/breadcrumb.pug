@@ -1,0 +1,13 @@
+mixin breadcrumb(data)
+  .box-breadcrumb
+    .inner-image
+        img(
+        alt="" 
+        src=data.img
+        )
+    .inner-content
+        .container
+            h1.inner-title Tour Hà Nội - Ninh Bình - Hạ Long - Yên Tử - Sapa | 6N5D
+            .inner-list
+                each item in data.array
+                    a(href=item.link) #{item.title}

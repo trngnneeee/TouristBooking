@@ -246,6 +246,66 @@ block main
   // End Section 3
 
   // Section 4
+  -
+    var dataSection4 = [
+      {
+        avatar: "/assets/images/product-1.jpg",
+        slug: "#",
+        discount: 30,
+        name: "Hà Nội - Lào Cai - SaPa 4N3Đ",
+        priceOld: 13650000,
+        priceNew: 2590000,
+        code: "TOUR000001",
+        departureDate: "22/12/2025",
+        time: "10 Ngày 9 Đêm",
+        ratingStars: 4,
+        ratingTotal: 20,
+        stock: 10
+      },
+      {
+        avatar: "/assets/images/product-2.jpg",
+        slug: "#",
+        discount: 0,
+        name: "Tour 2024 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)",
+        priceOld: 12000000,
+        priceNew: 12000000,
+        code: "TOUR000002",
+        departureDate: "24/12/2025",
+        time: "3 Ngày 2 Đêm",
+        ratingStars: 5,
+        ratingTotal: 30,
+        stock: 15
+      },
+      {
+        avatar: "/assets/images/product-3.jpg",
+        slug: "#",
+        discount: 30,
+        name: "Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL",
+        priceOld: 13650000,
+        priceNew: 2590000,
+        code: "TOUR000003",
+        departureDate: "22/12/2025",
+        time: "10 Ngày 9 Đêm",
+        ratingStars: 0,
+        ratingTotal: 0,
+        stock: 20
+      },
+      {
+        avatar: "/assets/images/product-3.jpg",
+        slug: "#",
+        discount: 30,
+        name: "Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL 2",
+        priceOld: 13650000,
+        priceNew: 2590000,
+        code: "TOUR000004",
+        departureDate: "22/12/2025",
+        time: "10 Ngày 9 Đêm",
+        ratingStars: 3,
+        ratingTotal: 12,
+        stock: 20
+      }
+    ];
+
   .section-4
     .container
       h2.box-title(
@@ -258,356 +318,8 @@ block main
         data-aos="fade-up"
         )
         // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="/assets/images/product-1.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Hà Nội - Lào Cai - SaPa 4N3Đ
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="/assets/images/product-2.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Tour 2024 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="/assets/images/product-3.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="/assets/images/product-3.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="/assets/images/product-1.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Hà Nội - Lào Cai - SaPa 4N3Đ
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="/assets/images/product-2.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Tour 2024 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="/assets/images/product-3.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="/assets/images/product-3.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
+        each item in dataSection4
+          +cardItem(item)
         // End Product Item
       .inner-button
         a.button-outline(href="#") Xem tất cả
@@ -640,356 +352,8 @@ block main
         data-aos="fade-up"
         )
         // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="assets/images/product-1.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Hà Nội - Lào Cai - SaPa 4N3Đ
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="assets/images/product-2.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Tour 2024 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="assets/images/product-3.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="assets/images/product-3.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="assets/images/product-1.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Hà Nội - Lào Cai - SaPa 4N3Đ
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="assets/images/product-2.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Tour 2024 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="assets/images/product-3.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
-        // End Product Item
-        // Product Item
-        .product-item
-          .inner-image
-            a(href="")
-              img(
-                alt="" 
-                src="assets/images/product-3.jpg"
-                )
-          .inner-discount
-            i.fa-solid.fa-bolt
-            | Giảm -30%
-          .inner-content
-            h3.inner-title
-              a(href="") Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL
-            .inner-prices
-              .inner-price-old
-                | 13.650.000
-                span.inner-unit đ
-              .inner-price-new
-                | 2.590.000
-                span.inner-unit đ
-            .inner-desc
-              .inner-desc-item
-                | Mã Tour:
-                b 123456789
-              .inner-desc-item
-                | Ngày Khởi Hành:
-                b 22/07/2024
-              .inner-desc-item
-                | Thời Gian:
-                b 10 Ngày 9 Đêm
-            .inner-meta
-              .inner-rating
-                .inner-stars
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                  i.fa-solid.fa-star
-                .inner-number (5)
-              .inner-stock
-                .inner-label Số chỗ còn:
-                .inner-number 10
+        each item in dataSection4 
+          +cardItem(item)
         // End Product Item
       .inner-button
         a.button-outline(href="#") Xem tất cả
