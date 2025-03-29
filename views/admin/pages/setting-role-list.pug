@@ -1,0 +1,44 @@
+extends ../layouts/default.pug
+
+block main 
+  main.main
+    h1.box-title Nhóm quyền
+    .section-5
+      .inner-wrap
+        .inner-change-status
+          .inner-item
+            select
+              option(value="") -- Hành động --
+              option(value="") Xóa
+          .inner-item
+            button Áp dụng
+        .inner-search
+          i.fa-solid.fa-magnifying-glass
+          input(
+            placeholder="Tìm kiếm" 
+            type="text"
+            )
+        .inner-button-create
+          a(href=`/${pathAdmin}/setting/role/create`) + Tạo mới
+    .section-6
+      .table-2
+        table
+          thead
+            tr
+              th.inner-center
+                input.inner-check(type="checkbox")
+              th Tên nhóm quyền
+              th Mô tả ngắn
+              th Hành động
+          tbody
+            tr
+              td.inner-center
+                input.inner-check(type="checkbox")
+              td Quản trị viên
+              td Có đầy đủ các quyền
+              td
+                .inner-buttons
+                  button.inner-edit
+                    i.fa-regular.fa-pen-to-square
+                  button.inner-delete
+                    i.fa-regular.fa-trash-can

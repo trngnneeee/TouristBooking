@@ -1,0 +1,177 @@
+extends ../layouts/default.pug 
+
+block main 
+  main.main
+    h1.box-title Tạo tour
+    .section-8
+      form#tour-create-form
+        .inner-group
+          label.inner-label(for="name") Tên tour
+          input#name(
+            name="name" 
+            type="text"
+            )
+        .inner-group
+          label.inner-label(for="category") Danh mục
+          select#category(name="category")
+            option(value="") -- Chọn danh mục --
+            option(value="") Danh mục 1
+            option(value="") Danh mục 2
+        .inner-group
+          label.inner-label(for="position") Vị trí
+          input#position(
+            name="position" 
+            type="number"
+            )
+        .inner-group
+          label.inner-label(for="status") Trạng thái
+          select#status(name="status")
+            option(value="") Hoạt động
+            option(value="") Dừng hoạt động
+        .inner-group.inner-two-col
+          label.inner-label(for="avatar") Ảnh đại diện
+          .inner-upload-image
+            input#avatar(
+              name="avatar" 
+              filepond-image="" 
+              accept="image/*" 
+              type="file"
+              )
+        .inner-group
+          label.inner-label Giá cũ
+          .inner-input-list
+            .inner-input-item
+              label Người lớn
+              input(
+                name="priceAdult" 
+                type="number"
+                )
+            .inner-input-item
+              label Trẻ em
+              input(
+                name="priceChildren" 
+                type="number"
+                )
+            .inner-input-item
+              label Em bé
+              input(
+                name="priceBaby" 
+                type="number"
+                )
+        .inner-group
+          label.inner-label Giá mới
+          .inner-input-list
+            .inner-input-item
+              label Người lớn
+              input(
+                name="priceNewAdult" 
+                type="number"
+                )
+            .inner-input-item
+              label Trẻ em
+              input(
+                name="priceNewChildren" 
+                type="number"
+                )
+            .inner-input-item
+              label Em bé
+              input(
+                name="priceNewBaby" 
+                type="number"
+                )
+        .inner-group
+          label.inner-label Còn lại
+          .inner-input-list
+            .inner-input-item
+              label Người lớn
+              input(
+                name="stockAdult" 
+                type="number"
+                )
+            .inner-input-item
+              label Trẻ em
+              input(
+                name="stockChildren" 
+                type="number"
+                )
+            .inner-input-item
+              label Em bé
+              input(
+                name="stockBaby" 
+                type="number"
+                )
+        .inner-group
+          label.inner-label Những địa điểm có tour
+          .inner-checkbox-list
+            .inner-checkbox-item
+              input(
+                value="Hà Nội" 
+                name="locations" 
+                type="checkbox"
+                )
+              label Hà Nội
+            .inner-checkbox-item
+              input(
+                value="Đà Nẵng" 
+                name="locations" 
+                type="checkbox"
+                )
+              label Đà Nẵng
+            .inner-checkbox-item
+              input(
+                value="Nha Trang" 
+                name="locations" 
+                type="checkbox"
+                )
+              label Nha Trang
+            .inner-checkbox-item
+              input(
+                value="Hồ Chí Minh" 
+                name="locations" 
+                type="checkbox"
+                )
+              label Hồ Chí Minh
+        .inner-group
+          label.inner-label(for="time") Thời gian
+          input#time(
+            name="time" 
+            type="text"
+            )
+        .inner-group
+          label.inner-label(for="vehicle") Phương tiện
+          input#vehicle(
+            name="vehicle" 
+            type="text"
+            )
+        .inner-group
+          label.inner-label(for="departureDate") Ngày khởi hành
+          input#departureDate(
+            name="departureDate" 
+            type="date"
+            )
+        .inner-group.inner-two-col
+          label.inner-label(for="information") Thông tin tour
+          textarea#information(
+            name="information" 
+            textarea-mce=""
+            )
+        .inner-group.inner-two-col
+          label.inner-label Lịch trình tour
+          .inner-schedule
+            .inner-schedule-list
+              .inner-schedule-item
+                .inner-schedule-head
+                  span.inner-schedule-button.inner-move
+                    i.fa-solid.fa-up-down-left-right
+                  input(type="text")
+                  span.inner-schedule-button.inner-remove
+                    i.fa-regular.fa-trash-can
+                  span.inner-schedule-button.inner-more
+                    i.fa-solid.fa-angle-down
+                .inner-schedule-body
+                  textarea(textarea-mce="")
+            .inner-schedule-create + Thêm lich trình
+        .inner-button.inner-two-col
+          button Tạo mới
+      .inner-back
+        a(href=`/${pathAdmin}/tour/list`) Quay lại danh sách

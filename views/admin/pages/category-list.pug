@@ -1,0 +1,109 @@
+extends ../layouts/default.pug
+
+block main 
+  main.main
+    h1.box-title Quản lý danh mục
+    .section-4
+      .inner-wrap
+        .inner-item.inner-label
+          i.fa-solid.fa-filter
+          | Bộ lọc
+        .inner-item
+          select
+            option(value="") Trạng thái
+            option(value="") Hoạt động
+            option(value="") Tạm dừng
+        .inner-item
+          select
+            option(value="") Người tạo
+            option(value="") Lê Văn A
+            option(value="") Lê Văn B
+        .inner-item.inner-date
+          input(type="date")
+          span -
+          input(type="date")
+        .inner-item.inner-reset
+          i.fa-solid.fa-rotate-left
+          | Xóa bộ lọc
+    .section-5
+      .inner-wrap
+        .inner-change-status
+          .inner-item
+            select
+              option(value="") -- Hành động --
+              option(value="") Hoạt động
+              option(value="") Dừng hoạt động
+              option(value="") Xóa
+          .inner-item
+            button Áp dụng
+        .inner-search
+          i.fa-solid.fa-magnifying-glass
+          input(
+            placeholder="Tìm kiếm" 
+            type="text"
+            )
+        .inner-button-create
+          a(href=`/${pathAdmin}/category/create`) + Tạo mới
+    .section-6
+      .table-2
+        table
+          thead
+            tr
+              th.inner-center
+                input.inner-check(type="checkbox")
+              th Tên danh mục
+              th Ảnh đại diện
+              th.inner-center Vị trí
+              th.inner-center Trạng thái
+              th Tạo bởi
+              th Cập nhật bởi
+              th Hành động
+          tbody
+            tr
+              td.inner-center
+                input.inner-check(type="checkbox")
+              td Danh mục 1
+              td
+                img.inner-avatar(src="/admin/assets/images/tour-1.jpg")
+              td.inner-center 1
+              td.inner-center
+                .badge.badge-green Hoạt động
+              td
+                div Lê Văn A
+                .inner-time 16:30 - 20/10/2024
+              td
+                div Lê Văn A
+                .inner-time 16:30 - 20/10/2024
+              td
+                .inner-buttons
+                  button.inner-edit
+                    i.fa-regular.fa-pen-to-square
+                  button.inner-delete
+                    i.fa-regular.fa-trash-can
+            tr
+              td.inner-center
+                input.inner-check(type="checkbox")
+              td Danh mục 2
+              td
+                img.inner-avatar(src="/admin/assets/images/tour-1.jpg")
+              td.inner-center 2
+              td.inner-center
+                .badge.badge-green Hoạt động
+              td
+                div Lê Văn A
+                .inner-time 16:30 - 20/10/2024
+              td
+                div Lê Văn A
+                .inner-time 16:30 - 20/10/2024
+              td
+                .inner-buttons
+                  button.inner-edit
+                    i.fa-regular.fa-pen-to-square
+                  button.inner-delete
+                    i.fa-regular.fa-trash-can
+    .section-7
+      span.inner-label Hiển thị 1 - 9 của 78
+      select.inner-pagination
+        option Trang 1
+        option Trang 2
+        option Trang 3

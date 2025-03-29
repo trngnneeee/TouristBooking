@@ -1,0 +1,77 @@
+extends ../layouts/default.pug
+
+block main 
+  main.main
+    h1.box-title Quản lý người dùng
+    .section-4
+      .inner-wrap
+        .inner-item.inner-label
+          i.fa-solid.fa-filter
+          | Bộ lọc
+        .inner-item
+          select
+            option(value="") Trạng thái
+            option(value="") Hoạt động
+            option(value="") Tạm dừng
+        .inner-item.inner-date
+          input(type="date")
+          span -
+          input(type="date")
+        .inner-item.inner-reset
+          i.fa-solid.fa-rotate-left
+          | Xóa bộ lọc
+    .section-5
+      .inner-wrap
+        .inner-change-status
+          .inner-item
+            select
+              option(value="") -- Hành động --
+              option(value="") Hoạt động
+              option(value="") Dừng hoạt động
+              option(value="") Xóa
+          .inner-item
+            button Áp dụng
+        .inner-search
+          i.fa-solid.fa-magnifying-glass
+          input(
+            placeholder="Tìm kiếm" 
+            type="text"
+            )
+    .section-6
+      .table-2
+        table
+          thead
+            tr
+              th.inner-center
+                input.inner-check(type="checkbox")
+              th Họ tên
+              th.inner-center Ảnh đại diện
+              th Email
+              th Số điện thoại
+              th Địa chỉ
+              th Trạng thái
+              th Hành động
+          tbody
+            tr
+              td.inner-center
+                input.inner-check(type="checkbox")
+              td Lê Văn A
+              td.inner-center
+                img.inner-avatar(src="/admin/assets/images/avatar.jpg")
+              td levana@gmail.com
+              td 01234567890
+              td Số 123, đường ABC,...
+              td
+                .badge.badge-green Hoạt động
+              td
+                .inner-buttons
+                  button.inner-edit
+                    i.fa-regular.fa-pen-to-square
+                  button.inner-delete
+                    i.fa-regular.fa-trash-can
+    .section-7
+      span.inner-label Hiển thị 1 - 9 của 78
+      select.inner-pagination
+        option Trang 1
+        option Trang 2
+        option Trang 3

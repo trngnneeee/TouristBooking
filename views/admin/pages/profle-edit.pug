@@ -1,0 +1,55 @@
+extends ../layouts/default.pug
+
+block main 
+  main.main
+    h1.box-title Thông tin cá nhân
+    .section-8
+      form#profile-edit-form
+        .inner-group
+          label.inner-label(for="fullName") Họ tên
+          input#fullName(
+            value="Lê Văn A" 
+            name="fullName" 
+            type="text"
+            )
+        .inner-group
+          label.inner-label(for="email") Email
+          input#email(
+            value="levana@gmail.com" 
+            name="email" 
+            type="email"
+            )
+        .inner-group
+          label.inner-label(for="phone") Số điện thoại
+          input#phone(
+            value="0123456789" 
+            name="phone" 
+            type="text"
+            )
+        .inner-group
+          label.inner-label(for="positionCompany") Chức vụ
+          input#positionCompany(
+            readonly="" 
+            value="Giám đốc" 
+            type="text"
+            )
+        .inner-group
+          label.inner-label(for="role") Nhóm quyền
+          input#role(
+            readonly="" 
+            value="Quản trị viên" 
+            type="text"
+            )
+        .inner-group.inner-two-col
+          label.inner-label(for="avatar") Ảnh đại diện
+          .inner-upload-image
+            input#avatar(
+              name="avatar" 
+              filepond-image="" 
+              accept="image/*" 
+              type="file"
+              )
+        .inner-button.inner-two-col
+          button Cập nhật
+      .inner-back
+        a(href=`/${pathAdmin}/profile/change-password`) Đổi mật khẩu

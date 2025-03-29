@@ -10,7 +10,7 @@ module.exports.list = async (req, res) => {
 }
 
 module.exports.detail = async (req, res) => {
-    res.render("client/pages/tour-detail.pug", {
+    res.render("client/pages/detail.pug", {
         pageTitle: "Chi tiết tour"
     })
 }

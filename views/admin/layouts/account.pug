@@ -1,0 +1,19 @@
+html
+  head
+    meta(charset="UTF-8")
+    meta(
+      content="width=device-width, initial-scale=1.0" 
+      name="viewport"
+      )
+    title #{pageTitle}
+    link(
+      href="/admin/assets/css/style.css" 
+      rel="stylesheet"
+      )
+
+  body 
+    .page-account 
+      block main
+
+    script(src="https://cdn.jsdelivr.net/npm/just-validate@4.3.0/dist/just-validate.production.min.js")
+    script(src="/admin/assets/js/account.js")
