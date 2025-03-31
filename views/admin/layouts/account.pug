@@ -10,12 +10,12 @@ html
       href="/admin/assets/css/style.css" 
       rel="stylesheet"
       )
-    script. 
-      const pathAdmin = #{pathAdmin};
 
   body 
     .page-account 
       block main
 
+    script. 
+      const pathAdmin = `#{pathAdmin}`;
     script(src="https://cdn.jsdelivr.net/npm/just-validate@4.3.0/dist/just-validate.production.min.js")
     script(src="/admin/assets/js/account.js")
