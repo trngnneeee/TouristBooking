@@ -30,70 +30,9 @@ html
     script(src="/admin/assets/js/tinymce-config.js")
 
   body 
-    header.header
-      .inner-logo
-        a(href="#")
-          span 28
-          span Admin
-      .inner-wrap
-        .inner-notify
-          img(
-            alt="" 
-            src="/admin/assets/images/icon-bell.svg"
-            )
-          span 6
-        .inner-account
-          .inner-avatar
-            img(
-              alt="" 
-              src="/admin/assets/images/avatar.jpg"
-              )
-          .inner-text
-            .inner-name Le Van A
-            .inner-role Admin
-        button.inner-button-menu
-          i.fa-solid.fa-bars
-    nav.sider
-      ul.inner-menu
-        li
-          a(href=`/${pathAdmin}/dashboard`)
-            i.fa-solid.fa-gauge-high
-            | Tổng quan
-        li
-          a(href=`/${pathAdmin}/category/list`)
-            i.fa-solid.fa-table-cells-large
-            | Quản lý danh mục
-        li
-          a(href=`/${pathAdmin}/tour/list`)
-            i.fa-solid.fa-table-list
-            | Quản lý tour
-        li
-          a(href=`/${pathAdmin}/order/list`)
-            i.fa-solid.fa-list-check
-            | Quản lý đơn hàng
-        li
-          a(href=`/${pathAdmin}/user/list`)
-            i.fa-solid.fa-user
-            | Quản lý người dùng
-        li
-          a(href=`/${pathAdmin}/contact/list`)
-            i.fa-solid.fa-user-group
-            | Thông tin liên hệ
-      hr
-      ul.inner-menu
-        li
-          a(href=`/${pathAdmin}/setting/list`)
-            i.fa-solid.fa-gear
-            | Cài đặt chung
-        li
-          a(href=`/${pathAdmin}/profile/edit`)
-            i.fa-solid.fa-user-gear
-            | Thông tin cá nhân
-        li
-          a.inner-logout(href="#")
-            i.fa-solid.fa-power-off
-            | Đăng xuất
-    .sider-overlay
+    include ../partials/header.pug 
+
+    include ../partials/sider.pug
 
     block main 
 

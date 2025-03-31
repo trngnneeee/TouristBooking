@@ -1,40 +1,41 @@
 nav.sider
   ul.inner-menu
     li
-      a.active(href="#")
+      a(href=`/${pathAdmin}/dashboard`)
         i.fa-solid.fa-gauge-high
         | Tổng quan
     li
-      a(href="#")
+      a(href=`/${pathAdmin}/category/list`)
         i.fa-solid.fa-table-cells-large
         | Quản lý danh mục
     li
-      a(href="#")
+      a(href=`/${pathAdmin}/tour/list`)
         i.fa-solid.fa-table-list
         | Quản lý tour
     li
-      a(href="#")
+      a(href=`/${pathAdmin}/order/list`)
         i.fa-solid.fa-list-check
         | Quản lý đơn hàng
     li
-      a(href="#")
+      a(href=`/${pathAdmin}/user/list`)
         i.fa-solid.fa-user
         | Quản lý người dùng
     li
-      a(href="#")
+      a(href=`/${pathAdmin}/contact/list`)
         i.fa-solid.fa-user-group
         | Thông tin liên hệ
   hr
   ul.inner-menu
     li
-      a(href="#")
+      a(href=`/${pathAdmin}/setting/list`)
         i.fa-solid.fa-gear
         | Cài đặt chung
     li
-      a(href="#")
+      a(href=`/${pathAdmin}/profile/edit`)
         i.fa-solid.fa-user-gear
         | Thông tin cá nhân
     li
       a.inner-logout(href="#")
         i.fa-solid.fa-power-off
         | Đăng xuất
+.sider-overlay
