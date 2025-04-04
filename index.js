@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path');
+var cookieParser = require('cookie-parser')
 
 // Thiết lập dotevn
 require('dotenv').config()
@@ -22,7 +23,11 @@ app.use(express.static(path.join(__dirname, "public")));
 const variableConfig = require("./config/variable.config");
 app.locals.pathAdmin = variableConfig.pathAdmin;
 
+// Tạo biến toàn cục
+global.pathAdmin = variableConfig.pathAdmin;
+
 // Cho phép FE gửi data lên dạng JSON
+app.use(cookieParser())
 app.use(express.json());
 
 const adminRoutes = require("./routes/admin/index.router");
