@@ -615,3 +615,22 @@ siderElement.forEach((item) => {
   else item.classList.remove("active");
 })
 // End Xử lý Sider
+
+// Đăng xuất (Logic: xóa token mà mình tạo được bên BE dùng JWT lib)
+const logoutButton = document.querySelector(".sider .inner-logout");
+if (logoutButton)
+{
+  logoutButton.addEventListener("click", () => {
+    fetch(`/${pathAdmin}/account/logout`, {
+      method: "POST",
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.code == "success")
+        {
+          window.location.href = `/${pathAdmin}/account/login`
+        }
+      })
+  })
+}
+// End Đăng xuất
