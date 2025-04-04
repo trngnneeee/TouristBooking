@@ -45,9 +45,29 @@ if(loginForm) {
       const password = event.target.password.value;
       const rememberPassword = event.target.rememberPassword.checked;
 
-      console.log(email);
-      console.log(password);
-      console.log(rememberPassword);
+      const finalData = {
+        email: email,
+        password: password
+      }
+
+      fetch(`/${pathAdmin}/account/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+          {
+            alert(data.message);
+          }
+          else
+          {
+            window.location.href = `/${pathAdmin}/dashboard`;
+          }
+        })
     })
   ;
 }
