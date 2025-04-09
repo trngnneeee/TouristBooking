@@ -182,6 +182,50 @@ module.exports.otpPassword = (req, res) => {
   })
 }
 
+module.exports.otpPasswordPost = async (req, res) => {
+  const { email, otp } = req.body;
+
+  // Kiểm tra có tồn tại trong ForgotPassword hay không
+  const existAccount = await ForgotPassword.findOne({
+    email: email,
+    otp: otp
+  })
+  if (!existAccount)
+  {
+    res.json({
+      code: "error",
+      message: "OTP không trùng!"
+    })
+    return;
+  }
+  // Tìm thông tin của người dùng trong AccountAdmin
+  const account = await AccountAdmin.findOne({
+    email: email
+  })
+  // Tạo token nhờ JWT Lib
+  const token = jwt.sign(
+    {
+    id: account.id,
+    email: account.email
+    }, 
+    process.env.JWT_SECRET, // Chuỗi bảo mật để mã hóa (Sau này chuỗi này sẽ lưu vào env)
+    {
+      expiresIn: '1d' // Thời gian token hết hạn: 1 ngày
+    }
+  )
+  // Lưu token vào cookie
+  res.cookie("token", token, {
+    maxAge: 24 * 60 * 60 * 1000, // Thời gian hết hạn token tương ứng milisecond
+    httpOnly: true, // Chỉ dùng ở server của ta (Nghiêm ngặt hơn thôi)
+    sameSite: "strict" // Chỉ dùng được ở website chúng ta (Nghiêm ngặt hơn thôi)
+  });
+
+  res.json({
+    code: "success",
+    message: "Xác thực OTP thành công!"
+  })
+}
+
 module.exports.resetPassword = (req, res) => {
   res.render("admin/pages/reset-password.pug", {
     pageTitle: "Đổi mật khẩu"
