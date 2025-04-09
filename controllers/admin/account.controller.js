@@ -1,6 +1,10 @@
 const AccountAdmin = require("../../models/account-admin.model")
+const ForgotPassword = require("../../models/forgot-password.model");
 const bcrypt = require("bcryptjs");
 var jwt = require('jsonwebtoken');
+
+const generateHelper = require("./../../helpers/generate.helpers");
+const mailHelper = require("../../helpers/mailer.helper");
 
 module.exports.login = (req, res) => {
   res.render("admin/pages/login.pug", {
@@ -117,6 +121,58 @@ module.exports.registerInitial = (req, res) => {
 module.exports.forgotPassword = (req, res) => {
   res.render("admin/pages/forgot-password.pug", {
     pageTitle: "Quên mật khẩu"
+  })
+}
+
+module.exports.forgotPasswordPost = async (req, res) => {
+  const { email } = req.body;
+  console.log(email);
+
+  // Kiểm tra xem email có tồn tại hay không
+  const existAccount = await AccountAdmin.findOne({
+    email: email
+  })
+  if (!existAccount)
+  {
+    res.json({
+      code: "error",
+      message: "Email không tồn tại trong hệ thống"
+    })
+    return;
+  }
+
+  // Sau khi lưu bản ghi này vào Database, ta kiểm tra email này đã tồn tại trong forgot-password hay chưa để tránh bị tạo ra bản ghi đó liên tục
+  const existEmailInForgotPassword = await ForgotPassword.findOne({
+    email: email
+  })
+  if (existEmailInForgotPassword)
+  {
+    res.json({
+      code: "error",
+      message: "Vui lòng gửi lại yêu cầu sau 5 phút!"
+    })
+    return;
+  }
+
+   // Tạo mã OPT nhờ 1 hàm helper
+   const otp = generateHelper(6);
+
+  // Lưu vào database: email, otp. Sau 5 phhút sẽ tự động xóa bản ghi
+  const newRecord = new ForgotPassword({
+    email: email,
+    otp: otp,
+    expireAt: Date.now() + 5*60*1000 // Lưu trong 5p
+  })
+  await newRecord.save();
+
+  // Gửi mã OTP qua email cho người dùng
+  const subject = `Mã OTP lấy lại mật khẩu`;
+  const content = `Mã OTP của bạn là <b style="color: green;">${otp}</b>. Mã OTP có hiệu lực trong 5 phút, vui lòng không cung cấp cho bất kỳ ai.`;
+  mailHelper.sendMail(email, subject, content);
+
+  res.json({
+    code: "success",
+    message: "Đã gửi mã OPT qua email!"
   })
 }
 

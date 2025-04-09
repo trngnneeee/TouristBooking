@@ -185,7 +185,25 @@ if(forgotPasswordForm) {
     ])
     .onSuccess((event) => {
       const email = event.target.email.value;
-      console.log(email);
+      
+      const finalData = {
+        email: email
+      }
+
+      fetch(`/${pathAdmin}/account/forgot-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          else if (data.code == "success")
+            window.location.href = `/${pathAdmin}/account/otp-password?email=${email}`;
+        })
     })
   ;
 }
