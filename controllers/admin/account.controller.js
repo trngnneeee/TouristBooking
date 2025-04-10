@@ -126,7 +126,6 @@ module.exports.forgotPassword = (req, res) => {
 
 module.exports.forgotPasswordPost = async (req, res) => {
   const { email } = req.body;
-  console.log(email);
 
   // Kiểm tra xem email có tồn tại hay không
   const existAccount = await AccountAdmin.findOne({
@@ -230,6 +229,36 @@ module.exports.resetPassword = (req, res) => {
   res.render("admin/pages/reset-password.pug", {
     pageTitle: "Đổi mật khẩu"
   })
+}
+
+module.exports.resetPasswordPost = async (req, res) => {
+  const { password, email } = req.body;
+
+  // Mã hóa mật khẩu với Bcrypt
+  const salt = await bcrypt.genSalt(10); // Tạo ra chuỗi ngẫu nhiên 10 ký tự
+  const hashPassword = await bcrypt.hashSync(password, salt);
+
+  const existAccount = await AccountAdmin.findOneAndUpdate(
+    {email: email},
+    {$set: {password: hashPassword}}
+  )
+  if (!existAccount)
+  {
+    res.json({
+      code: "error",
+      message: "Tài khoản không tồn tại!"
+    })
+    return;
+  }
+
+  await ForgotPassword.findOneAndDelete({
+    email: email
+  })
+
+  res.json({
+    code: "success",
+    message: "Đổi mật khẩu thành công!"
+  });
 }
 
 module.exports.logoutPost = (req, res) => {
