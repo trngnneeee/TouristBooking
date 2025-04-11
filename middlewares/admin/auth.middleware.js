@@ -32,7 +32,7 @@ module.exports.verifyToken = async (req, res, next) => {
     }
     req.account = existAccount;
 
-    res.locals.account = existAccount;
+    res.locals.account = existAccount; // Các file PUG sẽ lấy được các giá trị này
 
     next();
   } 
