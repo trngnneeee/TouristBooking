@@ -12,6 +12,12 @@ const profileRouter = require("./profile.router");
 
 const authMiddleware = require("./../../middlewares/admin/auth.middleware");
 
+// Không lưu giao diện vào cache để tránh sau khi đăng xuất vẫn quay lại trang đó
+router.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store");
+  next();
+})
+
 router.use('/account', accountRouter);
 router.use('/dashboard', authMiddleware.verifyToken, dashboardRouter);
 router.use('/category', authMiddleware.verifyToken, categoryRouter);

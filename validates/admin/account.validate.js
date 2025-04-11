@@ -87,7 +87,8 @@ module.exports.loginPost = (req, res, next) => {
         "password.lowercase": "Mật khẩu phải chứa ít nhất một chữ cái thường!",
         "password.number": "Mật khẩu phải chứa ít nhất một chữ số!",
         "password.specialChar": "Mật khẩu phải chứa ít nhất một ký tự đặc biệt!"
-      })
+      }),
+    rememberPassword: Joi.boolean()
   });
 
   const {error} = schema.validate(req.body);

@@ -13,7 +13,7 @@ module.exports.login = (req, res) => {
 }
 
 module.exports.loginPost = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, rememberPassword } = req.body;
 
   const existAccount = await AccountAdmin.findOne({
     email: email
@@ -55,13 +55,13 @@ module.exports.loginPost = async (req, res) => {
     }, 
     process.env.JWT_SECRET, // Chuỗi bảo mật để mã hóa (Sau này chuỗi này sẽ lưu vào env)
     {
-      expiresIn: '1d' // Thời gian token hết hạn: 1 ngày
+      expiresIn: rememberPassword ? '30d' : '1d' // Thời gian token hết hạn: 1 ngày
     }
   )
 
   // Lưu token vào cookie (Không liên quan đến JWT)
   res.cookie("token", token, {
-    maxAge: 24 * 60 * 60 * 1000, // Thời gian hết hạn token tương ứng milisecond
+    maxAge: rememberPassword ? (30 * 24 * 60 * 60 * 1000) : (24 * 60 * 60 * 1000), // Thời gian hết hạn token tương ứng milisecond
     httpOnly: true, // Chỉ dùng ở server của ta (Nghiêm ngặt hơn thôi)
     sameSite: "strict" // Chỉ dùng được ở website chúng ta (Nghiêm ngặt hơn thôi)
   });
