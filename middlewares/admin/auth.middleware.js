@@ -24,11 +24,17 @@ module.exports.verifyToken = async (req, res, next) => {
       status: "active"
     })
 
-    if (!existAccount) {
+    if (!existAccount) 
+    {
       res.clearCookies("token");
       res.redirect(`/${pathAdmin}/account/login`);
       return;
     }
+    req.account = existAccount;
+
+    res.locals.account = existAccount;
+
+    next();
   } 
   catch(error)
   {
@@ -36,5 +42,4 @@ module.exports.verifyToken = async (req, res, next) => {
     res.redirect(`/${pathAdmin}/account/login`);
   }
 
-  next();
 }
