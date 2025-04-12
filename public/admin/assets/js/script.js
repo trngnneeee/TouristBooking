@@ -171,7 +171,7 @@ if(categoryCreateForm) {
       formData.append("avatar", avatar);
       formData.append("description", description);
       
-      fetch(`/${pathAdmin}/admin/category/create`, {
+      fetch(`/${pathAdmin}/category/create`, {
         method: "POST",
         body: formData // Không cần headers vì không gửi dạng JSON
       })

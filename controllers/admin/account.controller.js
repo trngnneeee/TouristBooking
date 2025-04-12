@@ -232,27 +232,20 @@ module.exports.resetPassword = (req, res) => {
 }
 
 module.exports.resetPasswordPost = async (req, res) => {
-  const { password, email } = req.body;
+  const { password } = req.body;
 
   // Mã hóa mật khẩu với Bcrypt
   const salt = await bcrypt.genSalt(10); // Tạo ra chuỗi ngẫu nhiên 10 ký tự
   const hashPassword = await bcrypt.hashSync(password, salt);
 
-  const existAccount = await AccountAdmin.findOneAndUpdate(
-    {email: email},
-    {$set: {password: hashPassword}}
-  )
-  if (!existAccount)
-  {
-    res.json({
-      code: "error",
-      message: "Tài khoản không tồn tại!"
-    })
-    return;
-  }
+  await AccountAdmin.updateOne({
+    _id: req.account.id,
+  }, {
+    password: hashPassword
+  })
 
   await ForgotPassword.findOneAndDelete({
-    email: email
+    _id: req.account.id
   })
 
   res.json({

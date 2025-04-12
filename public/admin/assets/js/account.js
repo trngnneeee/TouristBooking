@@ -246,7 +246,7 @@ if(otpPasswordForm) {
             alert(data.message);
           if (data.code == "success")
           {
-            window.location.href = `/${pathAdmin}/account/reset-password?email=${email}`;
+            window.location.href = `/${pathAdmin}/account/reset-password`;
           }
         })
     })
@@ -302,11 +302,7 @@ if(resetPasswordForm) {
     .onSuccess((event) => {
       const password = event.target.password.value;
 
-      const urlParams = new URLSearchParams(window.location.search);
-      const email = urlParams.get("email");
-
       const finalData = {
-        email: email,
         password: password
       };
 
