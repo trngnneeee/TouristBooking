@@ -30,7 +30,7 @@ global.pathAdmin = variableConfig.pathAdmin;
 app.use(cookieParser())
 app.use(express.json());
 
-const adminRoutes = require("./routes/admin/index.router");
+const adminRoutes = require("./routes/admin/index.route");
 app.use(`/${variableConfig.pathAdmin}`, adminRoutes);
 
 const clientRoutes = require("./routes/client/index.router");

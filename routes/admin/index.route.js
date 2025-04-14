@@ -1,16 +1,16 @@
 const router = require('express').Router();
 
-const accountRouter = require("./account.router");
-const dashboardRouter = require("./dashboard.router");
-const categoryRouter = require("./category.router");
-const tourRouter = require("./tour.router");
-const orderRouter = require("./order.router");
-const userRouter = require("./user.router");
-const contactRouter = require("./contact.router");
-const settingRouter = require("./setting.router");
-const profileRouter = require("./profile.router");
+const accountRouter = require("./account.route");
+const dashboardRouter = require("./dashboard.route");
+const categoryRouter = require("./category.route");
+const tourRouter = require("./tour.route");
+const orderRouter = require("./order.route");
+const userRouter = require("./user.route");
+const contactRouter = require("./contact.route");
+const settingRouter = require("./setting.route");
+const profileRouter = require("./profile.route");
 
-const authMiddleware = require("./../../middlewares/admin/auth.middleware");
+const authMiddleware = require("../../middlewares/admin/auth.middleware");
 
 // Không lưu giao diện vào cache để tránh sau khi đăng xuất vẫn quay lại trang đó
 router.use((req, res, next) => {
