@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const multer = require('multer'); // Thư viện Multer để gửi ảnh trực tiếp từ FE qua BE thông qua form
 
+const categoryValidate = require("../../validates/admin/category.validate");
 const categoryController =  require("../../controllers/admin/category.controller");
 const cloudinaryHelper = require("../../helpers/cloudinary.helpers");
 
@@ -11,6 +12,7 @@ const upload = multer({ storage: cloudinaryHelper.storage }); // Khi chạy vào
 router.post(
     '/create', 
     upload.single('avatar'),
+    categoryValidate.createPost,
     categoryController.createPost
 );
 
