@@ -59,48 +59,31 @@ block main
               th Cập nhật bởi
               th Hành động
           tbody
-            tr
-              td.inner-center
-                input.inner-check(type="checkbox")
-              td Danh mục 1
-              td
-                img.inner-avatar(src="/admin/assets/images/tour-1.jpg")
-              td.inner-center 1
-              td.inner-center
-                .badge.badge-green Hoạt động
-              td
-                div Lê Văn A
-                .inner-time 16:30 - 20/10/2024
-              td
-                div Lê Văn A
-                .inner-time 16:30 - 20/10/2024
-              td
-                .inner-buttons
-                  button.inner-edit
-                    i.fa-regular.fa-pen-to-square
-                  button.inner-delete
-                    i.fa-regular.fa-trash-can
-            tr
-              td.inner-center
-                input.inner-check(type="checkbox")
-              td Danh mục 2
-              td
-                img.inner-avatar(src="/admin/assets/images/tour-1.jpg")
-              td.inner-center 2
-              td.inner-center
-                .badge.badge-green Hoạt động
-              td
-                div Lê Văn A
-                .inner-time 16:30 - 20/10/2024
-              td
-                div Lê Văn A
-                .inner-time 16:30 - 20/10/2024
-              td
-                .inner-buttons
-                  button.inner-edit
-                    i.fa-regular.fa-pen-to-square
-                  button.inner-delete
-                    i.fa-regular.fa-trash-can
+            each item in categoryList
+              tr
+                td.inner-center
+                  input.inner-check(type="checkbox")
+                td #{item.name}
+                td
+                  img.inner-avatar(src=item.avatar)
+                td.inner-center #{item.position}
+                td.inner-center
+                  if (item.status == "active")
+                    .badge.badge-green Hoạt động
+                  else if (item.status == "inactive")
+                    .badge.badge-red Tạm dừng
+                td
+                  div #{item.createdByFullName}
+                  .inner-time #{item.createdAtFormat}
+                td
+                  div #{item.updatedByFullName}
+                  .inner-time #{item.updatedAtFormat}
+                td
+                  .inner-buttons
+                    button.inner-edit
+                      i.fa-regular.fa-pen-to-square
+                    button.inner-delete
+                      i.fa-regular.fa-trash-can
     .section-7
       span.inner-label Hiển thị 1 - 9 của 78
       select.inner-pagination
