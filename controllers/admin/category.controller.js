@@ -40,8 +40,14 @@ module.exports.createPost = async (req, res) => {
   const newRecord = new Category(req.body);
   await newRecord.save();
 
+  req.flash("success", "Tạo danh mục thành công!");
+  /*
+    Trả về cho FE 1 đối tượng message {
+      success: "Tạo danh mục thành công!"
+    }
+  */
+
   res.json({
     code: "success",
-    message: "Tạo danh mục thành công!"
   })
 }

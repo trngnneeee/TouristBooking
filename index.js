@@ -1,6 +1,8 @@
 const express = require('express')
 const path = require('path');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var flash = require('express-flash');
 
 // Thiết lập dotevn
 require('dotenv').config()
@@ -27,8 +29,11 @@ app.locals.pathAdmin = variableConfig.pathAdmin;
 global.pathAdmin = variableConfig.pathAdmin;
 
 // Cho phép FE gửi data lên dạng JSON
-app.use(cookieParser())
 app.use(express.json());
+app.use(cookieParser('ABCDEF123'));
+// Nhúng thư viện flash
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 const adminRoutes = require("./routes/admin/index.route");
 app.use(`/${variableConfig.pathAdmin}`, adminRoutes);

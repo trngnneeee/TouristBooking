@@ -31,6 +31,10 @@ html
     script. 
       const pathAdmin = `#{pathAdmin}`;
   body 
+    - if (messages.success)
+        div(class="alert alert-success" alert-time="3000")
+          span Thành công!
+
     include ../partials/header.pug 
 
     include ../partials/sider.pug
