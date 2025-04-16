@@ -80,7 +80,7 @@ block main
                   .inner-time #{item.updatedAtFormat}
                 td
                   .inner-buttons
-                    button.inner-edit
+                    a(href=`/${pathAdmin}/category/edit/${item._id}`).inner-edit
                       i.fa-regular.fa-pen-to-square
                     button.inner-delete
                       i.fa-regular.fa-trash-can

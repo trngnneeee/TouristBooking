@@ -33,7 +33,7 @@ html
   body 
     - if (messages.success)
         div(class="alert alert-success" alert-time="3000")
-          span Thành công!
+          span #{messages.success}
 
     include ../partials/header.pug 
 
