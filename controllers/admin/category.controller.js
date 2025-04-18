@@ -11,6 +11,11 @@ module.exports.list = async (req, res) => {
   if (req.query.status){
     find.status = req.query.status;
   }
+
+  if (req.query.createdBy)
+  {
+    find.createdBy = req.query.createdBy
+  }
   
   const categoryList = await Category.find(find).sort({
     position: "desc"
@@ -25,7 +30,7 @@ module.exports.list = async (req, res) => {
     }
     if (item.updatedBy) {
       const infoAccountCreated = await AccountAdmin.findOne({
-        _id: item.createdBy
+        _id: item.updatedBy
       })
       item.updatedByFullName = infoAccountCreated.fullName
     }
@@ -34,9 +39,12 @@ module.exports.list = async (req, res) => {
     item.updatedAtFormat = moment(item.updatedAt).format("HH:mm - DD/MM/YYYY");
   }
 
+  const accountAdminList = await AccountAdmin.find({}).select("fullName");
+  
   res.render("admin/pages/category-list.pug", {
     pageTitle: "Quản lý danh mục",
-    categoryList: categoryList
+    categoryList: categoryList,
+    accountAdminList: accountAdminList
   })
 }
 

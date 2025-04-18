@@ -303,6 +303,27 @@ if (statusFilter)
 }
 // End Status Filter
 
+// Create By Filter
+const createByFilter = document.querySelector(".create-by-filter");
+if (createByFilter)
+{
+  const url = new URL(window.location.href);
+  createByFilter.addEventListener("change", () => {
+    const id = createByFilter.value;
+    if (id)
+      url.searchParams.set("createdBy", id);
+    else 
+      url.searchParams.delete("createdBy");
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("createdBy"))
+  {
+    createByFilter.value = url.searchParams.get("createdBy");
+  }
+}
+// End Create By Filter
+
 // Tour Create Form
 const tourCreateForm = document.querySelector("#tour-create-form");
 if(tourCreateForm) {
