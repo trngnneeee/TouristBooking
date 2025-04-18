@@ -9,10 +9,10 @@ block main
           i.fa-solid.fa-filter
           | Bộ lọc
         .inner-item
-          select
+          select.status-filter
             option(value="") Trạng thái
-            option(value="") Hoạt động
-            option(value="") Tạm dừng
+            option(value="active") Hoạt động
+            option(value="inactive") Tạm dừng
         .inner-item
           select
             option(value="") Người tạo

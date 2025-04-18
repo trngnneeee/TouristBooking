@@ -277,6 +277,31 @@ if (deleteButtonList)
 }
 // End Delete Category
 
+// Status Filter
+const statusFilter = document.querySelector(".status-filter")
+if (statusFilter)
+{
+  const url = new URL(window.location.href);
+  statusFilter.addEventListener("change", () => {
+    const value = statusFilter.value;
+    if (value)
+      {
+        url.searchParams.set("status", value);
+      }
+      else
+      {
+        url.searchParams.delete("status");
+      }
+      window.location.href = url.href;
+    })
+    
+    const valueCurrent = url.searchParams.get("status");
+    if (valueCurrent)
+    {
+      statusFilter.value = valueCurrent;
+    }
+}
+// End Status Filter
 
 // Tour Create Form
 const tourCreateForm = document.querySelector("#tour-create-form");

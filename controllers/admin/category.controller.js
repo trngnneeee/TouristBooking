@@ -4,9 +4,17 @@ const Category = require("../../models/category.model")
 const moment = require("moment");
 
 module.exports.list = async (req, res) => {
-  const categoryList = await Category.find({
+  const find = {
     deleted: false
-  })
+  }
+
+  if (req.query.status){
+    find.status = req.query.status;
+  }
+  
+  const categoryList = await Category.find(find).sort({
+    position: "desc"
+  });
 
   for (const item of categoryList) {
     if (item.createdBy) {
