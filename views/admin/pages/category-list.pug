@@ -82,7 +82,10 @@ block main
                   .inner-buttons
                     a(href=`/${pathAdmin}/category/edit/${item._id}`).inner-edit
                       i.fa-regular.fa-pen-to-square
-                    button.inner-delete
+                    button(
+                      button-delete
+                      data-api=`/${pathAdmin}/category/delete/${item.id}`
+                    ).inner-delete
                       i.fa-regular.fa-trash-can
     .section-7
       span.inner-label Hiển thị 1 - 9 của 78

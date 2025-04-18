@@ -256,6 +256,28 @@ if(categoryEditForm) {
 }
 // End Category Edit Form
 
+// Delete Category
+const deleteButtonList = document.querySelectorAll("[button-delete]");
+if (deleteButtonList)
+{
+  deleteButtonList.forEach((buttonDelete) => {
+    buttonDelete.addEventListener("click", () => {
+      fetch(buttonDelete.getAttribute("data-api"), {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message)
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  })
+}
+// End Delete Category
+
+
 // Tour Create Form
 const tourCreateForm = document.querySelector("#tour-create-form");
 if(tourCreateForm) {
