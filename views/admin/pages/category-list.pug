@@ -19,9 +19,9 @@ block main
             each item in accountAdminList
               option(value=item.id) #{item.fullName}
         .inner-item.inner-date
-          input(type="date")
+          input(type="date" class="start-date-filter")
           span -
-          input(type="date")
+          input(type="date" class="end-date-filter")
         .inner-item.inner-reset
           i.fa-solid.fa-rotate-left
           | Xóa bộ lọc
