@@ -25,5 +25,6 @@ router.patch(
 );
 
 router.patch('/delete/:id', categoryController.delete);
+router.patch('/change-multi-status', categoryController.changeMulti);
 
 module.exports = router;

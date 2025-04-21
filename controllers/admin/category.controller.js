@@ -9,14 +9,13 @@ module.exports.list = async (req, res) => {
   }
 
   // Lọc theo trạng thái
-  if (req.query.status){
+  if (req.query.status) {
     find.status = req.query.status;
   }
   // End Lọc theo trạng thái
 
   // Lọc theo người tạo
-  if (req.query.createdBy)
-  {
+  if (req.query.createdBy) {
     find.createdBy = req.query.createdBy
   }
   // End Lọc theo người tạo
@@ -24,22 +23,19 @@ module.exports.list = async (req, res) => {
   // Lọc theo ngày
   const dateFilter = {};
 
-  if (req.query.startDate)
-  {
+  if (req.query.startDate) {
     const startDate = moment(req.query.startDate).startOf("date").toDate();
     dateFilter.$gte = startDate;
   }
-  if (req.query.endDate)
-  {
+  if (req.query.endDate) {
     const endDate = moment(req.query.endDate).endOf("date").toDate();
     dateFilter.$lte = endDate;
   }
-  if (Object.keys(dateFilter).length >= 1)
-  {
+  if (Object.keys(dateFilter).length >= 1) {
     find.createdAt = dateFilter;
   }
   // End Lọc theo ngày
-  
+
   const categoryList = await Category.find(find).sort({
     position: "desc"
   });
@@ -63,7 +59,7 @@ module.exports.list = async (req, res) => {
   }
 
   const accountAdminList = await AccountAdmin.find({}).select("fullName");
-  
+
   res.render("admin/pages/category-list.pug", {
     pageTitle: "Quản lý danh mục",
     categoryList: categoryList,
@@ -119,20 +115,19 @@ module.exports.edit = async (req, res) => {
     const categoryList = await Category.find({
       deleted: false
     })
-  
+
     const id = req.params.id;
     const categoryDetail = await Category.findOne({
       _id: id
     })
-  
+
     res.render("admin/pages/category-edit.pug", {
       pageTitle: "Chỉnh sửa danh mục",
       categoryList: categoryList,
       categoryDetail: categoryDetail
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.redirect(`/${pathAdmin}/category/list`);
   }
 }
@@ -169,8 +164,7 @@ module.exports.editPatch = async (req, res) => {
       code: "success",
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.json({
       code: "error",
       message: "Id không hợp lệ!"
@@ -179,7 +173,7 @@ module.exports.editPatch = async (req, res) => {
 }
 
 module.exports.delete = async (req, res) => {
-  try{
+  try {
     const id = req.params.id;
 
     await Category.updateOne({
@@ -195,8 +189,51 @@ module.exports.delete = async (req, res) => {
       code: "success"
     });
   }
-  catch(error)
-  {
+  catch (error) {
+    res.json({
+      code: "error",
+      message: "Id không hợp lệ!"
+    })
+  }
+}
+
+module.exports.changeMulti = async (req, res) => {
+  try {
+    const { status, idList } = req.body;
+
+    switch(status)
+    {
+      case "delete":
+      {
+        await Category.updateMany({
+          _id: { $in: idList }
+        }, {
+          deleted: true,
+          deletedBy: req.account.id,
+          deleteAt: Date.now()
+        })
+        req.flash("success", "Xóa thành công!");
+        break; 
+      }
+      case "active" : case "inactive" :
+      {
+        await Category.updateMany({
+          _id: { $in: idList }
+        }, {
+          status: status,
+          updatedBy: req.account.id,
+          updatedAt: Date.now()
+        })
+        req.flash("success", "Áp dụng trạng thái thành công!");
+        break;
+      }
+    }
+
+    res.json({
+      code: "success"
+    })
+  }
+  catch (error) {
     res.json({
       code: "error",
       message: "Id không hợp lệ!"

@@ -354,8 +354,7 @@ if (endDateFilter) {
 
 // Delete Filter
 const deleteFilter = document.querySelector(".filter-delete");
-if (deleteFilter)
-{
+if (deleteFilter) {
   const url = new URL(window.location.href);
   deleteFilter.addEventListener("click", () => {
     url.search = "";
@@ -363,6 +362,59 @@ if (deleteFilter)
   })
 }
 // End Delete Filter
+
+// Check All
+const checkAllButton = document.querySelector(".check-all-button");
+if (checkAllButton) {
+  checkAllButton.addEventListener("click", () => {
+    const itemCheckList = document.querySelectorAll("[check-item]");
+    itemCheckList.forEach((item) => {
+      item.checked = checkAllButton.checked;
+    })
+  })
+}
+// End Check All
+
+// Áp dụng trạng thái cho nhiều phần tử
+const changeMultiStatus = document.querySelector("[change-multi-status]");
+if (changeMultiStatus) {
+  const api = changeMultiStatus.getAttribute("data-api");
+  const select = changeMultiStatus.querySelector("select");
+  const button = changeMultiStatus.querySelector("button");
+
+  button.addEventListener("click", () => {
+    const status = select.value;
+    const itemCheckedList = document.querySelectorAll("[check-item]:checked");
+    if (status && itemCheckedList.length) {
+      const idList = [];
+      itemCheckedList.forEach((item) => {
+        idList.push(item.getAttribute("check-item"));
+      })
+      const finalData = {
+        status: status,
+        idList: idList
+      }
+      fetch(api, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "success")
+            window.location.reload();
+          if (data.code == "error")
+            alert(data.message);
+        })
+    }
+    else {
+      alert("Vui lòng lựa chọn Hoạt động hoặc Bản ghi muốn thực hiện!")
+    }
+  })
+}
+// End Áp dụng trạng thái cho nhiều phần tử
 
 // Tour Create Form
 const tourCreateForm = document.querySelector("#tour-create-form");
