@@ -416,6 +416,27 @@ if (changeMultiStatus) {
 }
 // End Áp dụng trạng thái cho nhiều phần tử
 
+// Category Search
+const searchElement = document.querySelector("[search]");
+if (searchElement)
+{
+  const url = new URL(window.location.href)
+  searchElement.addEventListener("keyup", (event) => {
+    if (event.code == "Enter")
+    {
+      const value = searchElement.value;
+      if (value)
+        url.searchParams.set("search", value);
+      else
+        url.searchParams.delete("search");
+      window.location.href = url.href;
+    }
+  })
+  if (url.searchParams.get("search"))
+    searchElement.value = url.searchParams.get("search");
+}
+// End Category Search
+
 // Tour Create Form
 const tourCreateForm = document.querySelector("#tour-create-form");
 if (tourCreateForm) {
