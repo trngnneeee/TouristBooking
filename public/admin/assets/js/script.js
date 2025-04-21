@@ -352,6 +352,18 @@ if (endDateFilter) {
 }
 // End Date Filter
 
+// Delete Filter
+const deleteFilter = document.querySelector(".filter-delete");
+if (deleteFilter)
+{
+  const url = new URL(window.location.href);
+  deleteFilter.addEventListener("click", () => {
+    url.search = "";
+    window.location.href = url.href;
+  })
+}
+// End Delete Filter
+
 // Tour Create Form
 const tourCreateForm = document.querySelector("#tour-create-form");
 if (tourCreateForm) {
