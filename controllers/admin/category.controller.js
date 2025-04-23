@@ -157,6 +157,8 @@ module.exports.edit = async (req, res) => {
       deleted: false
     })
 
+    const categoryListTree = buildCategoryTree(categoryList);
+
     const id = req.params.id;
     const categoryDetail = await Category.findOne({
       _id: id
@@ -164,7 +166,7 @@ module.exports.edit = async (req, res) => {
 
     res.render("admin/pages/category-edit.pug", {
       pageTitle: "Chỉnh sửa danh mục",
-      categoryList: categoryList,
+      categoryList: categoryListTree,
       categoryDetail: categoryDetail
     })
   }
