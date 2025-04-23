@@ -48,9 +48,37 @@ module.exports.list = async (req, res) => {
   }
   // End Tìm kiếm
 
-  const categoryList = await Category.find(find).sort({
+  // Phân trang
+  const limitItem = 3;
+  let page =  1;
+  if (req.query.page)
+  {
+    const currentPage = parseInt(req.query.page);
+    if (currentPage > 0)
+      page = currentPage;
+  }
+  // End Phân trang
+
+  const totalRecord = await Category.countDocuments({});
+  const totalPage = Math.ceil(totalRecord / limitItem);
+  if (page > totalPage)
+  {
+    page = totalPage
+  }
+  const skip = limitItem * (page - 1);
+  const pagination = {
+    totalRecord: totalRecord,
+    totalPage: totalPage,
+    skip: limitItem * (page - 1)
+  }
+
+  const categoryList = await Category
+    .find(find)
+    .sort({
     position: "desc"
-  });
+  })
+    .limit(limitItem)
+    .skip(skip);
 
   for (const item of categoryList) {
     if (item.createdBy) {
@@ -75,7 +103,8 @@ module.exports.list = async (req, res) => {
   res.render("admin/pages/category-list.pug", {
     pageTitle: "Quản lý danh mục",
     categoryList: categoryList,
-    accountAdminList: accountAdminList
+    accountAdminList: accountAdminList,
+    pagination: pagination
   })
 }
 

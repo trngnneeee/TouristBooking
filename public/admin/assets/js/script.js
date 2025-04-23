@@ -437,6 +437,26 @@ if (searchElement)
 }
 // End Category Search
 
+// Pagination
+const paginationElement = document.querySelector("[pagination]");
+if (paginationElement)
+{
+  const url = new URL(window.location.href);
+  paginationElement.addEventListener("change", () => {
+    const value = paginationElement.value;
+    if (value)
+      url.searchParams.set("page", value);
+    else 
+      url.searchParams.delete("page");
+
+    window.location.href = url.href;
+  })
+  const currentValue = url.searchParams.get("page");
+  if (currentValue)
+    paginationElement.value = currentValue;
+}
+// End Pagination
+
 // Tour Create Form
 const tourCreateForm = document.querySelector("#tour-create-form");
 if (tourCreateForm) {
