@@ -59,7 +59,7 @@ module.exports.list = async (req, res) => {
   }
   // End Phân trang
 
-  const totalRecord = await Category.countDocuments({});
+  const totalRecord = await Category.countDocuments(find);
   const totalPage = Math.ceil(totalRecord / limitItem);
   if (page > totalPage)
   {
