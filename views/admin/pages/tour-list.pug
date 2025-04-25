@@ -75,35 +75,42 @@ block main
               th Cập nhật bởi
               th Hành động
           tbody
-            tr
-              td.inner-center
-                input.inner-check(type="checkbox")
-              td Tour Hạ Long
-              td
-                img.inner-avatar(src="/admin/assets/images/tour-1.jpg")
-              td
-                div NL: 1.900.000đ
-                div TE: 1.600.000đ
-                div EB: 1.000.000đ
-              td
-                div NL: 30
-                div TE: 20
-                div EB: 10
-              td.inner-center 1
-              td.inner-center
-                .badge.badge-green Hoạt động
-              td
-                div Lê Văn A
-                .inner-time 16:30 - 20/10/2024
-              td
-                div Lê Văn A
-                .inner-time 16:30 - 20/10/2024
-              td
-                .inner-buttons
-                  button.inner-edit
-                    i.fa-regular.fa-pen-to-square
-                  button.inner-delete
-                    i.fa-regular.fa-trash-can
+            each item in tourList
+              tr
+                td.inner-center
+                  input.inner-check(type="checkbox")
+                td #{item.name}
+                td
+                  img.inner-avatar(src=item.avatar)
+                td
+                  div NL: #{item.priceAdultFormat}đ
+                  div TE: #{item.priceChildrenFormat}đ
+                  div EB: #{item.priceBabyFormat}đ
+                td
+                  div NL: #{item.stockAdult}
+                  div TE: #{item.stockChildren}
+                  div EB: #{item.stockBaby}
+                td.inner-center 1
+                td.inner-center
+                  - if(item.status == "active")
+                    .badge.badge-green Hoạt động
+                  - else  
+                    .badge.badge-red Dừng hoạt động
+                td
+                  div #{item.createdByFullName}
+                  .inner-time #{item.createdAtFormat}
+                td
+                  div #{item.updatedByFullName}
+                  .inner-time #{item.updatedAtFormat}
+                td
+                  .inner-buttons
+                    button.inner-edit(
+                      data-api=`/${pathAdmin}/tour/edit/${item.id}`
+                      tour-edit-button
+                    )
+                      i.fa-regular.fa-pen-to-square
+                    button.inner-delete
+                      i.fa-regular.fa-trash-can
     .section-7
       span.inner-label Hiển thị 1 - 9 của 78
       select.inner-pagination
