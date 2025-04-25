@@ -692,6 +692,28 @@ if (tourDeleteButtonList.length)
 }
 // End Delete Tour
 
+// Recovery Tour
+const tourRecoveryButtonList = document.querySelectorAll("[recovery-tour-button]");
+if (tourRecoveryButtonList)
+{
+  tourRecoveryButtonList.forEach((button) => {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message)
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  })
+}
+// End Recovery Tour
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {

@@ -1,3 +1,4 @@
+const { trusted } = require("mongoose")
 const { buildCategoryTree } = require("../../helpers/category.helpers")
 const AccountAdmin = require("../../models/account-admin.model")
 const Category = require("../../models/category.model")
@@ -223,8 +224,67 @@ module.exports.delete = async (req, res) => {
   }
 }
 
-module.exports.trash = (req, res) => {
+module.exports.trash = async (req, res) => {
+  const find = {
+    deleted: true
+  }
+
+  const tourList = await Tours
+    .find(find)
+    .sort({
+      position: "desc"
+    });
+
+  for (const item of tourList) {
+    if (item.createdBy) {
+      const account = await AccountAdmin.findOne({
+        _id: item.createdBy
+      })
+      item.createdByFullName = account.fullName
+    }
+    if (item.updatedBy) {
+      const account = await AccountAdmin.findOne({
+        _id: item.updatedBy
+      })
+      item.updatedByFullName = account.fullName
+    }
+    item.createdAtFormat = moment(item.createdAt).format("HH:mm - DD/MM/YYYY");
+    item.updatedAtFormat = moment(item.updatedAt).format("HH:mm - DD/MM/YYYY");
+
+    item.priceAdultFormat = item.priceNewAdult.toLocaleString();
+    item.priceChildrenFormat = item.priceNewChildren.toLocaleString();
+    item.priceBabyFormat = item.priceNewBaby.toLocaleString();
+  }
+  
   res.render("admin/pages/tour-trash.pug", {
-    pageTitle: "Thùng rác tour"
+    pageTitle: "Thùng rác tour",
+    tourList: tourList
   })
+}
+
+module.exports.recovery = async (req, res) => {
+  try 
+  {
+    const id = req.params.id;
+
+    await Tours.updateOne({
+      _id: id
+    }, {
+      deleted: false,
+      updatedBy: req.account.id,
+      updatedAt: Date.now()
+    })
+
+    req.flash("success", "Khôi phục tour thành công!")
+    res.json({
+      code: "success"
+    })
+  }
+  catch (error) {
+    res.redirect(`/${pathAdmin}/tour/trash`);
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ!"
+    })
+  }
 }
