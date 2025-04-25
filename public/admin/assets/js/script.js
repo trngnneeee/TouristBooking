@@ -668,6 +668,30 @@ if (tourEditForm) {
 }
 // End Tour Edit
 
+// Delete Tour
+const tourDeleteButtonList = document.querySelectorAll("[tour-delete-button]");
+if (tourDeleteButtonList.length)
+{
+  tourDeleteButtonList.forEach((deleteButton) => {
+    deleteButton.addEventListener("click", () => {
+      const api = deleteButton.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message)
+          if (data.code == "success")
+          {
+            window.location.reload();
+          }
+        })
+    })
+  })
+}
+// End Delete Tour
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {

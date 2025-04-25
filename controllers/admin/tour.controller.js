@@ -9,7 +9,7 @@ module.exports.list = async (req, res) => {
   const find = {
     deleted: false
   }
-  
+
   const tourList = await Tours
     .find(find)
     .sort({
@@ -104,14 +104,13 @@ module.exports.createPost = async (req, res) => {
 }
 
 module.exports.edit = async (req, res) => {
-  try
-  {
+  try {
     const categoryList = await Category.find({
       deleted: false
     })
-  
+
     const categoryListTree = buildCategoryTree(categoryList);
-  
+
     const citiesList = await Cities.find({});
 
     const id = req.params.id;
@@ -120,7 +119,7 @@ module.exports.edit = async (req, res) => {
     })
 
     detailTour.departureDateFormat = moment(detailTour.departureDate).format("YYYY-MM-DD");
-    
+
     res.render("admin/pages/tour-edit.pug", {
       pageTitle: "Chỉnh sửa tour",
       categoryList: categoryListTree,
@@ -128,8 +127,7 @@ module.exports.edit = async (req, res) => {
       detailTour: detailTour
     })
   }
-  catch (error)
-  {
+  catch (error) {
     res.redirect(`/${pathAdmin}/tour/list`);
     res.json({
       code: "error",
@@ -139,8 +137,7 @@ module.exports.edit = async (req, res) => {
 }
 
 module.exports.editPatch = async (req, res) => {
-  try 
-  {
+  try {
     const id = req.params.id;
 
     // Format dữ liệu
@@ -191,8 +188,33 @@ module.exports.editPatch = async (req, res) => {
       code: "success"
     })
   }
-  catch (error)
-  {
+  catch (error) {
+    res.redirect(`/${pathAdmin}/tour/list`);
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ!"
+    })
+  }
+}
+
+module.exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    await Tours.updateOne({
+      _id: id
+    }, {
+      deleted: true,
+      deletedBy: req.account.id,
+      deleteAt: Date.now()
+    })
+
+    req.flash("success", "Xóa tour thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch (error) {
     res.redirect(`/${pathAdmin}/tour/list`);
     res.json({
       code: "error",

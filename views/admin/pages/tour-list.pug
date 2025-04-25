@@ -109,7 +109,10 @@ block main
                       tour-edit-button
                     )
                       i.fa-regular.fa-pen-to-square
-                    button.inner-delete
+                    button.inner-delete(
+                      data-api=`/${pathAdmin}/tour/delete/${item.id}`
+                      tour-delete-button
+                    )
                       i.fa-regular.fa-trash-can
     .section-7
       span.inner-label Hiển thị 1 - 9 của 78
