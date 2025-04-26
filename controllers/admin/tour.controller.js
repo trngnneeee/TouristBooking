@@ -1,4 +1,4 @@
-const { buildCategoryTree } = require("../../helpers/category.helpers")
+const { buildCategoryTree, findAllCategory } = require("../../helpers/category.helpers")
 const AccountAdmin = require("../../models/account-admin.model")
 const Category = require("../../models/category.model")
 const Cities = require("../../models/cities.model")
@@ -34,7 +34,12 @@ module.exports.list = async (req, res) => {
   }
 
   if (req.query.category) {
-    find.category = req.query.category;
+    const id = req.query.category;
+    const categoryList = await Category.find({
+      deleted: false
+    })
+    const array = findAllCategory(categoryList, id); 
+    find.category = {$in: array}
   }
 
   const priceFilter = {};
