@@ -963,6 +963,25 @@ if (tourSearch)
 }
 // End Tour Search
 
+// Pagination
+const tourPagination = document.querySelector(".tour-pagination");
+if (tourPagination)
+{
+  const url = new URL(window.location.href);
+  tourPagination.addEventListener("change", () => {
+    const value = tourPagination.value;
+    if (value)
+      url.searchParams.set("page", value);
+    else 
+      url.searchParams.delete("page");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("page"))
+    tourPagination.value = url.searchParams.get("page");
+}
+// End Pagination
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {
