@@ -1,4 +1,5 @@
 extends ../layouts/default.pug 
+include ../mixins/options.pug
 
 block main 
   main.main
@@ -9,32 +10,31 @@ block main
           i.fa-solid.fa-filter
           | Bộ lọc
         .inner-item
-          select
+          select(class="tour-status-filter")
             option(value="") Trạng thái
-            option(value="") Hoạt động
-            option(value="") Tạm dừng
+            option(value="active") Hoạt động
+            option(value="inactive") Tạm dừng
         .inner-item
-          select
+          select(class="tour-create-status" style={width: "150px"})
             option(value="") Người tạo
-            option(value="") Lê Văn A
-            option(value="") Lê Văn B
+            each item in accountAdmin
+              option(value=item.id) #{item.fullName}
         .inner-item.inner-date
-          input(type="date")
+          input(type="date" class="tour-start-date-filter")
           span -
-          input(type="date")
+          input(type="date" class="tour-end-date-filter")
         .inner-item
-          select
+          select(class="category-filter")
             option(value="") Danh mục
-            option(value="") Danh mục 1
-            option(value="") Danh mục 2
+            +options(categoryList, 0)
         .inner-item
-          select
+          select(class="tour-price-filter")
             option(value="") Mức giá
-            option(value="") Dưới 2tr
-            option(value="") 2tr đến 4tr
-            option(value="") 4tr đến 8tr
-            option(value="") Trên 8tr
-        .inner-item.inner-reset
+            option(value="[-1,2000000]") Dưới 2tr
+            option(value="[2000000,4000000]") 2tr đến 4tr
+            option(value="[4000000,8000000]") 4tr đến 8tr
+            option(value="[8000000,-1]") Trên 8tr
+        .inner-item.inner-reset(class="tour-remove-filter")
           i.fa-solid.fa-rotate-left
           | Xóa bộ lọc
     .section-5
@@ -44,7 +44,7 @@ block main
             select
               option(value="") -- Hành động --
               option(value="") Hoạt động
-              option(value="") Dừng hoạt động
+              option(value="") Tạm dừng
               option(value="") Xóa
           .inner-item
             button Áp dụng
@@ -95,7 +95,7 @@ block main
                   - if(item.status == "active")
                     .badge.badge-green Hoạt động
                   - else  
-                    .badge.badge-red Dừng hoạt động
+                    .badge.badge-red Tạm dừng
                 td
                   div #{item.createdByFullName}
                   .inner-time #{item.createdAtFormat}

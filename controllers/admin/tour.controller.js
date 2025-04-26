@@ -1,4 +1,3 @@
-const { trusted } = require("mongoose")
 const { buildCategoryTree } = require("../../helpers/category.helpers")
 const AccountAdmin = require("../../models/account-admin.model")
 const Category = require("../../models/category.model")
@@ -9,6 +8,56 @@ const moment = require("moment");
 module.exports.list = async (req, res) => {
   const find = {
     deleted: false
+  }
+
+  if (req.query.status)
+  {
+    find.status = req.query.status;
+  }
+
+  if (req.query.createdBy)
+  {
+    find.createdBy = req.query.createdBy
+  }
+
+  const dateFilter = {};
+  if (req.query.startDate)
+  {
+    const startDate = moment(req.query.startDate).startOf("date").toDate();
+    dateFilter.$gte = startDate;
+  }
+  if (req.query.endDate)
+  {
+    const endDate = moment(req.query.endDate).startOf("date").toDate();
+    dateFilter.$lte = endDate;
+  }
+
+  if(Object.keys(dateFilter).length)
+  {
+    find.createdAt = dateFilter
+  }
+
+  if (req.query.category)
+  {
+    find.category = req.query.category;
+  }
+
+  const priceFilter = {};
+  if (req.query.startPrice)
+  {
+    priceFilter.$gte = req.query.startPrice;
+  }
+  if (req.query.endPrice)
+  {
+    priceFilter.$lte = req.query.endPrice;
+  }
+  if (Object.keys(priceFilter).length)
+  {
+    find.$or = [
+      { priceNewAdult: priceFilter },
+      { priceNewChildren: priceFilter },
+      { priceNewBaby: priceFilter }
+    ];
   }
 
   const tourList = await Tours
@@ -38,9 +87,19 @@ module.exports.list = async (req, res) => {
     item.priceBabyFormat = item.priceNewBaby.toLocaleString();
   }
 
+  const accountAdmin = await AccountAdmin.find({});
+
+  const categoryList = await Category.find({
+    deleted: false
+  })
+
+  const categoryListTree = buildCategoryTree(categoryList);
+
   res.render("admin/pages/tour-list.pug", {
     pageTitle: "Quản lý tour",
-    tourList: tourList
+    tourList: tourList,
+    accountAdmin: accountAdmin,
+    categoryList: categoryListTree
   })
 }
 

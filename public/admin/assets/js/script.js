@@ -736,6 +736,149 @@ if (tourHardDeleteButtonList)
 }
 // End Hard Delete
 
+// Tour List Status Filter
+const tourStatusFilter = document.querySelector(".tour-status-filter");
+if (tourStatusFilter)
+{
+  const url = new URL(window.location.href);
+  tourStatusFilter.addEventListener("change", () => {
+    const value = tourStatusFilter.value;
+    if (value)
+      url.searchParams.set("status", value);
+    else url.searchParams.delete("status");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("status"))
+    tourStatusFilter.value = url.searchParams.get("status")
+}
+// End Tour List Status Filter
+
+// Tour Created By Filter
+const tourCreatedByFilter = document.querySelector(".tour-create-status");
+if (tourCreatedByFilter)
+{
+  const url = new URL(window.location.href);
+  tourCreatedByFilter.addEventListener("change", () => {
+    const value = tourCreatedByFilter.value;
+    if (value)
+      url.searchParams.set("createdBy", value);
+    else url.searchParams.delete("createdBy");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("createdBy"))
+    tourCreatedByFilter.value = url.searchParams.get("createdBy");
+}
+// End Tour Created By Filter
+
+// Tour Date Filter
+const tourStartDateFilter = document.querySelector(".tour-start-date-filter");
+if (tourStartDateFilter)
+{
+  const url = new URL(window.location.href);
+  tourStartDateFilter.addEventListener("change", () => {
+    const value = tourStartDateFilter.value;
+    if (value)
+      url.searchParams.set("startDate", value);
+    else url.searchParams.delete("startDate");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("startDate"))
+    tourStartDateFilter.value = url.searchParams.get("startDate");
+}
+const tourEndDateFilter = document.querySelector(".tour-end-date-filter");
+if (tourEndDateFilter)
+{
+  const url = new URL(window.location.href);
+  tourEndDateFilter.addEventListener("change", () => {
+    const value = tourEndDateFilter.value;
+    if (value)
+      url.searchParams.set("endDate", value);
+    else url.searchParams.delete("endDate");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("endDate"))
+    tourEndDateFilter.value = url.searchParams.get("endDate");
+}
+// End Tour Date Filter
+
+// Tour Category Filter
+const tourCategoryFilter = document.querySelector(".category-filter");
+if (tourCategoryFilter)
+{
+  const url = new URL(window.location.href);
+  tourCategoryFilter.addEventListener("change", () => {
+    const value = tourCategoryFilter.value;
+    if (value)
+      url.searchParams.set("category", value);
+    else url.searchParams.delete("category");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("category"))
+    tourCategoryFilter.value = url.searchParams.get("category");
+}
+// End Tour Category Filter
+
+// Tour Price Filter
+const tourPriceFilter = document.querySelector(".tour-price-filter");
+if (tourPriceFilter)
+{
+  const url = new URL(window.location.href);
+  tourPriceFilter.addEventListener("change", () => {
+    const data = tourPriceFilter.value;
+    let value;
+    if (data) 
+      value = JSON.parse(data);
+    if (data && value.length)
+    {
+      const startPrice = value[0];
+      const endPrice = value[1];
+      if (startPrice != -1)
+        url.searchParams.set("startPrice", startPrice);
+      else if (startPrice == -1 || !startPrice)
+        url.searchParams.delete("startPrice");
+      if (endPrice != -1)
+        url.searchParams.set("endPrice", endPrice);
+      else if (endPrice == -1 || !endPrice)
+        url.searchParams.delete("endPrice");
+    }
+    else 
+    {
+      url.searchParams.delete("startPrice");
+      url.searchParams.delete("endPrice");
+    }
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("startPrice") || url.searchParams.get("endPrice"))
+  {
+    const array = [];
+    if (url.searchParams.get("startPrice")) array.push(parseInt(url.searchParams.get("startPrice")));
+    else array.push(parseInt(-1));
+    if (url.searchParams.get("endPrice")) array.push(parseInt(url.searchParams.get("endPrice")));
+    else array.push(parseInt(-1));
+    tourPriceFilter.value = JSON.stringify(array);
+  }
+}
+// End Tour Price Filter
+
+// Tour Remove Filter
+const tourRemoveFilter = document.querySelector(".tour-remove-filter");
+if (tourRemoveFilter)
+{
+  const url = new URL(window.location.href);
+  console.log(url);
+  tourRemoveFilter.addEventListener("click", () => {
+    url.search = "";
+    window.location.href = url.href;
+  })
+}
+// End Tour Remove Filter
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {
