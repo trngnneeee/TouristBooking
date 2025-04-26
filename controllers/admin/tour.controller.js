@@ -371,3 +371,38 @@ module.exports.hardDelete = async (req, res) => {
     })
   }
 }
+
+module.exports.applyMulti = async (req, res) => {
+  const { idList, status } = req.body;
+
+  switch(status)
+  {
+    case "delete":
+    {
+      await Tours.updateMany({
+        _id: { $in: idList }
+      }, {
+        deleted: true,
+        deletedAt: Date.now(),
+        deletedBy: req.account.id
+      })
+      break; 
+    }
+    case "active": case "inactive":
+    {
+      await Tours.updateMany({
+        _id: { $in: idList }
+      }, {
+        status: status,
+        updatedAt: Date.now(),
+        updatedBy: req.account.id
+      })
+      break; 
+    }
+  }
+  
+  req.flash("success", "Áp dụng thành công!");
+  res.json({
+    code: "success"
+  })
+}

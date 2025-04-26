@@ -41,12 +41,12 @@ block main
       .inner-wrap
         .inner-change-status
           .inner-item
-            select
+            select(class="tour-apply-multi" data-api=`/${pathAdmin}/tour/apply-multi`)
               option(value="") -- Hành động --
-              option(value="") Hoạt động
-              option(value="") Tạm dừng
-              option(value="") Xóa
-          .inner-item
+              option(value="active") Hoạt động
+              option(value="inactive") Tạm dừng
+              option(value="delete") Xóa
+          .inner-item(class="tour-apply-button")
             button Áp dụng
         .inner-search
           i.fa-solid.fa-magnifying-glass
@@ -64,7 +64,7 @@ block main
           thead
             tr
               th.inner-center
-                input.inner-check(type="checkbox")
+                input.inner-check(type="checkbox" class="tour-check-all")
               th Tên tour
               th Ảnh đại diện
               th Giá
@@ -78,7 +78,7 @@ block main
             each item in tourList
               tr
                 td.inner-center
-                  input.inner-check(type="checkbox")
+                  input.inner-check(type="checkbox" item-checked=item.id)
                 td #{item.name}
                 td
                   img.inner-avatar(src=item.avatar)

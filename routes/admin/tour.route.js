@@ -33,4 +33,6 @@ router.patch('/recovery/:id', tourController.recovery);
 
 router.delete('/hard-delete/:id', tourController.hardDelete);
 
+router.patch('/apply-multi', tourController.applyMulti);
+
 module.exports = router;

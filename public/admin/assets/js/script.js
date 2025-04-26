@@ -871,13 +871,72 @@ const tourRemoveFilter = document.querySelector(".tour-remove-filter");
 if (tourRemoveFilter)
 {
   const url = new URL(window.location.href);
-  console.log(url);
   tourRemoveFilter.addEventListener("click", () => {
     url.search = "";
     window.location.href = url.href;
   })
 }
 // End Tour Remove Filter
+
+// Tour Check All
+const tourCheckAll = document.querySelector(".tour-check-all");
+if (tourCheckAll)
+{
+  tourCheckAll.addEventListener("change", () => {
+    const tourItemCheck = document.querySelectorAll("[item-checked]");
+    for (const item of tourItemCheck)
+    {
+      item.checked = tourCheckAll.checked;
+    }
+  })
+}
+// End Tour Check All
+
+// Tour Apply All
+const tourApplyAll = document.querySelector(".tour-apply-button");
+if (tourApplyAll)
+{
+  tourApplyAll.addEventListener("click", () => {
+    const tourItemCheck = document.querySelectorAll("[item-checked]:checked");
+    const idList = [];
+    for (const item of tourItemCheck)
+    {
+      idList.push(item.getAttribute("item-checked"));
+    }
+    const select = document.querySelector(".tour-apply-multi");
+    const status = select.value;
+    const api = select.getAttribute("data-api");
+
+    if (idList.length && status)
+    {
+      const finalData = {
+        idList: idList,
+        status: status
+      }
+      fetch(api, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+          {
+            window.location.reload();
+          }
+        })
+    }
+    else
+    {
+      alert("Vui lòng chọn Item hoặc Trạng thái cần áp dụng!");
+    }
+  })
+}
+// End Tour Apply All 
 
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
