@@ -4,60 +4,61 @@ const Category = require("../../models/category.model")
 const Cities = require("../../models/cities.model")
 const Tours = require("../../models/tour.model")
 const moment = require("moment");
+const slugify = require('slugify');
 
 module.exports.list = async (req, res) => {
   const find = {
     deleted: false
   }
 
-  if (req.query.status)
-  {
+  if (req.query.status) {
     find.status = req.query.status;
   }
 
-  if (req.query.createdBy)
-  {
+  if (req.query.createdBy) {
     find.createdBy = req.query.createdBy
   }
 
   const dateFilter = {};
-  if (req.query.startDate)
-  {
+  if (req.query.startDate) {
     const startDate = moment(req.query.startDate).startOf("date").toDate();
     dateFilter.$gte = startDate;
   }
-  if (req.query.endDate)
-  {
+  if (req.query.endDate) {
     const endDate = moment(req.query.endDate).startOf("date").toDate();
     dateFilter.$lte = endDate;
   }
 
-  if(Object.keys(dateFilter).length)
-  {
+  if (Object.keys(dateFilter).length) {
     find.createdAt = dateFilter
   }
 
-  if (req.query.category)
-  {
+  if (req.query.category) {
     find.category = req.query.category;
   }
 
   const priceFilter = {};
-  if (req.query.startPrice)
-  {
+  if (req.query.startPrice) {
     priceFilter.$gte = req.query.startPrice;
   }
-  if (req.query.endPrice)
-  {
+  if (req.query.endPrice) {
     priceFilter.$lte = req.query.endPrice;
   }
-  if (Object.keys(priceFilter).length)
-  {
+  if (Object.keys(priceFilter).length) {
     find.$or = [
       { priceNewAdult: priceFilter },
       { priceNewChildren: priceFilter },
       { priceNewBaby: priceFilter }
     ];
+  }
+
+  if (req.query.search) {
+    const search = slugify(req.query.search, {
+      lower: true,
+      locale: 'vi'
+    });
+    const searchRegex = new RegExp(search);
+      find.slug = searchRegex;
   }
 
   const tourList = await Tours
@@ -314,7 +315,7 @@ module.exports.trash = async (req, res) => {
     item.priceChildrenFormat = item.priceNewChildren.toLocaleString();
     item.priceBabyFormat = item.priceNewBaby.toLocaleString();
   }
-  
+
   res.render("admin/pages/tour-trash.pug", {
     pageTitle: "Thùng rác tour",
     tourList: tourList
@@ -322,8 +323,7 @@ module.exports.trash = async (req, res) => {
 }
 
 module.exports.recovery = async (req, res) => {
-  try 
-  {
+  try {
     const id = req.params.id;
 
     await Tours.updateOne({
@@ -349,8 +349,7 @@ module.exports.recovery = async (req, res) => {
 }
 
 module.exports.hardDelete = async (req, res) => {
-  try
-  {
+  try {
     const id = req.params.id;
 
     await Tours.deleteOne({
@@ -362,8 +361,7 @@ module.exports.hardDelete = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.redirect(`/${pathAdmin}/tour/trash`);
     res.json({
       code: "error",
@@ -375,32 +373,31 @@ module.exports.hardDelete = async (req, res) => {
 module.exports.applyMulti = async (req, res) => {
   const { idList, status } = req.body;
 
-  switch(status)
-  {
+  switch (status) {
     case "delete":
-    {
-      await Tours.updateMany({
-        _id: { $in: idList }
-      }, {
-        deleted: true,
-        deletedAt: Date.now(),
-        deletedBy: req.account.id
-      })
-      break; 
-    }
+      {
+        await Tours.updateMany({
+          _id: { $in: idList }
+        }, {
+          deleted: true,
+          deletedAt: Date.now(),
+          deletedBy: req.account.id
+        })
+        break;
+      }
     case "active": case "inactive":
-    {
-      await Tours.updateMany({
-        _id: { $in: idList }
-      }, {
-        status: status,
-        updatedAt: Date.now(),
-        updatedBy: req.account.id
-      })
-      break; 
-    }
+      {
+        await Tours.updateMany({
+          _id: { $in: idList }
+        }, {
+          status: status,
+          updatedAt: Date.now(),
+          updatedBy: req.account.id
+        })
+        break;
+      }
   }
-  
+
   req.flash("success", "Áp dụng thành công!");
   res.json({
     code: "success"

@@ -938,6 +938,31 @@ if (tourApplyAll)
 }
 // End Tour Apply All 
 
+// Tour Search
+const tourSearch = document.querySelector(".tour-search");
+if (tourSearch)
+{
+  const url = new URL(window.location.href);
+  tourSearch.addEventListener("keyup", (event) => {
+    if (event.code == "Enter")
+    {
+      const input = tourSearch.querySelector("input");
+      const keyword = input.value;
+      if (keyword)
+        url.searchParams.set("search", keyword);
+      else 
+        url.searchParams.delete("search");
+      window.location.href = url.href;
+    }
+  })
+  if (url.searchParams.get("search"))
+  {
+    const input = tourSearch.querySelector("input");
+    input.value = url.searchParams.get("search");
+  }
+}
+// End Tour Search
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {
