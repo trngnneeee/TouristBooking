@@ -982,6 +982,75 @@ if (tourPagination)
 }
 // End Pagination
 
+// Tour Trash Check All
+const tourTrashCheckAll = document.querySelector(".tour-trash-check-all");
+if (tourTrashCheckAll)
+{
+  tourTrashCheckAll.addEventListener("change", () => {
+    const itemCheckedList = document.querySelectorAll("[item-check]");
+    for (const item of itemCheckedList)
+    {
+      item.checked = tourTrashCheckAll.checked;
+    }
+  })
+}
+// End Tour Trash Check All
+
+// Tour Trash Apply Multi
+const tourTrashApplyButton = document.querySelector(".tour-trash-apply-multi-button");
+if (tourTrashApplyButton)
+{
+  tourTrashApplyButton.addEventListener("click", () => {
+    const tourTrashApply = document.querySelector(".tour-trash-apply-multi");
+    const status = tourTrashApply.value;
+    const itemCheck = document.querySelectorAll("[item-check]:checked");
+    const idList = [];
+    for (const item of itemCheck)
+      idList.push(item.getAttribute("item-check"));
+    const api = tourTrashApplyButton.getAttribute("data-api");
+    if (status && idList.length)
+    {
+      if (status == "recovery")
+      {
+        fetch(api, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(idList)
+        })
+          .then(res => res.json())
+          .then((data) => {
+            if (data.code == "error")
+              alert(data.message);
+            if (data.code == "success")
+              window.location.reload();
+          })
+      }
+      if (status == "hard-delete")
+      {
+        fetch(api, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(idList)
+        })
+          .then(res => res.json())
+          .then((data) => {
+            if (data.code == "error")
+              alert(data.message);
+            if (data.code == "success")
+              window.location.reload();
+          })
+      }
+    } 
+    else  
+      alert("Vui lòng lựa chọn Tour hoặc Trạng thái cần áp dụng!");
+  })
+}
+// End Tour Trash Apply Multi
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {

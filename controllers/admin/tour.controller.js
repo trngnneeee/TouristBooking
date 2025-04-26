@@ -430,3 +430,35 @@ module.exports.applyMulti = async (req, res) => {
     code: "success"
   })
 }
+
+module.exports.trashApplyMultiPatch = async (req, res) => {
+  const idList = req.body;
+
+  console.log(idList);
+
+  await Tours.updateMany({
+    _id: {$in: idList}
+  }, {
+    deleted: false,
+    updatedBy: req.account.id,
+    updatedAt: Date.now()
+  })
+  
+  req.flash("success", "Áp dụng thành công!")
+  res.json({
+    code: "success"
+  })
+}
+
+module.exports.trashApplyMultiDelete = async (req, res) => {
+  const idList = req.body;
+  
+  await Tours.deleteMany({
+    _id: {$in: idList}
+  })
+  
+  req.flash("success", "Xóa thành công!")
+  res.json({
+    code: "success"
+  })
+}

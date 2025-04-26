@@ -7,11 +7,14 @@ block main
       .inner-wrap
         .inner-change-status
           .inner-item
-            select
+            select(class="tour-trash-apply-multi")
               option(value="") -- Hành động --
-              option(value="") Khôi phục
-              option(value="") Xóa vĩnh viễn
-          .inner-item
+              option(value="recovery") Khôi phục
+              option(value="hard-delete") Xóa vĩnh viễn
+          .inner-item(
+            class="tour-trash-apply-multi-button"
+            data-api=`/${pathAdmin}/tour/trash/apply-multi`
+          )
             button Áp dụng
         .inner-search
           i.fa-solid.fa-magnifying-glass
@@ -25,7 +28,7 @@ block main
           thead
             tr
               th.inner-center
-                input.inner-check(type="checkbox")
+                input.inner-check(type="checkbox" class="tour-trash-check-all")
               th Tên tour
               th Ảnh đại diện
               th Giá
@@ -39,7 +42,7 @@ block main
             each item in tourList
               tr
                 td.inner-center
-                  input.inner-check(type="checkbox")
+                  input.inner-check(type="checkbox" item-check=item.id)
                 td #{item.name}
                 td
                   img.inner-avatar(src=item.avatar)

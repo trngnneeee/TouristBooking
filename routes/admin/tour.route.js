@@ -35,4 +35,7 @@ router.delete('/hard-delete/:id', tourController.hardDelete);
 
 router.patch('/apply-multi', tourController.applyMulti);
 
+router.patch('/trash/apply-multi', tourController.trashApplyMultiPatch);
+router.delete('/trash/apply-multi', tourController.trashApplyMultiDelete);
+
 module.exports = router;
