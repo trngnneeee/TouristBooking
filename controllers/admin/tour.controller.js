@@ -288,3 +288,27 @@ module.exports.recovery = async (req, res) => {
     })
   }
 }
+
+module.exports.hardDelete = async (req, res) => {
+  try
+  {
+    const id = req.params.id;
+
+    await Tours.deleteOne({
+      _id: id
+    })
+
+    req.flash("success", "Xóa vĩnh viễn tour thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch(error)
+  {
+    res.redirect(`/${pathAdmin}/tour/trash`);
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ!"
+    })
+  }
+}

@@ -42,7 +42,7 @@ block main
                   input.inner-check(type="checkbox")
                 td #{item.name}
                 td
-                  img.inner-avatar(src="/admin/assets/images/tour-1.jpg")
+                  img.inner-avatar(src=item.avatar)
                 td
                   div NL: #{item.priceAdultFormat}đ
                   div TE: #{item.priceChildrenFormat}đ
@@ -70,7 +70,10 @@ block main
                       recovery-tour-button
                     )
                       i.fa-solid.fa-rotate-left
-                    button.inner-delete
+                    button.inner-delete(
+                      data-api=`/${pathAdmin}/tour/hard-delete/${item.id}`
+                      hard-delete-tour-button
+                    )
                       i.fa-regular.fa-trash-can
     .section-7
       span.inner-label Hiển thị 1 - 9 của 78

@@ -31,4 +31,6 @@ router.get('/trash', tourController.trash);
 
 router.patch('/recovery/:id', tourController.recovery);
 
+router.delete('/hard-delete/:id', tourController.hardDelete);
+
 module.exports = router;

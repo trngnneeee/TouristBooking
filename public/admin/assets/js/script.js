@@ -714,6 +714,28 @@ if (tourRecoveryButtonList)
 }
 // End Recovery Tour
 
+// Hard Delete
+const tourHardDeleteButtonList = document.querySelectorAll("[hard-delete-tour-button]");
+if (tourHardDeleteButtonList)
+{
+  tourHardDeleteButtonList.forEach((button) => {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "DELETE"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message)
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  })
+}
+// End Hard Delete
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {
