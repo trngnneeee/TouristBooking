@@ -316,6 +316,16 @@ module.exports.trash = async (req, res) => {
     deleted: true
   }
 
+  if (req.query.search)
+  {
+    const search = slugify(req.query.search, {
+      lower: true,
+      locale: 'vi'
+    })
+    const searchRegex = new RegExp(search);
+    find.slug = searchRegex;
+  }
+
   const tourList = await Tours
     .find(find)
     .sort({

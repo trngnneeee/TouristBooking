@@ -1051,6 +1051,32 @@ if (tourTrashApplyButton)
 }
 // End Tour Trash Apply Multi
 
+// Tour Trash Search
+const tourTrashSearch = document.querySelector(".tour-trash-search");
+if (tourTrashSearch)
+{
+  const url = new URL(window.location.href);
+  tourTrashSearch.addEventListener("keyup", (event) => {
+    if (event.code == "Enter")
+    {
+      const input = tourTrashSearch.querySelector("input");
+      const value = input.value;
+      if (value)
+        url.searchParams.set("search", value);
+      else url.searchParams.delete("search");
+
+      window.location.href = url.href;
+    }
+  })
+
+  if (url.searchParams.get("search"))
+  {
+    const input = tourTrashSearch.querySelector("input");
+    input.value = url.searchParams.get("search");
+  }
+}
+// End Tour Trash Search
+
 // Order Edit Form
 const orderEditForm = document.querySelector("#order-edit-form");
 if (orderEditForm) {
