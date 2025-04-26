@@ -62,9 +62,7 @@ module.exports.list = async (req, res) => {
   }
 
   const limitItem = 3;
-  const totalRecord = await Tours.countDocuments({
-    deleted: false
-  })
+  const totalRecord = await Tours.countDocuments(find);
   const totalPage = Math.ceil(totalRecord / limitItem);
   
   let page =  1;
@@ -326,11 +324,32 @@ module.exports.trash = async (req, res) => {
     find.slug = searchRegex;
   }
 
+  const limitItem = 3;
+  const totalRecord = await Tours.countDocuments(find);
+  const totalPage = Math.ceil(totalRecord / limitItem);
+  let page = 1;
+  if (req.query.page)
+  {
+    const currentPage = parseInt(req.query.page);
+    if (currentPage > 0)
+      page = currentPage
+  }
+  if (page > totalPage)
+    page = totalPage;
+  const skip = (page - 1) * limitItem;
+  const pagination = {
+    totalRecord: totalRecord,
+    totalPage: totalPage,
+    skip: skip
+  }
+
   const tourList = await Tours
     .find(find)
     .sort({
       position: "desc"
-    });
+    })
+    .limit(limitItem)
+    .skip(skip);
 
   for (const item of tourList) {
     if (item.createdBy) {
@@ -355,7 +374,8 @@ module.exports.trash = async (req, res) => {
 
   res.render("admin/pages/tour-trash.pug", {
     pageTitle: "Thùng rác tour",
-    tourList: tourList
+    tourList: tourList,
+    pagination: pagination
   })
 }
 
