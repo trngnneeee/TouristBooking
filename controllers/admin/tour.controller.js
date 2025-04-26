@@ -72,7 +72,7 @@ module.exports.list = async (req, res) => {
     if (currentPage > 0)
       page = currentPage;
   }
-  if (page > totalPage)
+  if (page > totalPage && totalPage != 0)
     page = totalPage;
 
   const skip = limitItem * (page - 1);
@@ -334,7 +334,7 @@ module.exports.trash = async (req, res) => {
     if (currentPage > 0)
       page = currentPage
   }
-  if (page > totalPage)
+  if (page > totalPage && totalPage != 0)
     page = totalPage;
   const skip = (page - 1) * limitItem;
   const pagination = {

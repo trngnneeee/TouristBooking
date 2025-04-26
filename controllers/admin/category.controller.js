@@ -61,7 +61,7 @@ module.exports.list = async (req, res) => {
 
   const totalRecord = await Category.countDocuments(find);
   const totalPage = Math.ceil(totalRecord / limitItem);
-  if (page > totalPage)
+  if (page > totalPage && totalPage != 0)
   {
     page = totalPage
   }
