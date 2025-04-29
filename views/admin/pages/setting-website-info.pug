@@ -8,28 +8,28 @@ block main
         .inner-group
           label.inner-label(for="websiteName") Tên website
           input#websiteName(
-            value="28.TRAVEL" 
+            value=websiteInfo.websiteName 
             name="websiteName" 
             type="text"
             )
         .inner-group
           label.inner-label(for="phone") Số điện thoại
           input#phone(
-            value="0123456789" 
+            value=websiteInfo.phone
             name="phone" 
             type="text"
             )
         .inner-group
           label.inner-label(for="email") Email
           input#email(
-            value="contact@28.travel.com" 
+            value=websiteInfo.email
             name="email" 
             type="text"
             )
         .inner-group
           label.inner-label(for="address") Địa chỉ
           input#address(
-            value="Số 123, đường ABC" 
+            value=websiteInfo.address 
             name="address" 
             type="text"
             )
@@ -41,6 +41,7 @@ block main
               filepond-image="" 
               accept="image/*" 
               type="file"
+              image-default=websiteInfo.logo
               )
         .inner-group
           label.inner-label(for="favicon") Favicon
@@ -50,6 +51,7 @@ block main
               filepond-image="" 
               accept="image/*" 
               type="file"
+              image-default=websiteInfo.favicon
               )
         .inner-button.inner-two-col
           button Cập nhật
