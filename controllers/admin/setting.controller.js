@@ -1,4 +1,6 @@
 const WebsiteInformation = require("../../models/website-info.model")
+const permissionList = require("../../config/permission-list.config");
+const Role = require("../../models/role.model");
 
 module.exports.list = (req, res) => {
   res.render("admin/pages/setting-list.pug", {
@@ -61,6 +63,20 @@ module.exports.roleList = (req, res) => {
 
 module.exports.roleCreate = (req, res) => {
   res.render("admin/pages/setting-role-create.pug", {
-    pageTitle: "Tạo nhóm quyền"
+    pageTitle: "Tạo nhóm quyền",
+    permissionList: permissionList.permissionList
+  })
+}
+
+module.exports.roleCreatePost = async (req, res) => {
+  req.body.createdBy = req.account.id;
+  req.body.updatedBy = req.account.id;
+  
+  const newRecord = new Role(req.body);
+  await newRecord.save();
+
+  req.flash("success", "Tạo nhóm quyền thành công!");
+  res.json({
+    code: "success"
   })
 }
