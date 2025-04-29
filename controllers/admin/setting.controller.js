@@ -10,7 +10,7 @@ module.exports.list = (req, res) => {
 
 module.exports.websiteInfo = async (req, res) => {
   const websiteInfo = await WebsiteInformation.findOne({});
-  
+
   res.render("admin/pages/setting-website-info.pug", {
     pageTitle: "Thông tin website",
     websiteInfo: websiteInfo
@@ -27,12 +27,10 @@ module.exports.websiteInfoPatch = async (req, res) => {
   else delete req.body.favicon;
 
   const websiteInfo = await WebsiteInformation.findOne({});
-  if (websiteInfo)
-  {
+  if (websiteInfo) {
     await websiteInfo.updateOne(req.body);
   }
-  else
-  {
+  else {
     const newRecord = new WebsiteInformation(req.body);
     await newRecord.save();
   }
@@ -59,7 +57,7 @@ module.exports.roleList = async (req, res) => {
   const roleList = await Role.find({
     deleted: false
   });
-  
+
   res.render("admin/pages/setting-role-list.pug", {
     pageTitle: "Nhóm quyền",
     roleList: roleList
@@ -76,7 +74,7 @@ module.exports.roleCreate = (req, res) => {
 module.exports.roleCreatePost = async (req, res) => {
   req.body.createdBy = req.account.id;
   req.body.updatedBy = req.account.id;
-  
+
   const newRecord = new Role(req.body);
   await newRecord.save();
 
@@ -84,4 +82,46 @@ module.exports.roleCreatePost = async (req, res) => {
   res.json({
     code: "success"
   })
+}
+
+module.exports.roleEdit = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const roleDetail = await Role.findOne({
+      _id: id,
+      deleted: false
+    })
+    if (roleDetail)
+    {
+      res.render("admin/pages/setting-role-edit.pug", {
+        pageTitle: "Tạo nhóm quyền",
+        permissionList: permissionList.permissionList,
+        roleDetail: roleDetail
+      })
+    }
+    else res.redirect(`/${pathAdmin}/setting/role/list`);
+  }
+  catch(error)
+  {
+    res.redirect(`/${pathAdmin}/setting/role/list`);
+  }
+}
+
+module.exports.roleEditPatch = async (req, res) => {
+  try{
+    const id = req.params.id;
+
+    await Role.updateOne({
+      _id: id
+    }, req.body)
+
+    req.flash("success", "Chỉnh sửa nhóm quyền thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch(error)
+  {
+    res.redirect(`/${pathAdmin}/setting/role/list`);
+  }
 }

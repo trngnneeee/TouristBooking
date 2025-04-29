@@ -39,7 +39,10 @@ block main
                 td #{item.description}
                 td
                   .inner-buttons
-                    button.inner-edit()
+                    a.inner-edit(
+                      role-edit-button
+                      href=`/${pathAdmin}/setting/role/edit/${item.id}`
+                    )
                       i.fa-regular.fa-pen-to-square
                     button.inner-delete
                       i.fa-regular.fa-trash-can
