@@ -31,14 +31,15 @@ block main
               th Mô tả ngắn
               th Hành động
           tbody
-            tr
-              td.inner-center
-                input.inner-check(type="checkbox")
-              td Quản trị viên
-              td Có đầy đủ các quyền
-              td
-                .inner-buttons
-                  button.inner-edit
-                    i.fa-regular.fa-pen-to-square
-                  button.inner-delete
-                    i.fa-regular.fa-trash-can
+            each item in roleList
+              tr
+                td.inner-center
+                  input.inner-check(type="checkbox")
+                td #{item.name}
+                td #{item.description}
+                td
+                  .inner-buttons
+                    button.inner-edit()
+                      i.fa-regular.fa-pen-to-square
+                    button.inner-delete
+                      i.fa-regular.fa-trash-can
