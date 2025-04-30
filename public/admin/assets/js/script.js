@@ -418,12 +418,10 @@ if (changeMultiStatus) {
 
 // Category Search
 const searchElement = document.querySelector("[search]");
-if (searchElement)
-{
+if (searchElement) {
   const url = new URL(window.location.href)
   searchElement.addEventListener("keyup", (event) => {
-    if (event.code == "Enter")
-    {
+    if (event.code == "Enter") {
       const value = searchElement.value;
       if (value)
         url.searchParams.set("search", value);
@@ -439,14 +437,13 @@ if (searchElement)
 
 // Pagination
 const paginationElement = document.querySelector("[pagination]");
-if (paginationElement)
-{
+if (paginationElement) {
   const url = new URL(window.location.href);
   paginationElement.addEventListener("change", () => {
     const value = paginationElement.value;
     if (value)
       url.searchParams.set("page", value);
-    else 
+    else
       url.searchParams.delete("page");
 
     window.location.href = url.href;
@@ -558,20 +555,19 @@ if (tourCreateForm) {
 
 // Tour Edit 
 const tourEditButtonList = document.querySelectorAll("[tour-edit-button]");
-if (tourEditButtonList.length)
-{
+if (tourEditButtonList.length) {
   tourEditButtonList.forEach((editButton) => {
     editButton.addEventListener("click", () => {
       const api = editButton.getAttribute("data-api");
       window.location.href = api;
-      
+
     })
   })
 }
 
 const tourEditForm = document.querySelector("#tour-edit-form");
 if (tourEditForm) {
-    const validation = new JustValidate('#tour-edit-form');
+  const validation = new JustValidate('#tour-edit-form');
 
   validation
     .addField('#name', [
@@ -670,8 +666,7 @@ if (tourEditForm) {
 
 // Delete Tour
 const tourDeleteButtonList = document.querySelectorAll("[tour-delete-button]");
-if (tourDeleteButtonList.length)
-{
+if (tourDeleteButtonList.length) {
   tourDeleteButtonList.forEach((deleteButton) => {
     deleteButton.addEventListener("click", () => {
       const api = deleteButton.getAttribute("data-api");
@@ -682,8 +677,7 @@ if (tourDeleteButtonList.length)
         .then((data) => {
           if (data.code == "error")
             alert(data.message)
-          if (data.code == "success")
-          {
+          if (data.code == "success") {
             window.location.reload();
           }
         })
@@ -694,8 +688,7 @@ if (tourDeleteButtonList.length)
 
 // Recovery Tour
 const tourRecoveryButtonList = document.querySelectorAll("[recovery-tour-button]");
-if (tourRecoveryButtonList)
-{
+if (tourRecoveryButtonList) {
   tourRecoveryButtonList.forEach((button) => {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
@@ -716,8 +709,7 @@ if (tourRecoveryButtonList)
 
 // Hard Delete
 const tourHardDeleteButtonList = document.querySelectorAll("[hard-delete-tour-button]");
-if (tourHardDeleteButtonList)
-{
+if (tourHardDeleteButtonList) {
   tourHardDeleteButtonList.forEach((button) => {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
@@ -738,8 +730,7 @@ if (tourHardDeleteButtonList)
 
 // Tour List Status Filter
 const tourStatusFilter = document.querySelector(".tour-status-filter");
-if (tourStatusFilter)
-{
+if (tourStatusFilter) {
   const url = new URL(window.location.href);
   tourStatusFilter.addEventListener("change", () => {
     const value = tourStatusFilter.value;
@@ -756,8 +747,7 @@ if (tourStatusFilter)
 
 // Tour Created By Filter
 const tourCreatedByFilter = document.querySelector(".tour-create-status");
-if (tourCreatedByFilter)
-{
+if (tourCreatedByFilter) {
   const url = new URL(window.location.href);
   tourCreatedByFilter.addEventListener("change", () => {
     const value = tourCreatedByFilter.value;
@@ -775,8 +765,7 @@ if (tourCreatedByFilter)
 
 // Tour Date Filter
 const tourStartDateFilter = document.querySelector(".tour-start-date-filter");
-if (tourStartDateFilter)
-{
+if (tourStartDateFilter) {
   const url = new URL(window.location.href);
   tourStartDateFilter.addEventListener("change", () => {
     const value = tourStartDateFilter.value;
@@ -790,8 +779,7 @@ if (tourStartDateFilter)
     tourStartDateFilter.value = url.searchParams.get("startDate");
 }
 const tourEndDateFilter = document.querySelector(".tour-end-date-filter");
-if (tourEndDateFilter)
-{
+if (tourEndDateFilter) {
   const url = new URL(window.location.href);
   tourEndDateFilter.addEventListener("change", () => {
     const value = tourEndDateFilter.value;
@@ -808,8 +796,7 @@ if (tourEndDateFilter)
 
 // Tour Category Filter
 const tourCategoryFilter = document.querySelector(".category-filter");
-if (tourCategoryFilter)
-{
+if (tourCategoryFilter) {
   const url = new URL(window.location.href);
   tourCategoryFilter.addEventListener("change", () => {
     const value = tourCategoryFilter.value;
@@ -826,16 +813,14 @@ if (tourCategoryFilter)
 
 // Tour Price Filter
 const tourPriceFilter = document.querySelector(".tour-price-filter");
-if (tourPriceFilter)
-{
+if (tourPriceFilter) {
   const url = new URL(window.location.href);
   tourPriceFilter.addEventListener("change", () => {
     const data = tourPriceFilter.value;
     let value;
-    if (data) 
+    if (data)
       value = JSON.parse(data);
-    if (data && value.length)
-    {
+    if (data && value.length) {
       const startPrice = value[0];
       const endPrice = value[1];
       if (startPrice != -1)
@@ -847,15 +832,13 @@ if (tourPriceFilter)
       else if (endPrice == -1 || !endPrice)
         url.searchParams.delete("endPrice");
     }
-    else 
-    {
+    else {
       url.searchParams.delete("startPrice");
       url.searchParams.delete("endPrice");
     }
     window.location.href = url.href;
   })
-  if (url.searchParams.get("startPrice") || url.searchParams.get("endPrice"))
-  {
+  if (url.searchParams.get("startPrice") || url.searchParams.get("endPrice")) {
     const array = [];
     if (url.searchParams.get("startPrice")) array.push(parseInt(url.searchParams.get("startPrice")));
     else array.push(parseInt(-1));
@@ -868,8 +851,7 @@ if (tourPriceFilter)
 
 // Tour Remove Filter
 const tourRemoveFilter = document.querySelector(".tour-remove-filter");
-if (tourRemoveFilter)
-{
+if (tourRemoveFilter) {
   const url = new URL(window.location.href);
   tourRemoveFilter.addEventListener("click", () => {
     url.search = "";
@@ -880,12 +862,10 @@ if (tourRemoveFilter)
 
 // Tour Check All
 const tourCheckAll = document.querySelector(".tour-check-all");
-if (tourCheckAll)
-{
+if (tourCheckAll) {
   tourCheckAll.addEventListener("change", () => {
     const tourItemCheck = document.querySelectorAll("[item-checked]");
-    for (const item of tourItemCheck)
-    {
+    for (const item of tourItemCheck) {
       item.checked = tourCheckAll.checked;
     }
   })
@@ -894,21 +874,18 @@ if (tourCheckAll)
 
 // Tour Apply All
 const tourApplyAll = document.querySelector(".tour-apply-button");
-if (tourApplyAll)
-{
+if (tourApplyAll) {
   tourApplyAll.addEventListener("click", () => {
     const tourItemCheck = document.querySelectorAll("[item-checked]:checked");
     const idList = [];
-    for (const item of tourItemCheck)
-    {
+    for (const item of tourItemCheck) {
       idList.push(item.getAttribute("item-checked"));
     }
     const select = document.querySelector(".tour-apply-multi");
     const status = select.value;
     const api = select.getAttribute("data-api");
 
-    if (idList.length && status)
-    {
+    if (idList.length && status) {
       const finalData = {
         idList: idList,
         status: status
@@ -924,14 +901,12 @@ if (tourApplyAll)
         .then((data) => {
           if (data.code == "error")
             alert(data.message);
-          if (data.code == "success")
-          {
+          if (data.code == "success") {
             window.location.reload();
           }
         })
     }
-    else
-    {
+    else {
       alert("Vui lòng chọn Item hoặc Trạng thái cần áp dụng!");
     }
   })
@@ -940,23 +915,20 @@ if (tourApplyAll)
 
 // Tour Search
 const tourSearch = document.querySelector(".tour-search");
-if (tourSearch)
-{
+if (tourSearch) {
   const url = new URL(window.location.href);
   tourSearch.addEventListener("keyup", (event) => {
-    if (event.code == "Enter")
-    {
+    if (event.code == "Enter") {
       const input = tourSearch.querySelector("input");
       const keyword = input.value;
       if (keyword)
         url.searchParams.set("search", keyword);
-      else 
+      else
         url.searchParams.delete("search");
       window.location.href = url.href;
     }
   })
-  if (url.searchParams.get("search"))
-  {
+  if (url.searchParams.get("search")) {
     const input = tourSearch.querySelector("input");
     input.value = url.searchParams.get("search");
   }
@@ -965,14 +937,13 @@ if (tourSearch)
 
 // Pagination
 const tourPagination = document.querySelector(".tour-pagination");
-if (tourPagination)
-{
+if (tourPagination) {
   const url = new URL(window.location.href);
   tourPagination.addEventListener("change", () => {
     const value = tourPagination.value;
     if (value)
       url.searchParams.set("page", value);
-    else 
+    else
       url.searchParams.delete("page");
 
     window.location.href = url.href;
@@ -984,12 +955,10 @@ if (tourPagination)
 
 // Tour Trash Check All
 const tourTrashCheckAll = document.querySelector(".tour-trash-check-all");
-if (tourTrashCheckAll)
-{
+if (tourTrashCheckAll) {
   tourTrashCheckAll.addEventListener("change", () => {
     const itemCheckedList = document.querySelectorAll("[item-check]");
-    for (const item of itemCheckedList)
-    {
+    for (const item of itemCheckedList) {
       item.checked = tourTrashCheckAll.checked;
     }
   })
@@ -998,8 +967,7 @@ if (tourTrashCheckAll)
 
 // Tour Trash Apply Multi
 const tourTrashApplyButton = document.querySelector(".tour-trash-apply-multi-button");
-if (tourTrashApplyButton)
-{
+if (tourTrashApplyButton) {
   tourTrashApplyButton.addEventListener("click", () => {
     const tourTrashApply = document.querySelector(".tour-trash-apply-multi");
     const status = tourTrashApply.value;
@@ -1008,10 +976,8 @@ if (tourTrashApplyButton)
     for (const item of itemCheck)
       idList.push(item.getAttribute("item-check"));
     const api = tourTrashApplyButton.getAttribute("data-api");
-    if (status && idList.length)
-    {
-      if (status == "recovery")
-      {
+    if (status && idList.length) {
+      if (status == "recovery") {
         fetch(api, {
           method: "PATCH",
           headers: {
@@ -1027,8 +993,7 @@ if (tourTrashApplyButton)
               window.location.reload();
           })
       }
-      if (status == "hard-delete")
-      {
+      if (status == "hard-delete") {
         fetch(api, {
           method: "DELETE",
           headers: {
@@ -1044,8 +1009,8 @@ if (tourTrashApplyButton)
               window.location.reload();
           })
       }
-    } 
-    else  
+    }
+    else
       alert("Vui lòng lựa chọn Tour hoặc Trạng thái cần áp dụng!");
   })
 }
@@ -1053,12 +1018,10 @@ if (tourTrashApplyButton)
 
 // Tour Trash Search
 const tourTrashSearch = document.querySelector(".tour-trash-search");
-if (tourTrashSearch)
-{
+if (tourTrashSearch) {
   const url = new URL(window.location.href);
   tourTrashSearch.addEventListener("keyup", (event) => {
-    if (event.code == "Enter")
-    {
+    if (event.code == "Enter") {
       const input = tourTrashSearch.querySelector("input");
       const value = input.value;
       if (value)
@@ -1069,8 +1032,7 @@ if (tourTrashSearch)
     }
   })
 
-  if (url.searchParams.get("search"))
-  {
+  if (url.searchParams.get("search")) {
     const input = tourTrashSearch.querySelector("input");
     input.value = url.searchParams.get("search");
   }
@@ -1079,8 +1041,7 @@ if (tourTrashSearch)
 
 // Tour Trash Pagination
 const tourTrashPagination = document.querySelector(".tour-trash-pagination");
-if (tourTrashPagination)
-{
+if (tourTrashPagination) {
   const url = new URL(window.location.href);
   tourTrashPagination.addEventListener("change", () => {
     const value = tourTrashPagination.value;
@@ -1182,7 +1143,7 @@ if (settingWebsiteInfoForm) {
       }
 
       const formData = new FormData();
-      formData.append("websiteName" ,websiteName);
+      formData.append("websiteName", websiteName);
       formData.append("phone", phone);
       formData.append("email", email);
       formData.append("address", address);
@@ -1404,6 +1365,100 @@ if (settingRoleEditForm) {
     ;
 }
 // End Role Edit
+
+// Role Check All
+const roleCheckAll = document.querySelector("[role-check-all]");
+if (roleCheckAll) {
+  roleCheckAll.addEventListener("click", () => {
+    const roleListCheckBox = document.querySelectorAll("[item-check-all]");
+    roleListCheckBox.forEach((item) => {
+      item.checked = roleCheckAll.checked;
+    })
+  })
+}
+// End Role Check All
+
+// Role Multiple Apply
+const roleApplyButton = document.querySelector("[role-apply-button]");
+if (roleApplyButton) {
+  roleApplyButton.addEventListener("click", () => {
+    const select = document.querySelector("[role-status-apply]");
+    const status = select.value;
+
+    const roleListCheckBox = document.querySelectorAll("[item-check-all]:checked");
+    const roleList = [];
+    for (const item of roleListCheckBox) {
+      roleList.push(item.getAttribute("item-check-all"));
+    }
+
+    if (status && roleListCheckBox.length) {
+      const finalData = {
+        roleList: roleList,
+        status: status
+      }
+      fetch(`/${pathAdmin}/setting/role/apply-multi`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    }
+    else alert("Vui lòng chọn Trạng thái hoặc Nhóm quyền cần áp dụng!");
+  })
+}
+// End Role Multiple Apply
+
+// Role Search
+const roleSearch = document.querySelector("[role-search]")
+if (roleSearch) {
+  const url = new URL(window.location.href);
+  roleSearch.addEventListener("keyup", (event) => {
+    if (event.code == "Enter") {
+      const input = roleSearch.querySelector("input");
+      const value = input.value;
+
+      if (value)
+        url.searchParams.set("search", value);
+      else url.searchParams.delete("search");
+
+      window.location.href = url.href;
+    }
+  })
+  if (url.searchParams.get("search")) {
+    const input = roleSearch.querySelector("input");
+    input.value = url.searchParams.get("search");
+  }
+}
+// End Role Search
+
+// Role Delete
+const roleDeleteButtonList = document.querySelectorAll("[role-delete]");
+if (roleDeleteButtonList) {
+  roleDeleteButtonList.forEach((button) => {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "DELETE"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  })
+}
+// End Role Delete
 
 // Profile Edit Form
 const profileEditForm = document.querySelector("#profile-edit-form");

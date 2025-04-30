@@ -1,8 +1,8 @@
 const router = require('express').Router();
 
 const tourRouter = require("./tour.route");
-const homeRouter = require("./home.router");
-const cartRouter = require("./cart.router");
+const homeRouter = require("./home.route");
+const cartRouter = require("./cart.route");
 
 router.use('/tours', tourRouter);
 router.use('/', homeRouter);

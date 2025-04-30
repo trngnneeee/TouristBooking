@@ -38,7 +38,7 @@ app.use(flash());
 const adminRoutes = require("./routes/admin/index.route");
 app.use(`/${variableConfig.pathAdmin}`, adminRoutes);
 
-const clientRoutes = require("./routes/client/index.router");
+const clientRoutes = require("./routes/client/index.route");
 app.use("/", clientRoutes);
 
 

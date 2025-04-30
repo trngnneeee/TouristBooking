@@ -7,12 +7,12 @@ block main
       .inner-wrap
         .inner-change-status
           .inner-item
-            select
+            select(role-status-apply)
               option(value="") -- Hành động --
-              option(value="") Xóa
-          .inner-item
+              option(value="delete") Xóa
+          .inner-item(role-apply-button)
             button Áp dụng
-        .inner-search
+        .inner-search(role-search)
           i.fa-solid.fa-magnifying-glass
           input(
             placeholder="Tìm kiếm" 
@@ -26,7 +26,7 @@ block main
           thead
             tr
               th.inner-center
-                input.inner-check(type="checkbox")
+                input.inner-check(type="checkbox" role-check-all)
               th Tên nhóm quyền
               th Mô tả ngắn
               th Hành động
@@ -34,7 +34,7 @@ block main
             each item in roleList
               tr
                 td.inner-center
-                  input.inner-check(type="checkbox")
+                  input.inner-check(type="checkbox" item-check-all=item.id)
                 td #{item.name}
                 td #{item.description}
                 td
@@ -44,5 +44,8 @@ block main
                       href=`/${pathAdmin}/setting/role/edit/${item.id}`
                     )
                       i.fa-regular.fa-pen-to-square
-                    button.inner-delete
+                    button.inner-delete(
+                      role-delete 
+                      data-api=`/${pathAdmin}/setting/role/delete/${item.id}`
+                    )
                       i.fa-regular.fa-trash-can

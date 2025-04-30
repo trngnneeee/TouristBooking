@@ -1,6 +1,8 @@
 const WebsiteInformation = require("../../models/website-info.model")
 const permissionList = require("../../config/permission-list.config");
 const Role = require("../../models/role.model");
+const slugify = require('slugify');
+const { locale } = require("moment");
 
 module.exports.list = (req, res) => {
   res.render("admin/pages/setting-list.pug", {
@@ -54,9 +56,20 @@ module.exports.accountAdminCreate = (req, res) => {
 }
 
 module.exports.roleList = async (req, res) => {
-  const roleList = await Role.find({
+  const find = {
     deleted: false
-  });
+  }
+
+  if (req.query.search) {
+    const search = slugify(req.query.search, {
+      lower: true,
+      locale: 'vi'
+    });
+    const searchRegex = new RegExp(search);
+    find.slug = searchRegex;
+  }
+
+  const roleList = await Role.find(find);
 
   res.render("admin/pages/setting-role-list.pug", {
     pageTitle: "Nhóm quyền",
@@ -91,8 +104,7 @@ module.exports.roleEdit = async (req, res) => {
       _id: id,
       deleted: false
     })
-    if (roleDetail)
-    {
+    if (roleDetail) {
       res.render("admin/pages/setting-role-edit.pug", {
         pageTitle: "Tạo nhóm quyền",
         permissionList: permissionList.permissionList,
@@ -101,14 +113,13 @@ module.exports.roleEdit = async (req, res) => {
     }
     else res.redirect(`/${pathAdmin}/setting/role/list`);
   }
-  catch(error)
-  {
+  catch (error) {
     res.redirect(`/${pathAdmin}/setting/role/list`);
   }
 }
 
 module.exports.roleEditPatch = async (req, res) => {
-  try{
+  try {
     const id = req.params.id;
 
     await Role.updateOne({
@@ -120,8 +131,35 @@ module.exports.roleEditPatch = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
+    res.redirect(`/${pathAdmin}/setting/role/list`);
+  }
+}
+
+module.exports.roleApplyMulti = async (req, res) => {
+  await Role.deleteMany({
+    _id: { $in: req.body.roleList }
+  })
+
+  req.flash("success", "Áp dụng thành công!");
+  res.json({
+    code: "success"
+  })
+}
+module.exports.roleDelete = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    await Role.deleteOne({
+      _id: id
+    })
+
+    req.flash("success", "Áp dụng thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch (error) {
     res.redirect(`/${pathAdmin}/setting/role/list`);
   }
 }

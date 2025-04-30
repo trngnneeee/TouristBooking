@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+var slug = require('mongoose-slug-updater');
+mongoose.plugin(slug);
 
 const schema = new mongoose.Schema({
   name: String,
@@ -11,7 +13,12 @@ const schema = new mongoose.Schema({
     default: false
   },
   deletedBy: String,
-  deletedAt: Date
+  deletedAt: Date,
+  slug: {
+    type: String,
+    slug: "name", // Dựa vào name: String để tạo ra slug
+    unique: true
+  },
 }, 
   {
     timestamps: true
