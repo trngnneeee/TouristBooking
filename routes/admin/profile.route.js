@@ -13,5 +13,9 @@ router.patch(
   profileController.editPatch);
 
 router.get('/change-password', profileController.changePassword);
+router.patch(
+  '/change-password', 
+  profileController.changePasswordPatch
+);
 
 module.exports = router;
