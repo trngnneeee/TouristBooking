@@ -1618,10 +1618,23 @@ if (profileEditForm) {
         avatar = avatars[0].file;
       }
 
-      console.log(fullName);
-      console.log(email);
-      console.log(phone);
-      console.log(avatar);
+      const formData = new FormData();
+      formData.append("fullName", fullName);
+      formData.append("email", email);
+      formData.append("phone", phone);
+      formData.append("avatar", avatar);
+
+      fetch(`/${pathAdmin}/profile/edit`, {
+        method: "PATCH",
+        body: formData
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
     })
     ;
 }

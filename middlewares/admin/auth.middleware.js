@@ -1,5 +1,6 @@
 var jwt = require('jsonwebtoken');
 const AccountAdmin = require('../../models/account-admin.model');
+const Role = require('../../models/role.model');
 
 module.exports.verifyToken = async (req, res, next) => {
   // Lấy token nhờ Cookie-parser lib
@@ -33,7 +34,12 @@ module.exports.verifyToken = async (req, res, next) => {
     
     req.account = existAccount;
 
+    const roleInfo = await Role.findOne({
+      _id: existAccount.role
+    })
+
     res.locals.account = existAccount; // Các file PUG sẽ lấy được các giá trị này
+    res.locals.account.roleInfo = roleInfo.name;
 
     next();
   } 

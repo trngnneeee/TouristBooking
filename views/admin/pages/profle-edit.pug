@@ -8,21 +8,21 @@ block main
         .inner-group
           label.inner-label(for="fullName") Họ tên
           input#fullName(
-            value="Lê Văn A" 
+            value=account.fullName
             name="fullName" 
             type="text"
             )
         .inner-group
           label.inner-label(for="email") Email
           input#email(
-            value="levana@gmail.com" 
+            value=account.email
             name="email" 
             type="email"
             )
         .inner-group
           label.inner-label(for="phone") Số điện thoại
           input#phone(
-            value="0123456789" 
+            value=account.phone
             name="phone" 
             type="text"
             )
@@ -30,14 +30,14 @@ block main
           label.inner-label(for="positionCompany") Chức vụ
           input#positionCompany(
             readonly="" 
-            value="Giám đốc" 
+            value=account.positionCompany
             type="text"
             )
         .inner-group
           label.inner-label(for="role") Nhóm quyền
           input#role(
             readonly="" 
-            value="Quản trị viên" 
+            value=account.roleInfo
             type="text"
             )
         .inner-group.inner-two-col
@@ -48,6 +48,7 @@ block main
               filepond-image="" 
               accept="image/*" 
               type="file"
+              image-default=account.avatar
               )
         .inner-button.inner-two-col
           button Cập nhật
