@@ -52,17 +52,15 @@ module.exports.accountAdminList = async (req, res) => {
       createdAt: "desc"
     });
 
-  for (const item of adminAccountList)
-  {
-    if (item.role)
-    {
+  for (const item of adminAccountList) {
+    if (item.role) {
       const roleInfo = await Role.findOne({
         _id: item.role
       })
       item.roleInfo = roleInfo.name;
     }
   }
-  
+
   res.render("admin/pages/setting-account-admin-list.pug", {
     pageTitle: "Tài khoản quản trị",
     adminAccountList: adminAccountList
@@ -73,15 +71,14 @@ module.exports.accountAdminCreatePost = async (req, res) => {
   const existAccount = await AccountAdmin.findOne({
     email: req.body.email
   })
-  if (existAccount)
-  {
+  if (existAccount) {
     res.json({
       code: "error",
       message: "Email đã tồn tại trong hệ thống!"
     });
     return;
   }
-  
+
   req.body.avatar = req.file ? req.file.path : "";
 
   const salt = bcrypt.genSaltSync(10);
@@ -98,15 +95,80 @@ module.exports.accountAdminCreatePost = async (req, res) => {
     code: "success"
   });
 }
+
 module.exports.accountAdminCreate = async (req, res) => {
   const roleList = await Role.find({
     deleted: false
   })
-  
+
   res.render("admin/pages/setting-account-admin-create.pug", {
     pageTitle: "Tạo tài khoản quản trị",
     roleList: roleList
   })
+}
+
+module.exports.accountAdminEdit = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const detailAccount = await AccountAdmin.findOne({
+      _id: id
+    })
+
+    if (detailAccount.role)
+    {
+      const roleInfo = await Role.findOne({
+        _id: detailAccount.role
+      })
+      detailAccount.roleInfo = roleInfo.name;
+    }
+
+    const roleList = await Role.find({
+      deleted: false
+    })
+
+    res.render("admin/pages/setting-account-admin-edit.pug", {
+      pageTitle: "Chỉnh sửa tài khoản quản trị",
+      roleList: roleList,
+      detailAccount: detailAccount
+    })
+  }
+  catch (error) {
+    res.redirect(`/${pathAdmin}/setting/account-admin/list`);
+  }
+}
+
+module.exports.accountAdminEditPatch = async (req, res) => {
+  try
+  {
+    const id = req.params.id;
+    
+    req.body.updatedBy = req.account.id;
+    if(req.file)
+      req.body.avatar = req.file.path;
+    else
+      delete req.body.avatar;
+
+    if (req.body.password)
+    {
+      const salt = bcrypt.genSaltSync(10);
+      req.body.password = bcrypt.hashSync(req.body.password, salt);
+    }
+
+    await AccountAdmin.updateOne({
+      _id: id,
+      deleted: false
+    }, req.body)
+
+    req.flash("success", "Chỉnh sửa tài khoản quản trị thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch(error)
+  {
+    res.redirect(`/${pathAdmin}/setting/account-admin/list`);
+  }
 }
 
 module.exports.roleList = async (req, res) => {

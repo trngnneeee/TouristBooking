@@ -79,7 +79,9 @@ block main
                     .badge.badge-red Tạm dừng
                 td
                   .inner-buttons
-                    button.inner-edit
+                    a.inner-edit(
+                      href=`/${pathAdmin}/setting/account-admin/edit/${item.id}`
+                    )
                       i.fa-regular.fa-pen-to-square
                     button.inner-delete
                       i.fa-regular.fa-trash-can

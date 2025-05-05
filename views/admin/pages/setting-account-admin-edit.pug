@@ -1,0 +1,72 @@
+extends ../layouts/default.pug 
+
+block main 
+  main.main
+    h1.box-title Chỉnh sửa tài khoản quản trị
+    .section-8
+      form#setting-account-admin-edit-form
+        .inner-group(style="display: none;")
+          label.inner-label(for="id") ID
+          input#id(
+            name="id" 
+            type="text"
+            value=detailAccount.id
+            )
+        .inner-group
+          label.inner-label(for="fullName") Họ tên
+          input#fullName(
+            name="fullName" 
+            type="text"
+            value=detailAccount.fullName
+            )
+        .inner-group
+          label.inner-label(for="email") Email
+          input#email(
+            name="email" 
+            type="email"
+            value=detailAccount.email
+            )
+        .inner-group
+          label.inner-label(for="phone") Số điện thoại
+          input#phone(
+            name="phone" 
+            type="text"
+            value=detailAccount.phone
+            )
+        .inner-group
+          label.inner-label(for="role") Nhóm quyền
+          select#role(name="role" value=detailAccount.roleInfo)
+            each item in roleList
+              option(value=item.id) #{item.name}
+        .inner-group
+          label.inner-label(for="positionCompany") Chức vụ
+          input#positionCompany(
+            name="positionCompany" 
+            type="text"
+            value=detailAccount.positionCompany
+            )
+        .inner-group
+          label.inner-label(for="status") Trạng thái
+          select#status(name="status" value=detailAccount.status)
+            option(value="active") Hoạt động
+            option(value="inactive") Dừng hoạt động
+        .inner-group
+          label.inner-label(for="password") Mật khẩu
+          input#password(
+            name="password" 
+            type="text"
+            )
+        .inner-group.inner-two-col
+          label.inner-label(for="avatar") Ảnh đại diện
+          .inner-upload-image
+            input#avatar(
+              name="avatar" 
+              filepond-image="" 
+              accept="image/*" 
+              type="file"
+              image-default=detailAccount.avatar
+              )
+        .inner-button.inner-two-col
+          button Chỉnh sửa
+      .inner-back
+        a(href=`/${pathAdmin}/setting/account-admin/list`) Quay lại danh sách
