@@ -61,24 +61,28 @@ block main
               th Trạng thái
               th Hành động
           tbody
-            tr
-              td.inner-center
-                input.inner-check(type="checkbox")
-              td Lê Văn A
-              td.inner-center
-                img.inner-avatar(src="/admin/assets/images/avatar.jpg")
-              td levana@gmail.com
-              td 01234567890
-              td Quản trị viên
-              td Giám đốc
-              td
-                .badge.badge-green Hoạt động
-              td
-                .inner-buttons
-                  button.inner-edit
-                    i.fa-regular.fa-pen-to-square
-                  button.inner-delete
-                    i.fa-regular.fa-trash-can
+            each item in adminAccountList
+              tr
+                td.inner-center
+                  input.inner-check(type="checkbox")
+                td #{item.name}
+                td.inner-center
+                  img.inner-avatar(src=item.avatar)
+                td #{item.email}
+                td #{item.phone}
+                td #{item.roleInfo}
+                td #{item.positionCompany}
+                td
+                  if (item.status == "active")
+                    .badge.badge-green Hoạt động
+                  if (item.status == "inactive")
+                    .badge.badge-red Tạm dừng
+                td
+                  .inner-buttons
+                    button.inner-edit
+                      i.fa-regular.fa-pen-to-square
+                    button.inner-delete
+                      i.fa-regular.fa-trash-can
     .section-7
       span.inner-label Hiển thị 1 - 9 của 78
       select.inner-pagination
