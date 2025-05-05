@@ -2,10 +2,26 @@ const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
   fullName: String,
-  email: String, 
+  email: String,
+  phone: String,
+  role: String,
+  positionCompany: String,
+  status: String,
   password: String,
-  status: String
-})
+  avatar: String,
+  createdBy: String,
+  updatedBy: String,
+  deleted: {
+    type: Boolean,
+    default: false
+  },
+  deletedBy: String,
+  deletedAt: Date
+},
+  {
+    timestamps: true
+  }
+)
 
 const AccountAdmin = mongoose.model('AccountAdmin', schema, "account-admin");
 

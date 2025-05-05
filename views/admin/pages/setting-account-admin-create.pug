@@ -26,9 +26,8 @@ block main
         .inner-group
           label.inner-label(for="role") Nhóm quyền
           select#role(name="role")
-            option(value="") Quản trị viên
-            option(value="") Quản lý tour
-            option(value="") Quản lý đơn hàng
+            each item in roleList
+              option(value=item.id) #{item.name}
         .inner-group
           label.inner-label(for="positionCompany") Chức vụ
           input#positionCompany(
@@ -38,8 +37,8 @@ block main
         .inner-group
           label.inner-label(for="status") Trạng thái
           select#status(name="status")
-            option(value="") Hoạt động
-            option(value="") Dừng hoạt động
+            option(value="active") Hoạt động
+            option(value="inactive") Dừng hoạt động
         .inner-group
           label.inner-label(for="password") Mật khẩu
           input#password(

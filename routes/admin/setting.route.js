@@ -19,6 +19,11 @@ router.patch(
   settingController.websiteInfoPatch
 );
 router.get('/account-admin/list', settingController.accountAdminList);
+router.post(
+  '/account-admin/create', 
+  upload.single('avatar'),
+  settingController.accountAdminCreatePost
+);
 router.get('/account-admin/create', settingController.accountAdminCreate);
 router.get('/role/list', settingController.roleList);
 

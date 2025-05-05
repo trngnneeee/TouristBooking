@@ -1254,14 +1254,28 @@ if (settingAccountAdminCreateForm) {
         avatar = avatars[0].file;
       }
 
-      console.log(fullName);
-      console.log(email);
-      console.log(phone);
-      console.log(role);
-      console.log(positionCompany);
-      console.log(status);
-      console.log(password);
-      console.log(avatar);
+      const formData = new FormData();
+      formData.append('fullName', fullName);
+      formData.append('email', email);
+      formData.append('phone', phone);
+      formData.append('role', role);
+      formData.append('positionCompany', positionCompany);
+      formData.append('status', status);
+      formData.append('password', password);
+      formData.append('avatar', avatar);
+
+      fetch(`/${pathAdmin}/setting/account-admin/create`, {
+        method: "POST",
+        body: formData
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.href = `/${pathAdmin}/setting/account-admin/list`;
+        }) 
+
     })
     ;
 }

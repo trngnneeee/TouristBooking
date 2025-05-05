@@ -2,7 +2,8 @@ const WebsiteInformation = require("../../models/website-info.model")
 const permissionList = require("../../config/permission-list.config");
 const Role = require("../../models/role.model");
 const slugify = require('slugify');
-const { locale } = require("moment");
+const bcrypt = require("bcryptjs");
+const AccountAdmin = require("../../models/account-admin.model");
 
 module.exports.list = (req, res) => {
   res.render("admin/pages/setting-list.pug", {
@@ -49,9 +50,43 @@ module.exports.accountAdminList = (req, res) => {
   })
 }
 
-module.exports.accountAdminCreate = (req, res) => {
+module.exports.accountAdminCreatePost = async (req, res) => {
+  const existAccount = await AccountAdmin.findOne({
+    email: req.body.email
+  })
+  if (existAccount)
+  {
+    res.json({
+      code: "error",
+      message: "Email đã tồn tại trong hệ thống!"
+    });
+    return;
+  }
+  
+  req.body.avatar = req.file ? req.file.path : "";
+
+  const salt = bcrypt.genSaltSync(10);
+  req.body.password = bcrypt.hashSync(req.body.password, salt);
+
+  req.body.createdBy = req.account.id;
+  req.body.updatedBy = req.account.id;
+
+  const newRecord = new AccountAdmin(req.body);
+  await newRecord.save();
+
+  req.flash("success", "Tạo tài khoản quản trị thành công!");
+  res.json({
+    code: "success"
+  });
+}
+module.exports.accountAdminCreate = async (req, res) => {
+  const roleList = await Role.find({
+    deleted: false
+  })
+  
   res.render("admin/pages/setting-account-admin-create.pug", {
-    pageTitle: "Tạo tài khoản quản trị"
+    pageTitle: "Tạo tài khoản quản trị",
+    roleList: roleList
   })
 }
 
