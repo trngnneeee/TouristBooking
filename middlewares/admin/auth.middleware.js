@@ -27,25 +27,27 @@ module.exports.verifyToken = async (req, res, next) => {
 
     if (!existAccount) 
     {
-      res.clearCookies("token");
+      res.clearCookie("token");
       res.redirect(`/${pathAdmin}/account/login`);
       return;
     }
     
     req.account = existAccount;
-
-    const roleInfo = await Role.findOne({
-      _id: existAccount.role
-    })
-
     res.locals.account = existAccount; // Các file PUG sẽ lấy được các giá trị này
-    res.locals.account.roleInfo = roleInfo.name;
+
+    if (existAccount.role != "")
+    {
+      const roleInfo = await Role.findOne({
+        _id: existAccount.role
+      })
+      res.locals.account.roleInfo = roleInfo.name;
+    }
 
     next();
   } 
   catch(error)
   {
-    res.clearCookies("token");
+    res.clearCookie("token");
     res.redirect(`/${pathAdmin}/account/login`);
   }
 

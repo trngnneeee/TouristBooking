@@ -149,11 +149,12 @@ module.exports.accountAdminEditPatch = async (req, res) => {
     else
       delete req.body.avatar;
 
-    if (req.body.password != "")
+    if (req.body.password)
     {
       const salt = bcrypt.genSaltSync(10);
       req.body.password = bcrypt.hashSync(req.body.password, salt);
     }
+    else delete req.body.password;
 
     await AccountAdmin.updateOne({
       _id: id,

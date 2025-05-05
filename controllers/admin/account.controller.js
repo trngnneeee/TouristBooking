@@ -101,8 +101,17 @@ module.exports.registerPost = async (req, res) => {
   const newAccount = new AccountAdmin({
     fullName: fullName,
     email: email,
+    phone: "",
+    role: "",
+    positionCompany: "",
+    status: "initial",
+    avatar: "",
+    createdBy: "",
+    updatedBy: "",
     password: hashPassword,
-    status: "initial"
+    deleted: false,
+    deletedBy: "",
+    deletedAt: ""
   });
 
   await newAccount.save();
