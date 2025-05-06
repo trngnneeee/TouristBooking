@@ -1165,6 +1165,92 @@ if (settingWebsiteInfoForm) {
 }
 // End Setting Website Info Form
 
+// Admin Account Status Filter
+const adminAccountStatusFilter = document.querySelector("[admin-account-status-filter]");
+if (adminAccountStatusFilter)
+{
+  const url = new URL(window.location.href);
+  adminAccountStatusFilter.addEventListener("change", () => {
+    const value = adminAccountStatusFilter.value;
+    if (value)
+      url.searchParams.set("status", value);
+    else url.searchParams.delete("status");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("status"))
+    adminAccountStatusFilter.value = url.searchParams.get("status");
+}
+// End Admin Account Status Filter
+
+// Admin Account Date Filter
+const adminAccountStartDateFilter = document.querySelector("[admin-account-start-date-filter]");
+if (adminAccountStartDateFilter)
+{
+  const url = new URL(window.location.href);
+  adminAccountStartDateFilter.addEventListener("change", () => {
+    const value = adminAccountStartDateFilter.value;
+    if (value)
+      url.searchParams.set("startDate", value);
+    else url.searchParams.delete("startDate");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("startDate"))
+    adminAccountStartDateFilter.value = url.searchParams.get("startDate")
+}
+
+const adminAccountEndDateFilter = document.querySelector("[admin-account-end-date-filter]");
+if (adminAccountEndDateFilter)
+{
+  const url = new URL(window.location.href);
+  adminAccountEndDateFilter.addEventListener("change", () => {
+    const value = adminAccountEndDateFilter.value;
+    if (value)
+      url.searchParams.set("endDate", value);
+    else url.searchParams.delete("endDate");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("endDate"))
+    adminAccountEndDateFilter.value = url.searchParams.get("endDate")
+}
+// End Admin Account Date Filter
+
+// Admin Account Role Filter
+const adminAccountRoleFilter = document.querySelector("[admin-account-role-filter]");
+if (adminAccountRoleFilter)
+{
+  const url = new URL(window.location.href);
+  adminAccountRoleFilter.addEventListener("change", () => {
+    const value = adminAccountRoleFilter.value;
+    if (value)
+      url.searchParams.set("role", value);
+    else url.searchParams.delete("role");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("role"))
+    adminAccountRoleFilter.value = url.searchParams.get("role")
+}
+// End Admin Account Role Filter
+
+// Admin Account Delete Filter
+const adminAccountDeleteFilter = document.querySelector("[admin-account-delete-filter]");
+if (adminAccountDeleteFilter)
+{
+  const url = new URL(window.location.href);
+  adminAccountDeleteFilter.addEventListener("click", () => {
+    url.search = "";
+    window.location.href = url.href;
+  })
+}
+// End Admin Account Delete Filter
+
 // Setting Account Admin Create Form
 const settingAccountAdminCreateForm = document.querySelector("#setting-account-admin-create-form");
 if (settingAccountAdminCreateForm) {

@@ -3,6 +3,7 @@ const permissionList = require("../../config/permission-list.config");
 const Role = require("../../models/role.model");
 const slugify = require('slugify');
 const bcrypt = require("bcryptjs");
+const moment = require("moment");
 const AccountAdmin = require("../../models/account-admin.model");
 
 module.exports.list = (req, res) => {
@@ -45,9 +46,37 @@ module.exports.websiteInfoPatch = async (req, res) => {
 }
 
 module.exports.accountAdminList = async (req, res) => {
-  const adminAccountList = await AccountAdmin.find({
+  const find = {
     deleted: false
-  })
+  };
+
+  if (req.query.status)
+  { 
+    find.status = req.query.status;
+  }
+
+  const dateFilter = {};
+  if (req.query.startDate)
+  {
+    const startDate = moment(req.query.startDate).startOf("date").toDate();
+    dateFilter.$gte = startDate;
+  }
+  if (req.query.endDate)
+  {
+    const endDate = moment(req.query.endDate).startOf("date").toDate();
+    dateFilter.$lte = endDate;
+  }
+  if (Object.keys(dateFilter).length >= 1)
+  {
+    find.createdAt = dateFilter;
+  }
+
+  if (req.query.role)
+  {
+    find.role = req.query.role;
+  }
+  
+  const adminAccountList = await AccountAdmin.find(find)
     .sort({
       createdAt: "desc"
     });
@@ -61,9 +90,14 @@ module.exports.accountAdminList = async (req, res) => {
     }
   }
 
+  const roleList = await Role.find({
+    deleted: false
+  })
+
   res.render("admin/pages/setting-account-admin-list.pug", {
     pageTitle: "Tài khoản quản trị",
-    adminAccountList: adminAccountList
+    adminAccountList: adminAccountList,
+    roleList: roleList
   })
 }
 

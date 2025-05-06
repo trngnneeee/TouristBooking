@@ -148,20 +148,7 @@ module.exports.accountAdminEditPatch = (req, res, next) => {
     positionCompany: Joi.string().allow(""),
     role: Joi.string().allow(""),
     status: Joi.string().allow(""),
-    password: Joi.string()
-      .required()
-      .min(8)
-      .custom((value, helpers) => {
-        if (!/[A-Z]/.test(value))
-          return helpers.error("password.uppercase");
-        if (!/[a-z]/.test(value))
-          return helpers.error("password.lowercase");
-        if (!/\d/.test(value))
-          return helpers.error("password.number");
-        if (!/[@$!%*?&]/.test(value))
-          return helpers.error("password.specialChar")
-        return value;
-      }),
+    password: Joi.string().allow(""),
     avatar: Joi.string().allow("")
       .messages({
         "string.empty": "Vui lòng nhập mật khẩu!",

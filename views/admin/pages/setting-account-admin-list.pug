@@ -9,21 +9,20 @@ block main
           i.fa-solid.fa-filter
           | Bộ lọc
         .inner-item
-          select
+          select(admin-account-status-filter)
             option(value="") Trạng thái
-            option(value="") Hoạt động
-            option(value="") Tạm dừng
+            option(value="active") Hoạt động
+            option(value="inactive") Tạm dừng
         .inner-item.inner-date
-          input(type="date")
+          input(type="date" admin-account-start-date-filter)
           span -
-          input(type="date")
+          input(type="date" admin-account-end-date-filter)
         .inner-item
-          select
+          select(admin-account-role-filter)
             option(value="") Nhóm quyền
-            option(value="") Quản trị viên
-            option(value="") Quản lý tour
-            option(value="") Quản lý đơn hàng
-        .inner-item.inner-reset
+            each item in roleList 
+              option(value=item.id) #{item.name}
+        .inner-item.inner-reset(admin-account-delete-filter)
           i.fa-solid.fa-rotate-left
           | Xóa bộ lọc
     .section-5
