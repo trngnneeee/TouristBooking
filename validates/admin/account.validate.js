@@ -42,10 +42,9 @@ module.exports.registerPost = (req, res, next) => {
       })
   });
 
-  const {error} = schema.validate(req.body);
+  const { error } = schema.validate(req.body);
 
-  if (error)
-  {
+  if (error) {
     const errorMessage = error.details[0].message;
     res.json({
       code: "error",
@@ -91,10 +90,9 @@ module.exports.loginPost = (req, res, next) => {
     rememberPassword: Joi.boolean()
   });
 
-  const {error} = schema.validate(req.body);
+  const { error } = schema.validate(req.body);
 
-  if (error)
-  {
+  if (error) {
     const errorMessage = error.details[0].message;
     res.json({
       code: "error",
@@ -132,10 +130,66 @@ module.exports.resetPasswordPost = (req, res, next) => {
       })
   })
 
-  const {error} = schema.validate(req.body);
+  const { error } = schema.validate(req.body);
 
-  if (error)
-  {
+  if (error) {
+    const errorMessage = error.details[0].message;
+    res.json({
+      code: "error",
+      message: errorMessage
+    })
+    return;
+  }
+  next();
+}
+
+module.exports.forgotPasswordPost = (req, res, next) => {
+  const schema = Joi.object({
+    email: Joi.string()
+      .required()
+      .email()
+      .messages({
+        "string.empty": "Vui lòng nhập email!",
+        "string.email": "Email không đúng định dạng!"
+      }),
+  })
+
+  const { error } = schema.validate(req.body);
+
+  if (error) {
+    const errorMessage = error.details[0].message;
+    res.json({
+      code: "error",
+      message: errorMessage
+    })
+    return;
+  }
+  next();
+}
+
+module.exports.otpPasswordPost = (req, res, next) => {
+  const schema = Joi.object({
+    email: Joi.string()
+      .required()
+      .email()
+      .messages({
+        "string.empty": "Vui lòng nhập email!",
+        "string.email": "Email không đúng định dạng!"
+      }),
+    otp: Joi.string()
+      .required()
+      .min(6)
+      .max(6)
+      .messages({
+        "string.min": "OTP có độ dài tối thiểu 6 kí tự!",
+        "string.max": "OTP có độ dài tối đa 6 kí tự!",
+      }),
+    
+  })
+
+  const { error } = schema.validate(req.body);
+
+  if (error) {
     const errorMessage = error.details[0].message;
     res.json({
       code: "error",

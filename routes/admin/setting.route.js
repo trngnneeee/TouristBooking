@@ -25,6 +25,7 @@ router.get('/account-admin/list', settingController.accountAdminList);
 router.post(
   '/account-admin/create', 
   upload.single('avatar'),
+  settingValidate.accountAdminCreatePost,
   settingController.accountAdminCreatePost
 );
 router.get('/account-admin/create', settingController.accountAdminCreate);
@@ -34,6 +35,7 @@ router.get('/account-admin/edit/:id', settingController.accountAdminEdit);
 router.patch(
   '/account-admin/edit/:id',
   upload.single('avatar'),
+  settingValidate.accountAdminEditPatch,
   settingController.accountAdminEditPatch
 );
 
