@@ -85,8 +85,7 @@ block main
                     button.inner-delete
                       i.fa-regular.fa-trash-can
     .section-7
-      span.inner-label Hiển thị 1 - 9 của 78
-      select.inner-pagination
-        option Trang 1
-        option Trang 2
-        option Trang 3
+      span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + adminAccountList.length} của #{pagination.totalRecord}
+      select.inner-pagination(admin-account-pagination)
+        - for (let i = 1; i <= pagination.totalPage; i++)
+          option(value=i) Trang #{i}

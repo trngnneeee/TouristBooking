@@ -1326,6 +1326,25 @@ if (adminAccountSearch)
 }
 // End Admin Account Search
 
+// Admin Account Pagination
+const adminAccountPagination = document.querySelector("[admin-account-pagination]");
+if (adminAccountPagination)
+{
+  const url = new URL(window.location.href);
+  adminAccountPagination.addEventListener("change", () => {
+    const value = adminAccountPagination.value;
+    if (value)
+      url.searchParams.set("page", value);
+    else url.searchParams.delete("page");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("page"))
+    adminAccountPagination.value = url.searchParams.get("page");
+}
+// End Admin Account Pagination
+
 // Setting Account Admin Create Form
 const settingAccountAdminCreateForm = document.querySelector("#setting-account-admin-create-form");
 if (settingAccountAdminCreateForm) {

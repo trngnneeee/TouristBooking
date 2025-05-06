@@ -81,10 +81,35 @@ module.exports.accountAdminList = async (req, res) => {
     find.slug = searchRegex;
   }
 
+  const limitItem = 3;
+  const totalRecord = await AccountAdmin.countDocuments({
+    deleted: false
+  });
+  const totalPage = Math.ceil(totalRecord / limitItem);
+  let page = 1;
+  if (req.query.page)
+  {
+    const currentPage = parseInt(req.query.page);
+    if (currentPage > 0)
+      page = currentPage
+  }
+  if (page > totalPage && totalPage != 0)
+    page = totalPage
+  
+  const skip = (page - 1) * limitItem;
+
+  const pagination = {
+    totalRecord: totalRecord,
+    totalPage: totalPage,
+    skip: skip
+  }
+
   const adminAccountList = await AccountAdmin.find(find)
     .sort({
       createdAt: "desc"
-    });
+    })
+    .limit(limitItem)
+    .skip(skip);
 
   for (const item of adminAccountList) {
     if (item.role) {
@@ -102,7 +127,8 @@ module.exports.accountAdminList = async (req, res) => {
   res.render("admin/pages/setting-account-admin-list.pug", {
     pageTitle: "Tài khoản quản trị",
     adminAccountList: adminAccountList,
-    roleList: roleList
+    roleList: roleList,
+    pagination: pagination
   })
 }
 
