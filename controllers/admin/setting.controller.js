@@ -1,10 +1,10 @@
 const WebsiteInformation = require("../../models/website-info.model")
-const permissionList = require("../../config/permission-list.config");
 const Role = require("../../models/role.model");
+const AccountAdmin = require("../../models/account-admin.model");
+const permissionList = require("../../config/permission-list.config");
 const slugify = require('slugify');
 const bcrypt = require("bcryptjs");
 const moment = require("moment");
-const AccountAdmin = require("../../models/account-admin.model");
 
 module.exports.list = (req, res) => {
   res.render("admin/pages/setting-list.pug", {
@@ -69,6 +69,16 @@ module.exports.accountAdminList = async (req, res) => {
 
   if (req.query.role) {
     find.role = req.query.role;
+  }
+
+  if (req.query.search)
+  {
+    const search = slugify(req.query.search, {
+      lower: true,
+      locale: "vi"
+    });
+    const searchRegex = new RegExp(search);
+    find.slug = searchRegex;
   }
 
   const adminAccountList = await AccountAdmin.find(find)

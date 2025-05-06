@@ -1301,6 +1301,31 @@ if (adminAccountMultipleApply)
 }
 // End Admin Account Multiple Apply
 
+// Admin Account Search
+const adminAccountSearch = document.querySelector("[admin-account-search]");
+if (adminAccountSearch)
+{
+  const input = adminAccountSearch.querySelector("input");
+  const url = new URL(window.location.href);
+  input.addEventListener("keyup", (event) => {
+    if (event.code == "Enter")
+    {
+      const value = input.value;
+      if (value)
+        url.searchParams.set("search", value);
+      else url.searchParams.delete("search");
+
+      window.location.href = url.href;
+    }
+  })
+  if (url.searchParams.get("search"))
+  {
+    const input = adminAccountSearch.querySelector("input");
+    input.value = url.searchParams.get("search");
+  }
+}
+// End Admin Account Search
+
 // Setting Account Admin Create Form
 const settingAccountAdminCreateForm = document.querySelector("#setting-account-admin-create-form");
 if (settingAccountAdminCreateForm) {

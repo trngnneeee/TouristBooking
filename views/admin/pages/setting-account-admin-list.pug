@@ -36,7 +36,7 @@ block main
               option(value="delete") Xóa
           .inner-item
             button(admin-account-multi-apply-button) Áp dụng
-        .inner-search
+        .inner-search(admin-account-search)
           i.fa-solid.fa-magnifying-glass
           input(
             placeholder="Tìm kiếm" 
@@ -64,7 +64,7 @@ block main
               tr
                 td.inner-center
                   input.inner-check(type="checkbox" admin-account-checkall-item=item.id)
-                td #{item.name}
+                td #{item.fullName}
                 td.inner-center
                   img.inner-avatar(src=item.avatar)
                 td #{item.email}
