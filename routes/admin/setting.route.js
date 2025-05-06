@@ -20,6 +20,7 @@ router.patch(
   settingValidate.websiteInfoPatch,
   settingController.websiteInfoPatch
 );
+
 router.get('/account-admin/list', settingController.accountAdminList);
 
 router.post(
@@ -28,6 +29,7 @@ router.post(
   settingValidate.accountAdminCreatePost,
   settingController.accountAdminCreatePost
 );
+
 router.get('/account-admin/create', settingController.accountAdminCreate);
 
 router.get('/account-admin/edit/:id', settingController.accountAdminEdit);
@@ -38,6 +40,11 @@ router.patch(
   settingValidate.accountAdminEditPatch,
   settingController.accountAdminEditPatch
 );
+
+router.patch(
+  '/account-admin/multi-apply',
+  settingController.accountAdminMultiApply
+)
 
 router.get('/role/list', settingController.roleList);
 

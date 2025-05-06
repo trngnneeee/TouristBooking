@@ -29,13 +29,13 @@ block main
       .inner-wrap
         .inner-change-status
           .inner-item
-            select
+            select(admin-account-multi-apply-status)
               option(value="") -- Hành động --
-              option(value="") Hoạt động
-              option(value="") Dừng hoạt động
-              option(value="") Xóa
+              option(value="active") Hoạt động
+              option(value="inactive") Dừng hoạt động
+              option(value="delete") Xóa
           .inner-item
-            button Áp dụng
+            button(admin-account-multi-apply-button) Áp dụng
         .inner-search
           i.fa-solid.fa-magnifying-glass
           input(
@@ -50,7 +50,7 @@ block main
           thead
             tr
               th.inner-center
-                input.inner-check(type="checkbox")
+                input.inner-check(type="checkbox" admin-account-checkall)
               th Họ tên
               th.inner-center Ảnh đại diện
               th Email
@@ -63,7 +63,7 @@ block main
             each item in adminAccountList
               tr
                 td.inner-center
-                  input.inner-check(type="checkbox")
+                  input.inner-check(type="checkbox" admin-account-checkall-item=item.id)
                 td #{item.name}
                 td.inner-center
                   img.inner-avatar(src=item.avatar)

@@ -1167,8 +1167,7 @@ if (settingWebsiteInfoForm) {
 
 // Admin Account Status Filter
 const adminAccountStatusFilter = document.querySelector("[admin-account-status-filter]");
-if (adminAccountStatusFilter)
-{
+if (adminAccountStatusFilter) {
   const url = new URL(window.location.href);
   adminAccountStatusFilter.addEventListener("change", () => {
     const value = adminAccountStatusFilter.value;
@@ -1186,8 +1185,7 @@ if (adminAccountStatusFilter)
 
 // Admin Account Date Filter
 const adminAccountStartDateFilter = document.querySelector("[admin-account-start-date-filter]");
-if (adminAccountStartDateFilter)
-{
+if (adminAccountStartDateFilter) {
   const url = new URL(window.location.href);
   adminAccountStartDateFilter.addEventListener("change", () => {
     const value = adminAccountStartDateFilter.value;
@@ -1203,8 +1201,7 @@ if (adminAccountStartDateFilter)
 }
 
 const adminAccountEndDateFilter = document.querySelector("[admin-account-end-date-filter]");
-if (adminAccountEndDateFilter)
-{
+if (adminAccountEndDateFilter) {
   const url = new URL(window.location.href);
   adminAccountEndDateFilter.addEventListener("change", () => {
     const value = adminAccountEndDateFilter.value;
@@ -1222,8 +1219,7 @@ if (adminAccountEndDateFilter)
 
 // Admin Account Role Filter
 const adminAccountRoleFilter = document.querySelector("[admin-account-role-filter]");
-if (adminAccountRoleFilter)
-{
+if (adminAccountRoleFilter) {
   const url = new URL(window.location.href);
   adminAccountRoleFilter.addEventListener("change", () => {
     const value = adminAccountRoleFilter.value;
@@ -1241,8 +1237,7 @@ if (adminAccountRoleFilter)
 
 // Admin Account Delete Filter
 const adminAccountDeleteFilter = document.querySelector("[admin-account-delete-filter]");
-if (adminAccountDeleteFilter)
-{
+if (adminAccountDeleteFilter) {
   const url = new URL(window.location.href);
   adminAccountDeleteFilter.addEventListener("click", () => {
     url.search = "";
@@ -1250,6 +1245,61 @@ if (adminAccountDeleteFilter)
   })
 }
 // End Admin Account Delete Filter
+
+// Admin Account Check All
+const adminAccountCheckAll = document.querySelector("[admin-account-checkall]");
+if (adminAccountCheckAll) {
+  adminAccountCheckAll.addEventListener("click", () => {
+    const adminAccountCheckItem = document.querySelectorAll("[admin-account-checkall-item]");
+    for (const item of adminAccountCheckItem) {
+      item.checked = adminAccountCheckAll.checked;
+    }
+  })
+}
+// End Admin Account Check All
+
+// Admin Account Multiple Apply
+const adminAccountMultipleApply = document.querySelector("[admin-account-multi-apply-button]");
+if (adminAccountMultipleApply)
+{
+  adminAccountMultipleApply.addEventListener("click", () => {
+    const statusSelect = document.querySelector("[admin-account-multi-apply-status]");
+    const status = statusSelect.value;
+
+    const idList = [];
+    const itemList = document.querySelectorAll("[admin-account-checkall-item]:checked");
+    for (const item of itemList)
+    {
+      idList.push(item.getAttribute("admin-account-checkall-item"));
+    }
+
+    if (status && idList.length > 0)
+    {
+      const finalData = {
+        status: status,
+        idList: idList
+      };
+
+      fetch(`/${pathAdmin}/setting/account-admin/multi-apply`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    }
+    else
+    alert("Vui lòng chọn Tài khoản quản trị hoặc Trạng thái cần áp dụng!");
+  })
+}
+// End Admin Account Multiple Apply
 
 // Setting Account Admin Create Form
 const settingAccountAdminCreateForm = document.querySelector("#setting-account-admin-create-form");
@@ -1360,7 +1410,7 @@ if (settingAccountAdminCreateForm) {
             alert(data.message);
           if (data.code == "success")
             window.location.href = `/${pathAdmin}/setting/account-admin/list`;
-        }) 
+        })
 
     })
     ;
@@ -1451,7 +1501,7 @@ if (settingAccountAdminEditForm) {
             alert(data.message);
           if (data.code == "success")
             window.location.reload();
-        }) 
+        })
 
     })
     ;
@@ -1776,7 +1826,7 @@ if (profileChangePasswordForm) {
       const finalData = {
         password: password
       }
-      
+
       fetch(`/${pathAdmin}/profile/change-password`, {
         method: "PATCH",
         headers: {

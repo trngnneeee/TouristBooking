@@ -50,32 +50,27 @@ module.exports.accountAdminList = async (req, res) => {
     deleted: false
   };
 
-  if (req.query.status)
-  { 
+  if (req.query.status) {
     find.status = req.query.status;
   }
 
   const dateFilter = {};
-  if (req.query.startDate)
-  {
+  if (req.query.startDate) {
     const startDate = moment(req.query.startDate).startOf("date").toDate();
     dateFilter.$gte = startDate;
   }
-  if (req.query.endDate)
-  {
+  if (req.query.endDate) {
     const endDate = moment(req.query.endDate).startOf("date").toDate();
     dateFilter.$lte = endDate;
   }
-  if (Object.keys(dateFilter).length >= 1)
-  {
+  if (Object.keys(dateFilter).length >= 1) {
     find.createdAt = dateFilter;
   }
 
-  if (req.query.role)
-  {
+  if (req.query.role) {
     find.role = req.query.role;
   }
-  
+
   const adminAccountList = await AccountAdmin.find(find)
     .sort({
       createdAt: "desc"
@@ -149,8 +144,7 @@ module.exports.accountAdminEdit = async (req, res) => {
       _id: id
     })
 
-    if (detailAccount.role)
-    {
+    if (detailAccount.role) {
       const roleInfo = await Role.findOne({
         _id: detailAccount.role
       })
@@ -173,18 +167,16 @@ module.exports.accountAdminEdit = async (req, res) => {
 }
 
 module.exports.accountAdminEditPatch = async (req, res) => {
-  try
-  {
+  try {
     const id = req.params.id;
-    
+
     req.body.updatedBy = req.account.id;
-    if(req.file)
+    if (req.file)
       req.body.avatar = req.file.path;
     else
       delete req.body.avatar;
 
-    if (req.body.password)
-    {
+    if (req.body.password) {
       const salt = bcrypt.genSaltSync(10);
       req.body.password = bcrypt.hashSync(req.body.password, salt);
     }
@@ -200,9 +192,45 @@ module.exports.accountAdminEditPatch = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.redirect(`/${pathAdmin}/setting/account-admin/list`);
+  }
+}
+
+module.exports.accountAdminMultiApply = async (req, res) => {
+  const { status, idList } = req.body;
+
+  switch (status) {
+    case "active": case "inactive":
+      {
+        await AccountAdmin.updateMany({
+          _id: { $in: idList }
+        }, {
+          status: status,
+          updatedAt: Date.now(),
+          updatedBy: req.account.id
+        })
+        req.flash("success", "Áp dụng thành công!");
+        res.json({
+          code: "success"
+        })
+        break;
+      }
+    case "delete":
+      {
+        await AccountAdmin.updateMany({
+          _id: { $in: idList }
+        }, {
+          deleted: true,
+          deletedAt: Date.now(),
+          deletedBy: req.account.id
+        })
+        req.flash("success", "Xóa thành công!");
+        res.json({
+          code: "success"
+        })
+        break;
+      }
   }
 }
 
