@@ -1,98 +1,102 @@
 extends ../layouts/default.pug
 
 block main 
-  main.main
-    h1.box-title Quản lý danh mục
-    .section-4
-      .inner-wrap
-        .inner-item.inner-label
-          i.fa-solid.fa-filter
-          | Bộ lọc
-        .inner-item
-          select.status-filter
-            option(value="") Trạng thái
-            option(value="active") Hoạt động
-            option(value="inactive") Tạm dừng
-        .inner-item
-          select.create-by-filter
-            option(value="") Người tạo
-            each item in accountAdminList
-              option(value=item.id) #{item.fullName}
-        .inner-item.inner-date
-          input(type="date" class="start-date-filter")
-          span -
-          input(type="date" class="end-date-filter")
-        .inner-item.inner-reset(class="filter-delete")
-          i.fa-solid.fa-rotate-left
-          | Xóa bộ lọc
-    .section-5
-      .inner-wrap
-        .inner-change-status(
-          change-multi-status
-          data-api = `/${pathAdmin}/category/change-multi-status`
-        )
+  - if (permissions.includes("category-view"))
+    main.main
+      h1.box-title Quản lý danh mục
+      .section-4
+        .inner-wrap
+          .inner-item.inner-label
+            i.fa-solid.fa-filter
+            | Bộ lọc
           .inner-item
-            select
-              option(value="") -- Hành động --
+            select.status-filter
+              option(value="") Trạng thái
               option(value="active") Hoạt động
-              option(value="inactive") Dừng hoạt động
-              option(value="delete") Xóa
+              option(value="inactive") Tạm dừng
           .inner-item
-            button Áp dụng
-        .inner-search
-          i.fa-solid.fa-magnifying-glass
-          input(
-            placeholder="Tìm kiếm" 
-            type="text"
-            search
-            )
-        .inner-button-create
-          a(href=`/${pathAdmin}/category/create`) + Tạo mới
-    .section-6
-      .table-2
-        table
-          thead
-            tr
-              th.inner-center
-                input.inner-check(type="checkbox" class="check-all-button")
-              th Tên danh mục
-              th Ảnh đại diện
-              th.inner-center Vị trí
-              th.inner-center Trạng thái
-              th Tạo bởi
-              th Cập nhật bởi
-              th Hành động
-          tbody
-            each item in categoryList
+            select.create-by-filter
+              option(value="") Người tạo
+              each item in accountAdminList
+                option(value=item.id) #{item.fullName}
+          .inner-item.inner-date
+            input(type="date" class="start-date-filter")
+            span -
+            input(type="date" class="end-date-filter")
+          .inner-item.inner-reset(class="filter-delete")
+            i.fa-solid.fa-rotate-left
+            | Xóa bộ lọc
+      .section-5
+        .inner-wrap
+          .inner-change-status(
+            change-multi-status
+            data-api = `/${pathAdmin}/category/change-multi-status`
+          )
+            .inner-item
+              select
+                option(value="") -- Hành động --
+                option(value="active") Hoạt động
+                option(value="inactive") Dừng hoạt động
+                option(value="delete") Xóa
+            .inner-item
+              button Áp dụng
+          .inner-search
+            i.fa-solid.fa-magnifying-glass
+            input(
+              placeholder="Tìm kiếm" 
+              type="text"
+              search
+              )
+          - if (permissions.includes("category-create"))
+            .inner-button-create
+              a(href=`/${pathAdmin}/category/create`) + Tạo mới
+      .section-6
+        .table-2
+          table
+            thead
               tr
-                td.inner-center
-                  input.inner-check(type="checkbox" check-item=item.id)
-                td #{item.name}
-                td
-                  img.inner-avatar(src=item.avatar)
-                td.inner-center #{item.position}
-                td.inner-center
-                  if (item.status == "active")
-                    .badge.badge-green Hoạt động
-                  else if (item.status == "inactive")
-                    .badge.badge-red Tạm dừng
-                td
-                  div #{item.createdByFullName}
-                  .inner-time #{item.createdAtFormat}
-                td
-                  div #{item.updatedByFullName}
-                  .inner-time #{item.updatedAtFormat}
-                td
-                  .inner-buttons
-                    a(href=`/${pathAdmin}/category/edit/${item._id}`).inner-edit
-                      i.fa-regular.fa-pen-to-square
-                    button(
-                      button-delete
-                      data-api=`/${pathAdmin}/category/delete/${item.id}`
-                    ).inner-delete
-                      i.fa-regular.fa-trash-can
-    .section-7
-      span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + categoryList.length} của #{pagination.totalRecord}
-      select.inner-pagination(pagination)
-        - for (let i = 1; i <= pagination.totalPage; i++)
-          option(value=i) Trang #{i}
+                th.inner-center
+                  input.inner-check(type="checkbox" class="check-all-button")
+                th Tên danh mục
+                th Ảnh đại diện
+                th.inner-center Vị trí
+                th.inner-center Trạng thái
+                th Tạo bởi
+                th Cập nhật bởi
+                th Hành động
+            tbody
+              each item in categoryList
+                tr
+                  td.inner-center
+                    input.inner-check(type="checkbox" check-item=item.id)
+                  td #{item.name}
+                  td
+                    img.inner-avatar(src=item.avatar)
+                  td.inner-center #{item.position}
+                  td.inner-center
+                    if (item.status == "active")
+                      .badge.badge-green Hoạt động
+                    else if (item.status == "inactive")
+                      .badge.badge-red Tạm dừng
+                  td
+                    div #{item.createdByFullName}
+                    .inner-time #{item.createdAtFormat}
+                  td
+                    div #{item.updatedByFullName}
+                    .inner-time #{item.updatedAtFormat}
+                  td
+                    .inner-buttons
+                      - if (permissions.includes("category-edit"))
+                        a(href=`/${pathAdmin}/category/edit/${item._id}`).inner-edit
+                          i.fa-regular.fa-pen-to-square
+                      - if (permissions.includes("category-delete"))
+                        button(
+                          button-delete
+                          data-api=`/${pathAdmin}/category/delete/${item.id}`
+                        ).inner-delete
+                          i.fa-regular.fa-trash-can
+      .section-7
+        span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + categoryList.length} của #{pagination.totalRecord}
+        select.inner-pagination(pagination)
+          - for (let i = 1; i <= pagination.totalPage; i++)
+            option(value=i) Trang #{i}

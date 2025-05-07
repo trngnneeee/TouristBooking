@@ -122,6 +122,15 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+  if (!req.permissions.include("category-create"))
+  {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+  
   if (req.body.position) {
     req.body.position = parseInt(req.body.position);
   }
@@ -176,6 +185,15 @@ module.exports.edit = async (req, res) => {
 }
 
 module.exports.editPatch = async (req, res) => {
+  if (!req.permissions.include("category-edit"))
+    {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+  
   try {
     const id = req.params.id;
 
@@ -216,6 +234,15 @@ module.exports.editPatch = async (req, res) => {
 }
 
 module.exports.delete = async (req, res) => {
+  if (!req.permissions.include("category-delete"))
+    {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+  
   try {
     const id = req.params.id;
 
@@ -248,6 +275,15 @@ module.exports.changeMulti = async (req, res) => {
     {
       case "delete":
       {
+        if (!req.permissions.include("category-delete"))
+          {
+            res.json({
+              code: "error",
+              message: "Không có quyền sử dụng tính năng này!"
+            })
+            return;
+          }
+        
         await Category.updateMany({
           _id: { $in: idList }
         }, {
@@ -260,6 +296,15 @@ module.exports.changeMulti = async (req, res) => {
       }
       case "active" : case "inactive" :
       {
+        if (!req.permissions.include("category-edit"))
+          {
+            res.json({
+              code: "error",
+              message: "Không có quyền sử dụng tính năng này!"
+            })
+            return;
+          }
+        
         await Category.updateMany({
           _id: { $in: idList }
         }, {

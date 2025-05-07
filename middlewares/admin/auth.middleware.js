@@ -31,9 +31,9 @@ module.exports.verifyToken = async (req, res, next) => {
       res.redirect(`/${pathAdmin}/account/login`);
       return;
     }
-    
-    req.account = existAccount;
-    res.locals.account = existAccount; // Các file PUG sẽ lấy được các giá trị này
+
+    // Biến dùng bên FE
+    res.locals.account = existAccount; 
 
     if (existAccount.role != "")
     {
@@ -41,7 +41,12 @@ module.exports.verifyToken = async (req, res, next) => {
         _id: existAccount.role
       })
       res.locals.account.roleInfo = roleInfo.name;
+      res.locals.permissions = roleInfo.permissions;
     }
+
+    // Biến dùng bên BE
+    req.account = existAccount;
+    req.permissions = roleInfo.permissions;
 
     next();
   } 

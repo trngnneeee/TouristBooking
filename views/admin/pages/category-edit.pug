@@ -2,57 +2,58 @@ extends ../layouts/default.pug
 include ../mixins/options.pug
 
 block main 
-  main.main
-    h1.box-title Chỉnh sửa danh mục
-    .section-8
-      form#category-edit-form
-        .inner-group(style="display: none;")
-          label.inner-label(for="id") Id
-          input#id(
-            name="id" 
-            type="text"
-            value=categoryDetail.id
-            )
-        .inner-group
-          label.inner-label(for="name") Tên danh mục
-          input#name(
-            name="name" 
-            type="text"
-            value=categoryDetail.name
-            )
-        .inner-group
-          label.inner-label(for="parent") Danh mục cha
-          select#parent(name="parent")
-            option(value="") -- Chọn danh mục --
-            +options(categoryList, 0, categoryDetail.parent)
-        .inner-group
-          label.inner-label(for="position") Vị trí
-          input#position(
-            name="position" 
-            type="number"
-            value=categoryDetail.position
-            )
-        .inner-group
-          label.inner-label(for="status") Trạng thái
-          select#status(name="status")
-            option(value="active") Hoạt động
-            option(value="inactive") Dừng hoạt động
-        .inner-group.inner-two-col
-          label.inner-label(for="avatar") Ảnh đại diện
-          .inner-upload-image(image-default=categoryDetail.avatar)
-            input#avatar(
-              name="avatar" 
-              filepond-image="" 
-              accept="image/*" 
-              type="file"
+  - if (permissions.includes("category-edit"))
+    main.main
+      h1.box-title Chỉnh sửa danh mục
+      .section-8
+        form#category-edit-form
+          .inner-group(style="display: none;")
+            label.inner-label(for="id") Id
+            input#id(
+              name="id" 
+              type="text"
+              value=categoryDetail.id
               )
-        .inner-group.inner-two-col
-          label.inner-label(for="description") Mô tả
-          textarea#description(
-            name="description" 
-            textarea-mce=""
-          )=categoryDetail.description
-        .inner-button.inner-two-col
-          button Cập nhật
-      .inner-back
-        a(href=`/${pathAdmin}/category/list`) Quay lại danh sách
+          .inner-group
+            label.inner-label(for="name") Tên danh mục
+            input#name(
+              name="name" 
+              type="text"
+              value=categoryDetail.name
+              )
+          .inner-group
+            label.inner-label(for="parent") Danh mục cha
+            select#parent(name="parent")
+              option(value="") -- Chọn danh mục --
+              +options(categoryList, 0, categoryDetail.parent)
+          .inner-group
+            label.inner-label(for="position") Vị trí
+            input#position(
+              name="position" 
+              type="number"
+              value=categoryDetail.position
+              )
+          .inner-group
+            label.inner-label(for="status") Trạng thái
+            select#status(name="status")
+              option(value="active") Hoạt động
+              option(value="inactive") Dừng hoạt động
+          .inner-group.inner-two-col
+            label.inner-label(for="avatar") Ảnh đại diện
+            .inner-upload-image(image-default=categoryDetail.avatar)
+              input#avatar(
+                name="avatar" 
+                filepond-image="" 
+                accept="image/*" 
+                type="file"
+                )
+          .inner-group.inner-two-col
+            label.inner-label(for="description") Mô tả
+            textarea#description(
+              name="description" 
+              textarea-mce=""
+            )=categoryDetail.description
+          .inner-button.inner-two-col
+            button Cập nhật
+        .inner-back
+          a(href=`/${pathAdmin}/category/list`) Quay lại danh sách
