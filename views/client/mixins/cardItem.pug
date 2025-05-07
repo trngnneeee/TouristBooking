@@ -1,32 +1,34 @@
 mixin cardItem(item)
+  - const discount = parseInt((item.priceAdult - item.priceNewAdult) / item.priceAdult * 100);
+  
   // Product Item
   .product-item
     .inner-image
-      a(href=item.slug)
+      a(href=`/tours/detail/${item.slug}`)
         img(
-          alt="" 
+          alt=item.name
           src=item.avatar
           )
     .inner-discount
       i.fa-solid.fa-bolt
-      | Giảm -#{item.discount}%
+      | Giảm -#{discount}%
     .inner-content
       h3.inner-title
-        a(href=item.slug) #{item.name}
+        a(href=`/tours/detail/${item.slug}`) #{item.name}
       .inner-prices
         .inner-price-old
-          | #{item.priceOld.toLocaleString()}
+          | #{parseInt(item.priceAdult).toLocaleString()}
           span.inner-unit đ
         .inner-price-new
-          | #{item.priceNew.toLocaleString()}
+          | #{parseInt(item.priceNewAdult).toLocaleString()}
           span.inner-unit đ
       .inner-desc
         .inner-desc-item
           | Mã Tour:
-          b #{item.code}
+          b TOUR000#{item.position}
         .inner-desc-item
           | Ngày Khởi Hành:
-          b #{item.departureDate}
+          b #{item.departureDateFormat}
         .inner-desc-item
           | Thời Gian:
           b #{item.time}
@@ -38,8 +40,8 @@ mixin cardItem(item)
             i.fa-solid.fa-star
             i.fa-solid.fa-star
             i.fa-solid.fa-star
-          .inner-number (#{item.ratingStars})
+          .inner-number (5)
         .inner-stock
           .inner-label Số chỗ còn:
-          .inner-number #{item.stock}
+          .inner-number #{item.stockAdult}
   // End Product Item
