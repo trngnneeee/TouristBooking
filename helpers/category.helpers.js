@@ -8,6 +8,7 @@ const buildCategoryTree = (categoryList, parentId = "") => { // Dùng để gọ
       tree.push({
         id: item.id,
         name: item.name,
+        slug: item.slug,
         children: children
       })
     }
