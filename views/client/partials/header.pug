@@ -4,13 +4,13 @@
     .inner-wrap
       .inner-item
         i.fa-solid.fa-phone
-        | 0123.456.789
+        | #{websiteInfo.phone}
       .inner-item
         i.fa-solid.fa-envelope
-        | contact@28travel.com
+        | #{websiteInfo.email}
       .inner-item
         i.fa-solid.fa-building
-        | Số 123, đường ABC, thành phố XYZ
+        | #{websiteInfo.address}
 // End Top Header
 // Header
 header.header
@@ -24,7 +24,7 @@ header.header
         a(href="index.html")
           img(
             alt="28.TRAVEL" 
-            src="/client/assets/images/logo.png"
+            src=websiteInfo.logo
             )
       // Menu
       nav.inner-menu

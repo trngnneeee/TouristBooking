@@ -42,11 +42,11 @@ module.exports.verifyToken = async (req, res, next) => {
       })
       res.locals.account.roleInfo = roleInfo.name;
       res.locals.permissions = roleInfo.permissions;
+      req.permissions = roleInfo.permissions;
     }
 
     // Biến dùng bên BE
     req.account = existAccount;
-    req.permissions = roleInfo.permissions;
 
     next();
   } 
