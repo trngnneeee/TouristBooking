@@ -35,9 +35,12 @@ block main
             .inner-item
               select
                 option(value="") -- Hành động --
-                option(value="active") Hoạt động
-                option(value="inactive") Dừng hoạt động
-                option(value="delete") Xóa
+                - if (permissions.includes("category-edit"))
+                  option(value="active") Hoạt động
+                - if (permissions.includes("category-edit"))
+                  option(value="inactive") Dừng hoạt động
+                - if (permissions.includes("category-delete"))
+                  option(value="delete") Xóa
             .inner-item
               button Áp dụng
           .inner-search

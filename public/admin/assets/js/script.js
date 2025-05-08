@@ -1644,7 +1644,7 @@ if (settingRoleEditForm) {
           if (data.code == "error")
             alert(data.message);
           if (data.code == "success")
-            window.location.href = `/${pathAdmin}/setting/role/list`;
+            window.location.reload();
         })
     })
     ;

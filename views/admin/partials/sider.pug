@@ -30,10 +30,11 @@ nav.sider
         | Thông tin liên hệ
   hr
   ul.inner-menu
-    li
-      a(href=`/${pathAdmin}/setting/list`)
-        i.fa-solid.fa-gear
-        | Cài đặt chung
+    - if (permissions.includes("setting"))
+      li
+        a(href=`/${pathAdmin}/setting/list`)
+          i.fa-solid.fa-gear
+          | Cài đặt chung
     li
       a(href=`/${pathAdmin}/profile/edit`)
         i.fa-solid.fa-user-gear

@@ -1,121 +1,129 @@
 extends ../layouts/default.pug 
 include ../mixins/options.pug
 
-block main 
-  main.main
-    h1.box-title Quản lý tour
-    .section-4
-      .inner-wrap
-        .inner-item.inner-label
-          i.fa-solid.fa-filter
-          | Bộ lọc
-        .inner-item
-          select(class="tour-status-filter")
-            option(value="") Trạng thái
-            option(value="active") Hoạt động
-            option(value="inactive") Tạm dừng
-        .inner-item
-          select(class="tour-create-status" style={width: "150px"})
-            option(value="") Người tạo
-            each item in accountAdmin
-              option(value=item.id) #{item.fullName}
-        .inner-item.inner-date
-          input(type="date" class="tour-start-date-filter")
-          span -
-          input(type="date" class="tour-end-date-filter")
-        .inner-item
-          select(class="category-filter")
-            option(value="") Danh mục
-            +options(categoryList, 0)
-        .inner-item
-          select(class="tour-price-filter")
-            option(value="") Mức giá
-            option(value="[-1,2000000]") Dưới 2tr
-            option(value="[2000000,4000000]") 2tr đến 4tr
-            option(value="[4000000,8000000]") 4tr đến 8tr
-            option(value="[8000000,-1]") Trên 8tr
-        .inner-item.inner-reset(class="tour-remove-filter")
-          i.fa-solid.fa-rotate-left
-          | Xóa bộ lọc
-    .section-5
-      .inner-wrap
-        .inner-change-status
+block main
+  - if (permissions.includes("category-view"))
+    main.main
+      h1.box-title Quản lý tour
+      .section-4
+        .inner-wrap
+          .inner-item.inner-label
+            i.fa-solid.fa-filter
+            | Bộ lọc
           .inner-item
-            select(class="tour-apply-multi" data-api=`/${pathAdmin}/tour/apply-multi`)
-              option(value="") -- Hành động --
+            select(class="tour-status-filter")
+              option(value="") Trạng thái
               option(value="active") Hoạt động
               option(value="inactive") Tạm dừng
-              option(value="delete") Xóa
-          .inner-item(class="tour-apply-button")
-            button Áp dụng
-        .inner-search(class="tour-search")
-          i.fa-solid.fa-magnifying-glass
-          input(
-            placeholder="Tìm kiếm" 
-            type="text"
-            )
-        .inner-button-create
-          a(href=`/${pathAdmin}/tour/create`) + Tạo mới
-        .inner-button-trash
-          a(href=`/${pathAdmin}/tour/trash`) Thùng rác
-    .section-6
-      .table-2
-        table
-          thead
-            tr
-              th.inner-center
-                input.inner-check(type="checkbox" class="tour-check-all")
-              th Tên tour
-              th Ảnh đại diện
-              th Giá
-              th Còn lại
-              th.inner-center Vị trí
-              th.inner-center Trạng thái
-              th Tạo bởi
-              th Cập nhật bởi
-              th Hành động
-          tbody
-            each item in tourList
+          .inner-item
+            select(class="tour-create-status" style={width: "150px"})
+              option(value="") Người tạo
+              each item in accountAdmin
+                option(value=item.id) #{item.fullName}
+          .inner-item.inner-date
+            input(type="date" class="tour-start-date-filter")
+            span -
+            input(type="date" class="tour-end-date-filter")
+          .inner-item
+            select(class="category-filter")
+              option(value="") Danh mục
+              +options(categoryList, 0)
+          .inner-item
+            select(class="tour-price-filter")
+              option(value="") Mức giá
+              option(value="[-1,2000000]") Dưới 2tr
+              option(value="[2000000,4000000]") 2tr đến 4tr
+              option(value="[4000000,8000000]") 4tr đến 8tr
+              option(value="[8000000,-1]") Trên 8tr
+          .inner-item.inner-reset(class="tour-remove-filter")
+            i.fa-solid.fa-rotate-left
+            | Xóa bộ lọc
+      .section-5
+        .inner-wrap
+          .inner-change-status
+            .inner-item
+              select(class="tour-apply-multi" data-api=`/${pathAdmin}/tour/apply-multi`)
+                option(value="") -- Hành động --
+                - if (permissions.includes("tour-edit"))
+                  option(value="active") Hoạt động
+                - if (permissions.includes("tour-edit"))
+                  option(value="inactive") Tạm dừng
+                - if (permissions.includes("tour-delete"))
+                  option(value="delete") Xóa
+            .inner-item(class="tour-apply-button")
+              button Áp dụng
+          .inner-search(class="tour-search")
+            i.fa-solid.fa-magnifying-glass
+            input(
+              placeholder="Tìm kiếm" 
+              type="text"
+              )
+          - if (permissions.includes("tour-create"))
+            .inner-button-create
+              a(href=`/${pathAdmin}/tour/create`) + Tạo mới
+          - if (permissions.includes("tour-trash"))
+            .inner-button-trash
+              a(href=`/${pathAdmin}/tour/trash`) Thùng rác
+      .section-6
+        .table-2
+          table
+            thead
               tr
-                td.inner-center
-                  input.inner-check(type="checkbox" item-checked=item.id)
-                td #{item.name}
-                td
-                  img.inner-avatar(src=item.avatar)
-                td
-                  div NL: #{item.priceAdultFormat}đ
-                  div TE: #{item.priceChildrenFormat}đ
-                  div EB: #{item.priceBabyFormat}đ
-                td
-                  div NL: #{item.stockAdult}
-                  div TE: #{item.stockChildren}
-                  div EB: #{item.stockBaby}
-                td.inner-center 1
-                td.inner-center
-                  - if(item.status == "active")
-                    .badge.badge-green Hoạt động
-                  - else  
-                    .badge.badge-red Tạm dừng
-                td
-                  div #{item.createdByFullName}
-                  .inner-time #{item.createdAtFormat}
-                td
-                  div #{item.updatedByFullName}
-                  .inner-time #{item.updatedAtFormat}
-                td
-                  .inner-buttons
-                    button.inner-edit(
-                      data-api=`/${pathAdmin}/tour/edit/${item.id}`
-                      tour-edit-button
-                    )
-                      i.fa-regular.fa-pen-to-square
-                    button.inner-delete(
-                      data-api=`/${pathAdmin}/tour/delete/${item.id}`
-                      tour-delete-button
-                    )
-                      i.fa-regular.fa-trash-can
-    .section-7
-      span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + tourList.length} của #{pagination.totalRecord}
-      select.inner-pagination(class="tour-pagination")
-        - for (let i = 1; i <= pagination.totalPage; i++)
-          option(value=i) Trang #{i}
+                th.inner-center
+                  input.inner-check(type="checkbox" class="tour-check-all")
+                th Tên tour
+                th Ảnh đại diện
+                th Giá
+                th Còn lại
+                th.inner-center Vị trí
+                th.inner-center Trạng thái
+                th Tạo bởi
+                th Cập nhật bởi
+                th Hành động
+            tbody
+              each item in tourList
+                tr
+                  td.inner-center
+                    input.inner-check(type="checkbox" item-checked=item.id)
+                  td #{item.name}
+                  td
+                    img.inner-avatar(src=item.avatar)
+                  td
+                    div NL: #{item.priceAdultFormat}đ
+                    div TE: #{item.priceChildrenFormat}đ
+                    div EB: #{item.priceBabyFormat}đ
+                  td
+                    div NL: #{item.stockAdult}
+                    div TE: #{item.stockChildren}
+                    div EB: #{item.stockBaby}
+                  td.inner-center 1
+                  td.inner-center
+                    - if(item.status == "active")
+                      .badge.badge-green Hoạt động
+                    - else  
+                      .badge.badge-red Tạm dừng
+                  td
+                    div #{item.createdByFullName}
+                    .inner-time #{item.createdAtFormat}
+                  td
+                    div #{item.updatedByFullName}
+                    .inner-time #{item.updatedAtFormat}
+                  td
+                    .inner-buttons
+                      - if (permissions.includes("tour-edit"))
+                        button.inner-edit(
+                          data-api=`/${pathAdmin}/tour/edit/${item.id}`
+                          tour-edit-button
+                        )
+                          i.fa-regular.fa-pen-to-square
+                      - if (permissions.includes("tour-delete"))
+                        button.inner-delete(
+                          data-api=`/${pathAdmin}/tour/delete/${item.id}`
+                          tour-delete-button
+                        )
+                          i.fa-regular.fa-trash-can
+      .section-7
+        span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + tourList.length} của #{pagination.totalRecord}
+        select.inner-pagination(class="tour-pagination")
+          - for (let i = 1; i <= pagination.totalPage; i++)
+            option(value=i) Trang #{i}

@@ -20,10 +20,6 @@ module.exports.permissionList = [
     value: "category-delete"
   },
   {
-    label: "Thùng rác danh mục",
-    value: "category-trash"
-  },
-  {
     label: "Xem tour",
     value: "tour-view"
   },
@@ -48,10 +44,6 @@ module.exports.permissionList = [
     value: "order-view"
   },
   {
-    label: "Tạo đơn hàng",
-    value: "order-create"
-  },
-  {
     label: "Sửa đơn hàng",
     value: "order-edit"
   },
@@ -60,7 +52,19 @@ module.exports.permissionList = [
     value: "order-delete"
   },
   {
-    label: "Thùng rác đơn hàng",
-    value: "order-trash"
+    label: "Cài đặt chung",
+    value: "setting-view"
+  },
+  {
+    label: "Cài đặt thông tin website",
+    value: "setting-website-info"
+  },
+  {
+    label: "Quản lý tài khoản quản trị",
+    value: "setting-admin-account"
+  },
+  {
+    label: "Cài đặt nhóm quyền",
+    value: "setting-role"
   },
 ];

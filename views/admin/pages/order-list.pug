@@ -1,109 +1,112 @@
 extends ../layouts/default.pug 
 
 block main 
-  main.main
-    h1.box-title Quản lý đơn hàng
-    .section-4
-      .inner-wrap
-        .inner-item.inner-label
-          i.fa-solid.fa-filter
-          | Bộ lọc
-        .inner-item
-          select
-            option(value="") Trạng thái
-            option(value="") Khởi tạo
-            option(value="") Hoàn thành
-            option(value="") Hủy
-        .inner-item.inner-date
-          input(type="date")
-          span -
-          input(type="date")
-        .inner-item
-          select
-            option(value="") Phương thức thanh toán
-            option(value="") Ví Momo
-            option(value="") VNPay
-            option(value="") ZaloPay
-        .inner-item
-          select
-            option(value="") Trạng thái thanh toán
-            option(value="") Đã thanh toán
-            option(value="") Chưa thanh toán
-        .inner-item.inner-reset
-          i.fa-solid.fa-rotate-left
-          | Xóa bộ lọc
-    .section-5
-      .inner-wrap
-        .inner-search
-          i.fa-solid.fa-magnifying-glass
-          input(
-            placeholder="Tìm kiếm" 
-            type="text"
-            )
-    .section-6
-      .table-2
-        table
-          thead
-            tr
-              th Mã
-              th Thông tin khách
-              th Danh sách tour
-              th Thanh toán
-              th Trạng thái
-              th.inner-center Ngày đặt
-              th Hành động
-          tbody
-            tr
-              td
-                .inner-code OD000001
-              td
-                div Họ tên: Lê Văn A
-                div SĐT: 0123456789
-                div Ghi chú: Test...
-              td
-                .inner-item
-                  .inner-image
-                    img(
-                      alt="Tour Hạ Long" 
-                      src="/admin/assets/images/tour-1.jpg"
-                      )
-                  .inner-content
-                    .inner-name Tour Hạ Long
-                    .inner-quantity Người lớn: 3 x 1.500.000đ
-                    .inner-quantity Trẻ em: 2 x 1.300.000đ
-                    .inner-quantity Em bé: 2 x 1.000.000đ
-                .inner-item
-                  .inner-image
-                    img(
-                      alt="Tour Hạ Long" 
-                      src="/admin/assets/images/tour-1.jpg"
-                      )
-                  .inner-content
-                    .inner-name Tour Hạ Long
-                    .inner-quantity Người lớn: 3 x 1.500.000đ
-                    .inner-quantity Trẻ em: 2 x 1.300.000đ
-                    .inner-quantity Em bé: 2 x 1.000.000đ
-              td
-                div Tổng tiền: 10.000.000đ
-                div Giảm: 400.000đ
-                div Mã giảm: TOURMUAHE2024
-                div Thanh toán: 9.600.000đ
-                div PTTT: Ví Momo
-                div TTTT: Đã thanh toán
-              td
-                .badge.badge-orange Khởi tạo
-              td.inner-center
-                div 16:20
-                div 01/01/2024
-              td
-                .inner-buttons
-                  a(href=`/${pathAdmin}/order/edit`).inner-edit
-                    i.fa-regular.fa-pen-to-square
-                  button.inner-delete
-                    i.fa-regular.fa-trash-can
-    .section-7
-      span.inner-label Hiển thị 1 - 9 của 78
-      select.inner-pagination
-        option Trang 1
-        option Trang 2
-        option Trang 3
+  - if (permissions.includes("order-view"))
+    main.main
+      h1.box-title Quản lý đơn hàng
+      .section-4
+        .inner-wrap
+          .inner-item.inner-label
+            i.fa-solid.fa-filter
+            | Bộ lọc
+          .inner-item
+            select
+              option(value="") Trạng thái
+              option(value="") Khởi tạo
+              option(value="") Hoàn thành
+              option(value="") Hủy
+          .inner-item.inner-date
+            input(type="date")
+            span -
+            input(type="date")
+          .inner-item
+            select
+              option(value="") Phương thức thanh toán
+              option(value="") Ví Momo
+              option(value="") VNPay
+              option(value="") ZaloPay
+          .inner-item
+            select
+              option(value="") Trạng thái thanh toán
+              option(value="") Đã thanh toán
+              option(value="") Chưa thanh toán
+          .inner-item.inner-reset
+            i.fa-solid.fa-rotate-left
+            | Xóa bộ lọc
+      .section-5
+        .inner-wrap
+          .inner-search
+            i.fa-solid.fa-magnifying-glass
+            input(
+              placeholder="Tìm kiếm" 
+              type="text"
+              )
+      .section-6
+        .table-2
+          table
+            thead
+              tr
+                th Mã
+                th Thông tin khách
+                th Danh sách tour
+                th Thanh toán
+                th Trạng thái
+                th.inner-center Ngày đặt
+                th Hành động
+            tbody
+              tr
+                td
+                  .inner-code OD000001
+                td
+                  div Họ tên: Lê Văn A
+                  div SĐT: 0123456789
+                  div Ghi chú: Test...
+                td
+                  .inner-item
+                    .inner-image
+                      img(
+                        alt="Tour Hạ Long" 
+                        src="/admin/assets/images/tour-1.jpg"
+                        )
+                    .inner-content
+                      .inner-name Tour Hạ Long
+                      .inner-quantity Người lớn: 3 x 1.500.000đ
+                      .inner-quantity Trẻ em: 2 x 1.300.000đ
+                      .inner-quantity Em bé: 2 x 1.000.000đ
+                  .inner-item
+                    .inner-image
+                      img(
+                        alt="Tour Hạ Long" 
+                        src="/admin/assets/images/tour-1.jpg"
+                        )
+                    .inner-content
+                      .inner-name Tour Hạ Long
+                      .inner-quantity Người lớn: 3 x 1.500.000đ
+                      .inner-quantity Trẻ em: 2 x 1.300.000đ
+                      .inner-quantity Em bé: 2 x 1.000.000đ
+                td
+                  div Tổng tiền: 10.000.000đ
+                  div Giảm: 400.000đ
+                  div Mã giảm: TOURMUAHE2024
+                  div Thanh toán: 9.600.000đ
+                  div PTTT: Ví Momo
+                  div TTTT: Đã thanh toán
+                td
+                  .badge.badge-orange Khởi tạo
+                td.inner-center
+                  div 16:20
+                  div 01/01/2024
+                td
+                  .inner-buttons
+                    - if (permissions.includes("order-edit"))
+                      a(href=`/${pathAdmin}/order/edit`).inner-edit
+                        i.fa-regular.fa-pen-to-square
+                    - if (permissions.includes("order-delete"))
+                      button.inner-delete
+                        i.fa-regular.fa-trash-can
+      .section-7
+        span.inner-label Hiển thị 1 - 9 của 78
+        select.inner-pagination
+          option Trang 1
+          option Trang 2
+          option Trang 3

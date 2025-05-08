@@ -38,8 +38,8 @@ module.exports.list = async (req, res) => {
     const categoryList = await Category.find({
       deleted: false
     })
-    const array = findAllCategory(categoryList, id); 
-    find.category = {$in: array}
+    const array = findAllCategory(categoryList, id);
+    find.category = { $in: array }
   }
 
   const priceFilter = {};
@@ -63,16 +63,15 @@ module.exports.list = async (req, res) => {
       locale: 'vi'
     });
     const searchRegex = new RegExp(search);
-      find.slug = searchRegex;
+    find.slug = searchRegex;
   }
 
   const limitItem = 3;
   const totalRecord = await Tours.countDocuments(find);
   const totalPage = Math.ceil(totalRecord / limitItem);
-  
-  let page =  1;
-  if (req.query.page)
-  {
+
+  let page = 1;
+  if (req.query.page) {
     const currentPage = parseInt(req.query.page);
     if (currentPage > 0)
       page = currentPage;
@@ -151,6 +150,14 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+  if (!req.permissions.include("tour-create")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   // Format dữ liệu
   if (req.body.position) {
     req.body.position = parseInt(req.body.position);
@@ -229,6 +236,14 @@ module.exports.edit = async (req, res) => {
 
 module.exports.editPatch = async (req, res) => {
   try {
+    if (!req.permissions.include("tour-edit")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
 
     // Format dữ liệu
@@ -290,6 +305,14 @@ module.exports.editPatch = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
   try {
+    if (!req.permissions.include("tour-delete")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
 
     await Tours.updateOne({
@@ -319,8 +342,7 @@ module.exports.trash = async (req, res) => {
     deleted: true
   }
 
-  if (req.query.search)
-  {
+  if (req.query.search) {
     const search = slugify(req.query.search, {
       lower: true,
       locale: 'vi'
@@ -333,8 +355,7 @@ module.exports.trash = async (req, res) => {
   const totalRecord = await Tours.countDocuments(find);
   const totalPage = Math.ceil(totalRecord / limitItem);
   let page = 1;
-  if (req.query.page)
-  {
+  if (req.query.page) {
     const currentPage = parseInt(req.query.page);
     if (currentPage > 0)
       page = currentPage
@@ -386,6 +407,14 @@ module.exports.trash = async (req, res) => {
 
 module.exports.recovery = async (req, res) => {
   try {
+    if (!req.permissions.include("tour-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
 
     await Tours.updateOne({
@@ -412,6 +441,14 @@ module.exports.recovery = async (req, res) => {
 
 module.exports.hardDelete = async (req, res) => {
   try {
+    if (!req.permissions.include("tour-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
 
     await Tours.deleteOne({
@@ -438,6 +475,13 @@ module.exports.applyMulti = async (req, res) => {
   switch (status) {
     case "delete":
       {
+        if (!req.permissions.include("tour-delete")) {
+          res.json({
+            code: "error",
+            message: "Không có quyền sử dụng tính năng này!"
+          })
+          return;
+        }
         await Tours.updateMany({
           _id: { $in: idList }
         }, {
@@ -449,6 +493,13 @@ module.exports.applyMulti = async (req, res) => {
       }
     case "active": case "inactive":
       {
+        if (!req.permissions.include("tour-edit")) {
+          res.json({
+            code: "error",
+            message: "Không có quyền sử dụng tính năng này!"
+          })
+          return;
+        }
         await Tours.updateMany({
           _id: { $in: idList }
         }, {
@@ -472,13 +523,13 @@ module.exports.trashApplyMultiPatch = async (req, res) => {
   console.log(idList);
 
   await Tours.updateMany({
-    _id: {$in: idList}
+    _id: { $in: idList }
   }, {
     deleted: false,
     updatedBy: req.account.id,
     updatedAt: Date.now()
   })
-  
+
   req.flash("success", "Áp dụng thành công!")
   res.json({
     code: "success"
@@ -487,11 +538,11 @@ module.exports.trashApplyMultiPatch = async (req, res) => {
 
 module.exports.trashApplyMultiDelete = async (req, res) => {
   const idList = req.body;
-  
+
   await Tours.deleteMany({
-    _id: {$in: idList}
+    _id: { $in: idList }
   })
-  
+
   req.flash("success", "Xóa thành công!")
   res.json({
     code: "success"

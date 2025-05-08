@@ -1,18 +1,22 @@
 extends ../layouts/default.pug
 
 block main 
-  main.main
-    h1.box-title Cài đặt chung
-    .section-9
-      a.inner-item(href=`/${pathAdmin}/setting/website-info`)
-        .inner-icon
-          i.fa-solid.fa-info
-        .inner-text Thông tin website
-      a.inner-item(href=`/${pathAdmin}/setting/account-admin/list`)
-        .inner-icon
-          i.fa-solid.fa-user-tie
-        .inner-text Tài khoản quản trị
-      a.inner-item(href=`/${pathAdmin}/setting/role/list`)
-        .inner-icon
-          i.fa-solid.fa-user-gear
-        .inner-text Nhóm quyền
+  - if (permissions.includes("setting-view"))
+    main.main
+      h1.box-title Cài đặt chung
+      .section-9
+        - if (permissions.includes("setting-website-info"))
+          a.inner-item(href=`/${pathAdmin}/setting/website-info`)
+            .inner-icon
+              i.fa-solid.fa-info
+            .inner-text Thông tin website
+        - if (permissions.includes("setting-admin-account"))
+          a.inner-item(href=`/${pathAdmin}/setting/account-admin/list`)
+            .inner-icon
+              i.fa-solid.fa-user-tie
+            .inner-text Tài khoản quản trị
+        - if (permissions.includes("setting-role"))        
+          a.inner-item(href=`/${pathAdmin}/setting/role/list`)
+            .inner-icon
+              i.fa-solid.fa-user-gear
+            .inner-text Nhóm quyền
