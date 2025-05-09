@@ -8,52 +8,6 @@ block main
     // End Breadcrumb
 
     // Section 9
-    -
-      var dataSection9 = [
-        {
-          avatar: "/client/assets/images/product-1.jpg",
-          slug: "#",
-          discount: 30,
-          name: "Hà Nội - Lào Cai - SaPa 4N3Đ",
-          priceOld: 13650000,
-          priceNew: 2590000,
-          code: "TOUR000001",
-          departureDate: "22/12/2025",
-          time: "10 Ngày 9 Đêm",
-          ratingStars: 4,
-          ratingTotal: 20,
-          stock: 10
-        },
-        {
-          avatar: "/client/assets/images/product-2.jpg",
-          slug: "#",
-          discount: 0,
-          name: "Tour 2024 Phú Quốc - Thiên Đường Đảo Ngọc (3N2D)",
-          priceOld: 12000000,
-          priceNew: 12000000,
-          code: "TOUR000002",
-          departureDate: "24/12/2025",
-          time: "3 Ngày 2 Đêm",
-          ratingStars: 5,
-          ratingTotal: 30,
-          stock: 15
-        },
-        {
-          avatar: "/client/assets/images/product-3.jpg",
-          slug: "#",
-          discount: 30,
-          name: "Combo Đà Nẵng 2024: ĐÀ NẴNG - HỘI AN - BÀ NÀ HILL",
-          priceOld: 13650000,
-          priceNew: 2590000,
-          code: "TOUR000003",
-          departureDate: "22/12/2025",
-          time: "10 Ngày 9 Đêm",
-          ratingStars: 0,
-          ratingTotal: 0,
-          stock: 20
-        },
-      ];
-
     .section-9
       .container
         .inner-wrap
@@ -117,9 +71,9 @@ block main
             // End Box Filter
           .inner-right
             .inner-info
-              h2.inner-title Tour Nước Ngoài
+              h2.inner-title #{category.name}
               .inner-desc
-                | Du lịch Châu Á: là châu lục lớn và đông dân nhất thế giới. Châu Á cũng có nhiều danh lam thắng cảnh đẹp tại một số quốc gia như Hàn Quốc, Nhật Bản, Trung Quốc, Việt Nam,... và VK Travel là nhà tổ chức du lịch chuyên nghiệp hàng đầu Châu Á, đã 5 lần liên tiếp nhận giải TTG Travel Awards. Hãy cùng 28.Travel du lịch Châu Á để tận hưởng những dịch vụ tốt nhất.
+                | !{category.description}
             .inner-info-2
               .inner-sort
                 .inner-label Sắp xếp:
@@ -138,13 +92,13 @@ block main
                     i.fa-solid.fa-eye
               .inner-count-record
                 | Tất cả:
-                b 101 Tour
+                b #{totalTour} Tour
               button.inner-filter-mobile
                 span.inner-title Bộ Lọc
                 i.fa-solid.fa-filter
             .inner-list-tour
               // Product Item
-              each item in dataSection9 
+              each item in tourList 
                 +cardItem(item)
               // End Product Item
             // Pagination
