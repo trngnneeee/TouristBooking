@@ -122,7 +122,7 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
-  if (!req.permissions.include("category-create"))
+  if (!req.permissions.includes("category-create"))
   {
     res.json({
       code: "error",
@@ -185,7 +185,7 @@ module.exports.edit = async (req, res) => {
 }
 
 module.exports.editPatch = async (req, res) => {
-  if (!req.permissions.include("category-edit"))
+  if (!req.permissions.includes("category-edit"))
     {
       res.json({
         code: "error",
@@ -234,7 +234,7 @@ module.exports.editPatch = async (req, res) => {
 }
 
 module.exports.delete = async (req, res) => {
-  if (!req.permissions.include("category-delete"))
+  if (!req.permissions.includes("category-delete"))
     {
       res.json({
         code: "error",
@@ -275,7 +275,7 @@ module.exports.changeMulti = async (req, res) => {
     {
       case "delete":
       {
-        if (!req.permissions.include("category-delete"))
+        if (!req.permissions.includes("category-delete"))
           {
             res.json({
               code: "error",
@@ -296,7 +296,7 @@ module.exports.changeMulti = async (req, res) => {
       }
       case "active" : case "inactive" :
       {
-        if (!req.permissions.include("category-edit"))
+        if (!req.permissions.includes("category-edit"))
           {
             res.json({
               code: "error",

@@ -150,7 +150,7 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
-  if (!req.permissions.include("tour-create")) {
+  if (!req.permissions.includes("tour-create")) {
     res.json({
       code: "error",
       message: "Không có quyền sử dụng tính năng này!"
@@ -236,7 +236,7 @@ module.exports.edit = async (req, res) => {
 
 module.exports.editPatch = async (req, res) => {
   try {
-    if (!req.permissions.include("tour-edit")) {
+    if (!req.permissions.includes("tour-edit")) {
       res.json({
         code: "error",
         message: "Không có quyền sử dụng tính năng này!"
@@ -305,7 +305,7 @@ module.exports.editPatch = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
   try {
-    if (!req.permissions.include("tour-delete")) {
+    if (!req.permissions.includes("tour-delete")) {
       res.json({
         code: "error",
         message: "Không có quyền sử dụng tính năng này!"
@@ -407,7 +407,7 @@ module.exports.trash = async (req, res) => {
 
 module.exports.recovery = async (req, res) => {
   try {
-    if (!req.permissions.include("tour-trash")) {
+    if (!req.permissions.includes("tour-trash")) {
       res.json({
         code: "error",
         message: "Không có quyền sử dụng tính năng này!"
@@ -441,7 +441,7 @@ module.exports.recovery = async (req, res) => {
 
 module.exports.hardDelete = async (req, res) => {
   try {
-    if (!req.permissions.include("tour-trash")) {
+    if (!req.permissions.includes("tour-trash")) {
       res.json({
         code: "error",
         message: "Không có quyền sử dụng tính năng này!"
@@ -475,7 +475,7 @@ module.exports.applyMulti = async (req, res) => {
   switch (status) {
     case "delete":
       {
-        if (!req.permissions.include("tour-delete")) {
+        if (!req.permissions.includes("tour-delete")) {
           res.json({
             code: "error",
             message: "Không có quyền sử dụng tính năng này!"
@@ -493,7 +493,7 @@ module.exports.applyMulti = async (req, res) => {
       }
     case "active": case "inactive":
       {
-        if (!req.permissions.include("tour-edit")) {
+        if (!req.permissions.includes("tour-edit")) {
           res.json({
             code: "error",
             message: "Không có quyền sử dụng tính năng này!"
