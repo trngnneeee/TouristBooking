@@ -3,6 +3,7 @@ const router = require('express').Router();
 const tourRouter = require("./tour.route");
 const homeRouter = require("./home.route");
 const cartRouter = require("./cart.route");
+const contactRouter = require("./contact.route");
 
 const settingMiddleware = require("../../middlewares/client/setting.middleware");
 const categoryMiddleware = require("../../middlewares/client/category.middleware");
@@ -24,7 +25,15 @@ router.use(
 router.use(
   '/cart',
   categoryMiddleware.categoryList,
-  settingMiddleware.websiteInfo, cartRouter
+  settingMiddleware.websiteInfo, 
+  cartRouter
 );
+
+router.use(
+  '/contact',
+  categoryMiddleware.categoryList,
+  settingMiddleware.websiteInfo,
+  contactRouter
+)
 
 module.exports = router;

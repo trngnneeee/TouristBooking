@@ -41,15 +41,16 @@ block main
               th Ngày tạo
               th.inner-center Hành động
           tbody
-            tr
-              td.inner-center
-                input.inner-check(type="checkbox")
-              td levana@gmail.com
-              td 16:40 - 12/12/2024
-              td.inner-center
-                .inner-buttons
-                  button.inner-delete
-                    i.fa-regular.fa-trash-can
+            each item in contactList
+              tr
+                td.inner-center
+                  input.inner-check(type="checkbox")
+                td #{item.email}
+                td #{item.createdAtFormat}
+                td.inner-center
+                  .inner-buttons
+                    button.inner-delete
+                      i.fa-regular.fa-trash-can
     .section-7
       span.inner-label Hiển thị 1 - 9 của 78
       select.inner-pagination

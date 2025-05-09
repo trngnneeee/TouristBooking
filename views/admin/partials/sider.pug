@@ -30,7 +30,7 @@ nav.sider
         | Thông tin liên hệ
   hr
   ul.inner-menu
-    - if (permissions.includes("setting"))
+    - if (permissions.includes("setting-view"))
       li
         a(href=`/${pathAdmin}/setting/list`)
           i.fa-solid.fa-gear
