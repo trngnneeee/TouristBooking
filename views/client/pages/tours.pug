@@ -4,25 +4,10 @@ include ../mixins/cardItem.pug
 
 block main 
     // Breadcrumb
-    - 
-        var data = {
-            img: "/client/assets/images/banner-6.jpg",
-            array: [
-                {
-                    link: "/",
-                    title: "Trang Chủ"
-                },
-                {
-                    link: "/tours",
-                    title: "Tour Nước Ngoài"
-                }
-            ]
-        } 
     +breadcrumb(data)
     // End Breadcrumb
 
     // Section 9
-
     -
       var dataSection9 = [
         {

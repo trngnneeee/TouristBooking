@@ -7,7 +7,7 @@ mixin breadcrumb(data)
         )
     .inner-content
         .container
-            h1.inner-title Tour Hà Nội - Ninh Bình - Hạ Long - Yên Tử - Sapa | 6N5D
+            h1.inner-title #{data.name}
             .inner-list
                 each item in data.array
                     a(href=item.link) #{item.title}
