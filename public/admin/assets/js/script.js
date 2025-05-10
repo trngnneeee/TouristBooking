@@ -2095,3 +2095,133 @@ if (contactPagination)
     contactPagination.value = url.searchParams.get("page");
 }
 // End Contact Pagination
+
+// Contact Trash Multiple Apply
+const contactTrashApplyMultiButton = document.querySelector(".contact-trash-apply-multi-button")
+if (contactTrashApplyMultiButton)
+{
+  const button = contactTrashApplyMultiButton.querySelector("button");
+  button.addEventListener("click", () => {
+    const select = document.querySelector(".contact-trash-apply-multi");  
+    const status = select.value;
+
+    const idList = [];
+    const contactTrashCheckAllItemList = document.querySelectorAll("[contact-check-all-item]:checked");
+    for (const item of contactTrashCheckAllItemList)
+      idList.push(item.getAttribute("contact-check-all-item"));
+
+    if (idList.length && status)
+    {
+      const finalData = {
+        status: status,
+        idList: idList
+      };
+
+      fetch(`/${pathAdmin}/contact/trash/multi-apply`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    }
+    else alert("Vui lòng chọn Mục hoặc Trạng thái cần áp dụng!");
+  })
+}
+// End Contact Trash Multiple Apply
+
+// Contact Trash Search
+const contactTrashSearch = document.querySelector(".contact-trash-search");
+if (contactTrashSearch)
+{
+  const url = new URL(window.location.href);
+  contactTrashSearch.addEventListener("keyup", (event) => {
+    if (event.code == "Enter")
+    {
+      const value = contactTrashSearch.value;
+      if (value)
+        url.searchParams.set("search", value);
+      else url.searchParams.delete("search");
+
+      window.location.href = url.href;
+    }
+  })
+
+  if (url.searchParams.get("search"))
+    contactTrashSearch.value = url.searchParams.get("search");
+}
+// End Contact Trash Search
+
+// Contact Trash Recovery
+const contactTrashRecoveryList = document.querySelectorAll("[recovery-contact-button]");
+if (contactTrashRecoveryList)
+{
+  for (const button of contactTrashRecoveryList)
+  {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Contact Trash Recovery
+
+// Contact Trash Hard Delete
+const contactTrashHardDeleteList = document.querySelectorAll("[hard-delete-contact-button]");
+if (contactTrashHardDeleteList)
+{
+  for (const button of contactTrashHardDeleteList)
+  {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+
+      fetch(api, {
+        method: "DELETE"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Contact Trash Hard Delete
+
+// Contact Trash Pagination
+const contactTrashPagination = document.querySelector("[contact-trash-pagination]");
+if (contactTrashPagination)
+{
+  const url = new URL(window.location.href);
+  contactTrashPagination.addEventListener("change", () => {
+    const value = contactTrashPagination.value;
+    if (value)
+      url.searchParams.set("page", value);
+    else url.searchParams.delete("page");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("page"))
+    contactTrashPagination.value = url.searchParams.get("page");
+}
+// End Contact Trash Pagination
