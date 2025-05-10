@@ -1927,3 +1927,171 @@ if (alertTime) {
   }, time);
 }
 // End Alert
+
+// Contact Date Filter
+const contactStartDate = document.querySelector("[contact-start-date]");
+if (contactStartDate)
+{
+  const url = new URL(window.location.href);
+  contactStartDate.addEventListener("change", () => {
+    const value = contactStartDate.value;
+    if (value)
+      url.searchParams.set("startDate", value);
+    else url.searchParams.delete("startDate");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("startDate"))
+    contactStartDate.value = url.searchParams.get("startDate");
+}
+
+const contactEndDate = document.querySelector("[contact-end-date]");
+if (contactEndDate)
+{
+  const url = new URL(window.location.href);
+  contactEndDate.addEventListener("change", () => {
+    const value = contactEndDate.value;
+    if (value)
+      url.searchParams.set("endDate", value);
+    else url.searchParams.delete("endDate");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("endDate"))
+    contactEndDate.value = url.searchParams.get("endDate");
+}
+// End Contact Date Filter
+
+// Contact Remove Filter
+const contactRemoveFilter = document.querySelector("[contact-remove-filter]");
+if (contactRemoveFilter)
+{
+  const url = new URL(window.location.href);
+  contactRemoveFilter.addEventListener("click", () => {
+    url.search = "";
+    window.location.href = url.href;
+  })
+}
+// End Contact Remove Filter
+
+// Contact Check All
+const contactCheckAll = document.querySelector("[contact-check-all]");
+if (contactCheckAll)
+{
+  contactCheckAll.addEventListener("click", () => {
+    const contactCheckAllItemList = document.querySelectorAll("[contact-check-all-item]");
+    for (const item of contactCheckAllItemList)
+    {
+      item.checked = contactCheckAll.checked;
+    }
+  })
+}
+// End Contact Check All
+
+// Contact Multiple Apply
+const contactMultiApplyButton = document.querySelector("[contact-multiple-apply-button]");
+if (contactMultiApplyButton)
+{
+  contactMultiApplyButton.addEventListener("click", () => {
+    const select = document.querySelector("[contact-multiple-apply-select]");
+    const status = select.value;
+
+    const itemList = document.querySelectorAll("[contact-check-all-item]:checked");
+    const idList = [];
+    for (const item of itemList)
+    {
+      idList.push(item.getAttribute("contact-check-all-item"));
+    }
+
+    if (status && idList.length)
+    {
+      const finalData = {
+        status: status,
+        idList: idList
+      };
+
+      fetch(`/${pathAdmin}/contact/multi-apply`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    }
+    else alert("Vui lòng chọn Mục hoặc Trạng thái cần áp dụng!");
+  })
+}
+// End Contact Multiple Apply
+
+// Contact Search
+const contactSearch = document.querySelector("[contact-search]");
+if (contactSearch)
+{
+  const url = new URL(window.location.href);
+  contactSearch.addEventListener("keyup", (event) => {
+    if (event.code == "Enter")
+    {
+      const value = contactSearch.value;
+      if (value)
+        url.searchParams.set("search", value);
+      else url.searchParams.delete("search");
+
+      window.location.href = url.href;
+    }
+  })
+
+  if (url.searchParams.get("search"))
+    contactSearch.value = url.searchParams.get("search");
+}
+// End Contact Search
+
+// Contact Delete
+const contactDeleteButtonList = document.querySelectorAll("[contact-delete]");
+if (contactDeleteButtonList)
+{
+  for (const item of contactDeleteButtonList)
+  {
+    item.addEventListener("click", () => {
+      const api = item.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Contact Delete
+
+// Contact Pagination
+const contactPagination = document.querySelector("[contact-pagination]");
+if (contactPagination)
+{
+  const url = new URL(window.location.href);
+  contactPagination.addEventListener("change", () => {
+    const value = contactPagination.value;
+    if (value)
+      url.searchParams.set("page", value);
+    else url.searchParams.delete("page");
+
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("page"))
+    contactPagination.value = url.searchParams.get("page");
+}
+// End Contact Pagination

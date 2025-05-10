@@ -9,26 +9,27 @@ block main
           i.fa-solid.fa-filter
           | Bộ lọc
         .inner-item.inner-date
-          input(type="date")
+          input(type="date" contact-start-date)
           span -
-          input(type="date")
-        .inner-item.inner-reset
+          input(type="date" contact-end-date)
+        .inner-item.inner-reset(contact-remove-filter)
           i.fa-solid.fa-rotate-left
           | Xóa bộ lọc
     .section-5
       .inner-wrap
         .inner-change-status
           .inner-item
-            select
+            select(contact-multiple-apply-select)
               option(value="") -- Hành động --
-              option(value="") Xóa
+              option(value="delete") Xóa
           .inner-item
-            button Áp dụng
+            button(contact-multiple-apply-button) Áp dụng
         .inner-search
           i.fa-solid.fa-magnifying-glass
           input(
             placeholder="Tìm kiếm" 
             type="text"
+            contact-search
             )
     .section-6
       .table-2
@@ -36,7 +37,7 @@ block main
           thead
             tr
               th.inner-center
-                input.inner-check(type="checkbox")
+                input.inner-check(type="checkbox" contact-check-all)
               th Email
               th Ngày tạo
               th.inner-center Hành động
@@ -44,16 +45,18 @@ block main
             each item in contactList
               tr
                 td.inner-center
-                  input.inner-check(type="checkbox")
+                  input.inner-check(type="checkbox" contact-check-all-item=item.id)
                 td #{item.email}
                 td #{item.createdAtFormat}
                 td.inner-center
                   .inner-buttons
-                    button.inner-delete
+                    button.inner-delete(
+                      contact-delete
+                      data-api=`/${pathAdmin}/contact/delete/${item.id}`
+                    )
                       i.fa-regular.fa-trash-can
     .section-7
-      span.inner-label Hiển thị 1 - 9 của 78
-      select.inner-pagination
-        option Trang 1
-        option Trang 2
-        option Trang 3
+      span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + contactList.length} của #{pagination.totalItem}
+      select.inner-pagination(contact-pagination)
+        - for (let i = 1; i <= pagination.totalPage; i++)
+          option(value=i) Trang #{i}
