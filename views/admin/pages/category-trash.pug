@@ -28,33 +28,22 @@ block main
             | Xóa bộ lọc
       .section-5
         .inner-wrap
-          .inner-change-status(
-            change-multi-status
-            data-api = `/${pathAdmin}/category/change-multi-status`
-          )
+          .inner-change-status
             .inner-item
-              select
+              select(class="category-trash-apply-multi")
                 option(value="") -- Hành động --
-                - if (permissions.includes("category-edit"))
-                  option(value="active") Hoạt động
-                - if (permissions.includes("category-edit"))
-                  option(value="inactive") Dừng hoạt động
-                - if (permissions.includes("category-delete"))
-                  option(value="delete") Xóa
-            .inner-item
+                option(value="recovery") Khôi phục
+                option(value="hard-delete") Xóa vĩnh viễn
+            .inner-item(
+              class="category-trash-apply-multi-button"
+            )
               button Áp dụng
-          .inner-search
+          .inner-search(class="contact-trash-search")
             i.fa-solid.fa-magnifying-glass
             input(
               placeholder="Tìm kiếm" 
               type="text"
-              search
               )
-          - if (permissions.includes("category-create"))
-            .inner-button-create
-              a(href=`/${pathAdmin}/category/create`) + Tạo mới
-            .inner-button-trash
-              a(href=`/${pathAdmin}/category/trash`) Thùng rác
       .section-6
         .table-2
           table
@@ -89,17 +78,18 @@ block main
                   td
                     div #{item.updatedByFullName}
                     .inner-time #{item.updatedAtFormat}
-                  td
+                  td.inner-center
                     .inner-buttons
-                      - if (permissions.includes("category-edit"))
-                        a(href=`/${pathAdmin}/category/edit/${item._id}`).inner-edit
-                          i.fa-regular.fa-pen-to-square
-                      - if (permissions.includes("category-delete"))
-                        button(
-                          button-delete
-                          data-api=`/${pathAdmin}/category/delete/${item.id}`
-                        ).inner-delete
-                          i.fa-regular.fa-trash-can
+                      button.inner-undo(
+                        data-api=`/${pathAdmin}/category/trash/recovery/${item.id}`
+                        recovery-category-button
+                      )
+                        i.fa-solid.fa-rotate-left
+                      button.inner-delete(
+                        data-api=`/${pathAdmin}/category/trash/hard-delete/${item.id}`
+                        hard-delete-category-button
+                      )
+                        i.fa-regular.fa-trash-can
       .section-7
         span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + categoryList.length} của #{pagination.totalRecord}
         select.inner-pagination(pagination)

@@ -811,6 +811,95 @@ if (tourCategoryFilter) {
 }
 // End Tour Category Filter
 
+// Category Trash Multi Apply
+const categoryTrashApplyMultiButton = document.querySelector(".category-trash-apply-multi-button")
+if (categoryTrashApplyMultiButton)
+{
+  const button = categoryTrashApplyMultiButton.querySelector("button");
+  button.addEventListener("click", () => {
+    const select = document.querySelector(".category-trash-apply-multi");  
+    const status = select.value;
+
+    const idList = [];
+    const contactTrashCheckAllItemList = document.querySelectorAll("[check-item]:checked");
+    for (const item of contactTrashCheckAllItemList)
+      idList.push(item.getAttribute("check-item"));
+
+    if (idList.length && status)
+    {
+      const finalData = {
+        status: status,
+        idList: idList
+      };
+
+      fetch(`/${pathAdmin}/category/trash/multi-apply`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    }
+    else alert("Vui lòng chọn Mục hoặc Trạng thái cần áp dụng!");
+  })
+}
+// End Category Trash Multi Apply
+
+// Category Trash Recovery
+const categoryTrashRecoveryList = document.querySelectorAll("[recovery-category-button]");
+if (categoryTrashRecoveryList)
+{
+  for (const button of categoryTrashRecoveryList)
+  {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Category Trash Recovery
+
+// Category Trash Hard Delete
+const categoryTrashHardDeleteList = document.querySelectorAll("[hard-delete-category-button]");
+if (categoryTrashHardDeleteList)
+{
+  for (const button of categoryTrashHardDeleteList)
+  {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+
+      fetch(api, {
+        method: "DELETE"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Category Trash Hard Delete
+
 // Tour Price Filter
 const tourPriceFilter = document.querySelector(".tour-price-filter");
 if (tourPriceFilter) {
@@ -2142,10 +2231,11 @@ const contactTrashSearch = document.querySelector(".contact-trash-search");
 if (contactTrashSearch)
 {
   const url = new URL(window.location.href);
-  contactTrashSearch.addEventListener("keyup", (event) => {
+  const input = contactTrashSearch.querySelector("input");
+  input.addEventListener("keyup", (event) => {
     if (event.code == "Enter")
     {
-      const value = contactTrashSearch.value;
+      const value = input.value;
       if (value)
         url.searchParams.set("search", value);
       else url.searchParams.delete("search");
@@ -2155,7 +2245,10 @@ if (contactTrashSearch)
   })
 
   if (url.searchParams.get("search"))
-    contactTrashSearch.value = url.searchParams.get("search");
+  {
+    const input = contactTrashSearch.querySelector("input");
+    input.value = url.searchParams.get("search");
+  }
 }
 // End Contact Trash Search
 
