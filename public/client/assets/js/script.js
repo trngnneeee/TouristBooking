@@ -1,6 +1,6 @@
 // Menu Mobile
 const buttonMenuMobile = document.querySelector(".header .inner-menu-mobile");
-if(buttonMenuMobile) {
+if (buttonMenuMobile) {
   const menu = document.querySelector(".header .inner-menu");
 
   // Click vào button mở menu
@@ -10,7 +10,7 @@ if(buttonMenuMobile) {
 
   // Click vào overlay đóng menu
   const overlay = menu.querySelector(".inner-overlay");
-  if(overlay) {
+  if (overlay) {
     overlay.addEventListener("click", () => {
       menu.classList.remove("active");
     });
@@ -28,7 +28,7 @@ if(buttonMenuMobile) {
 
 // Box Address Section 1
 const boxAddressSection1 = document.querySelector(".section-1 .inner-form .inner-box.inner-address");
-if(boxAddressSection1) {
+if (boxAddressSection1) {
   // Ẩn/hiện box suggest
   const input = boxAddressSection1.querySelector(".inner-input");
 
@@ -45,7 +45,7 @@ if(boxAddressSection1) {
   listItem.forEach(item => {
     item.addEventListener("mousedown", () => {
       const title = item.querySelector(".inner-item-title").innerHTML.trim();
-      if(title) {
+      if (title) {
         input.value = title;
       }
     })
@@ -55,7 +55,7 @@ if(boxAddressSection1) {
 
 // Box User Section 1
 const boxUserSection1 = document.querySelector(".section-1 .inner-form .inner-box.inner-user");
-if(boxUserSection1) {
+if (boxUserSection1) {
   // Hiện box quantity
   const input = boxUserSection1.querySelector(".inner-input");
 
@@ -103,7 +103,7 @@ if(boxUserSection1) {
       const parent = button.parentNode;
       const boxNumber = parent.querySelector(".inner-number");
       const number = parseInt(boxNumber.innerHTML.trim());
-      if(number > 0) {
+      if (number > 0) {
         const numberUpdate = number - 1;
         boxNumber.innerHTML = numberUpdate;
         updateQuantityInput();
@@ -115,7 +115,7 @@ if(boxUserSection1) {
 
 // Clock Expire
 const clockExpire = document.querySelector("[clock-expire]");
-if(clockExpire) {
+if (clockExpire) {
   const expireDateTimeString = clockExpire.getAttribute("clock-expire");
 
   // Chuyển đổi chuỗi thời gian thành đối tượng Date
@@ -125,7 +125,7 @@ if(clockExpire) {
   const updateClock = () => {
     const now = new Date();
     const remainingTime = expireDateTime - now; // quy về đơn vị mili giây
-    
+
     if (remainingTime > 0) {
       const days = Math.floor(remainingTime / (24 * 60 * 60 * 1000));
       // Tính số ngày, 24 * 60 * 60 * 1000 Tích của các số này = số mili giây trong 1 ngày
@@ -161,7 +161,7 @@ if(clockExpire) {
 
 // Box Filter
 const buttonFilterMobile = document.querySelector(".section-9 .inner-filter-mobile");
-if(buttonFilterMobile) {
+if (buttonFilterMobile) {
   const boxLeft = document.querySelector(".section-9 .inner-left");
   buttonFilterMobile.addEventListener("click", () => {
     boxLeft.classList.add("active");
@@ -176,7 +176,7 @@ if(buttonFilterMobile) {
 
 // Box Tour Info
 const boxTourInfo = document.querySelector(".box-tour-info");
-if(boxTourInfo) {
+if (boxTourInfo) {
   const buttonReadMore = boxTourInfo.querySelector(".inner-read-more button");
   buttonReadMore.addEventListener("click", () => {
     boxTourInfo.classList.add("active");
@@ -192,7 +192,7 @@ AOS.init();
 
 // Swiper Section 2
 const swiperSection2 = document.querySelector(".swiper-section-2");
-if(swiperSection2) {
+if (swiperSection2) {
   new Swiper('.swiper-section-2', {
     slidesPerView: 1,
     spaceBetween: 20,
@@ -214,7 +214,7 @@ if(swiperSection2) {
 
 // Swiper Section 3
 const swiperSection3 = document.querySelector(".swiper-section-3");
-if(swiperSection3) {
+if (swiperSection3) {
   new Swiper('.swiper-section-3', {
     slidesPerView: 1,
     spaceBetween: 20,
@@ -240,7 +240,7 @@ if(swiperSection3) {
 
 // Swiper Box Images
 const boxImages = document.querySelector(".box-images");
-if(boxImages) {
+if (boxImages) {
   const swiperBoxImagesThumb = new Swiper(".swiper-box-images-thumb", {
     spaceBetween: 5,
     slidesPerView: 4,
@@ -262,21 +262,21 @@ if(boxImages) {
 
 // Zoom Box Images Main
 const boxImagesMain = document.querySelector(".box-images .inner-images-main");
-if(boxImagesMain) {
+if (boxImagesMain) {
   new Viewer(boxImagesMain);
 }
 // End Zoom Box Images Main
 
 // Box Tour Schedule
 const boxTourSchedule = document.querySelector(".box-tour-schedule");
-if(boxTourSchedule) {
+if (boxTourSchedule) {
   new Viewer(boxTourSchedule);
 }
 // End Box Tour Schedule
 
 // Email Form
 const emailForm = document.querySelector("#email-form");
-if(emailForm) {
+if (emailForm) {
   const validation = new JustValidate('#email-form');
 
   validation
@@ -292,7 +292,7 @@ if(emailForm) {
     ])
     .onSuccess((event) => {
       const email = event.target.email.value;
-      
+
       const finalData = {
         email: email
       };
@@ -312,13 +312,13 @@ if(emailForm) {
             window.location.reload();
         })
     })
-  ;
+    ;
 }
 // End Email Form
 
 // Coupon Form
 const couponForm = document.querySelector("#coupon-form");
-if(couponForm) {
+if (couponForm) {
   const validation = new JustValidate('#coupon-form');
 
   validation
@@ -326,13 +326,13 @@ if(couponForm) {
       const coupon = event.target.coupon.value;
       console.log(coupon);
     })
-  ;
+    ;
 }
 // End Email Form
 
 // Order Form
 const orderForm = document.querySelector("#order-form");
-if(orderForm) {
+if (orderForm) {
   const validation = new JustValidate('#order-form');
 
   validation
@@ -374,7 +374,7 @@ if(orderForm) {
       console.log(note);
       console.log(method);
     })
-  ;
+    ;
 
   // List Input Method
   const listInputMethod = orderForm.querySelectorAll("input[name='method']");
@@ -403,3 +403,39 @@ if (alertTime) {
   }, time);
 }
 // End Alert
+
+// Tour Filter
+const filterList = [
+  "departure",
+  "destination",
+  "departure-date",
+  "stock-adult",
+  "stock-children",
+  "stock-baby",
+  "price"
+];
+
+const tourFilterButton = document.querySelector("[tour-filter-apply]");
+if (tourFilterButton) {
+  const url = new URL(window.location.href);
+  tourFilterButton.addEventListener("click", () => {
+    for (const item of filterList) {
+      const target = document.querySelector(`[name=${item}]`);
+      const value = target.value;
+      if (value && value != "0")
+        url.searchParams.set(item, value);
+      else url.searchParams.delete(item);
+    }
+    window.location.href = url.href;
+  })
+
+  for (const item of filterList)
+  {
+    if (url.searchParams.get(item))
+    {
+      const target = document.querySelector(`[name=${item}]`);
+      target.value = url.searchParams.get(item);
+    }
+  }
+}
+// End Tour Filter

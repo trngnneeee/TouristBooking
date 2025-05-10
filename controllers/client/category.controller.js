@@ -1,11 +1,13 @@
 const { findAllCategory } = require("../../helpers/category.helpers");
 const Category = require("../../models/category.model");
+const Cities = require("../../models/cities.model");
 const Tours = require("../../models/tour.model");
 const moment = require("moment");
 
 module.exports.list = async (req, res) => {
   const slug = req.params.slug;
 
+  // Tạo đường dẫn
   const category = await Category.findOne({
     deleted: false,
     slug: slug,
@@ -63,14 +65,19 @@ module.exports.list = async (req, res) => {
       }
     }
 
+    // Đếm tổng số tour trong danh mục
     const totalTour = await Tours.countDocuments(find);
+
+    // Danh sách tỉnh
+    const cityList = await Cities.find({});
 
     res.render("client/pages/tours.pug", {
       pageTitle: "Danh sách tour",
       data: data,
       category: category,
       tourList: tourList,
-      totalTour: totalTour
+      totalTour: totalTour,
+      cityList: cityList
     })
   }
   else {
