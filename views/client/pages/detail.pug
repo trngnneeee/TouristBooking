@@ -2,28 +2,6 @@ extends ../layouts/default.pug
 include ../mixins/breadcrumb.pug
 
 block main 
-    -
-        var data = {
-            img: "/client/assets/images/banner-7.jpg",
-            array: [
-                {
-                    link: "/",
-                    title: "Trang Chủ"
-                },
-                {
-                    link: "/tours",
-                    title: "Tour Trong Nước"
-                },
-                {
-                    link: "/tours",
-                    title: "Tour Miền Bắc"
-                },
-                {
-                    link: "/tour-detail",
-                    title: "Tour Hà Nội - Ninh Bình - Hạ Long - Yên Tử - Sapa | 6N5D"
-                },
-            ]
-        } 
     +breadcrumb(data)
 
     // Section 10

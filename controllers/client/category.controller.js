@@ -34,13 +34,13 @@ module.exports.list = async (req, res) => {
       })
       if (parentCategory) {
         data.array.push({
-          link: `/${parentCategory.slug}`,
+          link: `/category/${parentCategory.slug}`,
           title: `${parentCategory.name}`
         })
       }
 
       data.array.push({
-        link: `/${category.slug}`,
+        link: `/category/${category.slug}`,
         title: `${category.name}`
       })
     }
