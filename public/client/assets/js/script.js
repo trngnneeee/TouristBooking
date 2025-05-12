@@ -439,3 +439,41 @@ if (tourFilterButton) {
   }
 }
 // End Tour Filter
+
+// Home Search Form
+const formSearch = document.querySelector("[form-search]");
+if (formSearch)
+{
+  const url = new URL(`${window.location.origin}/search`);
+  formSearch.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const departure = event.target.departure.value;
+    if (departure)
+      url.searchParams.set("departure", departure);
+    else url.searchParams.delete("departure");
+    
+    const stockAdult = parseInt(formSearch.querySelector("[stockAdult]").innerHTML);
+    if (stockAdult)
+      url.searchParams.set("stockAdult", stockAdult);
+    else url.searchParams.delete("stockAdult");
+
+    const stockChildren = parseInt(formSearch.querySelector("[stockChildren]").innerHTML);
+    if (stockChildren)
+      url.searchParams.set("stockChildren", stockChildren);
+    else url.searchParams.delete("stockAdult");
+
+    const stockBaby = parseInt(formSearch.querySelector("[stockBaby]").innerHTML);
+    if (stockBaby)
+      url.searchParams.set("stockBaby", stockBaby);
+    else url.searchParams.delete("stockAdult");
+
+    const departureDate = event.target.departureDate.value;
+    if (departureDate)
+      url.searchParams.set("departureDate", departureDate);
+    else url.searchParams.delete("departureDate");
+
+    window.location.href = url.href;
+  })
+}
+// End Home Search Form

@@ -1,0 +1,10 @@
+extends ../layouts/default.pug
+include ../mixins/cardItem.pug
+
+block main
+  .section-4(style="padding-top: 100px")
+    .container 
+      h2.box-title Kết quả tìm kiếm
+      .inner-wrap 
+        each item in tourList 
+          +cardItem(item)
