@@ -408,16 +408,16 @@ if (alertTime) {
 const filterList = [
   "departure",
   "destination",
-  "departure-date",
-  "stock-adult",
-  "stock-children",
-  "stock-baby",
+  "departureDate",
+  "stockAdult",
+  "stockChildren",
+  "stockBaby",
   "price"
 ];
 
 const tourFilterButton = document.querySelector("[tour-filter-apply]");
 if (tourFilterButton) {
-  const url = new URL(window.location.href);
+  const url = new URL(`${window.location.origin}/search`);
   tourFilterButton.addEventListener("click", () => {
     for (const item of filterList) {
       const target = document.querySelector(`[name=${item}]`);

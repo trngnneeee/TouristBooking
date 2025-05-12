@@ -25,7 +25,7 @@ module.exports.list = async (req, res) => {
     dateFilter.$gte = startDate;
   }
   if (req.query.endDate) {
-    const endDate = moment(req.query.endDate).startOf("date").toDate();
+    const endDate = moment(req.query.endDate).endOf("date").toDate();
     dateFilter.$lte = endDate;
   }
 

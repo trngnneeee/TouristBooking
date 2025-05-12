@@ -23,7 +23,7 @@ block main
                   select(name="departure")
                     option(value="") -- Chọn điểm đi --
                     each item in cityList
-                      option(value=item.name) #{item.name}
+                      option(value=item.id) #{item.name}
                 .inner-group
                   .inner-label Điểm đến
                   select(name="destination")
@@ -32,7 +32,7 @@ block main
                       option(value=item.name) #{item.name}
                 .inner-group
                   .inner-label Ngày khởi hành
-                  input(type="date" name="departure-date")
+                  input(type="date" name="departureDate")
                 .inner-group
                   .inner-label Số Lượng Hành Khách
                   .inner-input-list
@@ -41,21 +41,21 @@ block main
                       input(
                         value="0" 
                         type="number"
-                        name="stock-adult"
+                        name="stockAdult"
                         )
                     .inner-input-item
                       .inner-label Trẻ em:
                       input(
                         value="0" 
                         type="number"
-                        name="stock-children"
+                        name="stockChildren"
                         )
                     .inner-input-item
                       .inner-label Em bé:
                       input(
                         value="0" 
                         type="number"
-                        name="stock-baby"
+                        name="stockBaby"
                         )
                 .inner-group
                   .inner-label Mức giá

@@ -60,7 +60,7 @@ module.exports.accountAdminList = async (req, res) => {
     dateFilter.$gte = startDate;
   }
   if (req.query.endDate) {
-    const endDate = moment(req.query.endDate).startOf("date").toDate();
+    const endDate = moment(req.query.endDate).endOf("date").toDate();
     dateFilter.$lte = endDate;
   }
   if (Object.keys(dateFilter).length >= 1) {
