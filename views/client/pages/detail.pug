@@ -129,10 +129,10 @@ block main
                 .inner-image
                   img(
                     alt="" 
-                    src="/client/assets/images/banner-13.png"
+                    src=tourDetail.avatar
                     )
                 .inner-info
-                  .inner-title Hà Nội - Ninh Bình - Hạ Long - Yên Tử - Sapa | 6N5D
+                  .inner-title #{tourDetail.name}
                   .inner-rating
                     .inner-stars
                       i.fa-solid.fa-star
@@ -149,21 +149,20 @@ block main
                 .inner-item
                   i.fa-solid.fa-calendar-days
                   span Thời Gian:
-                  span.inner-highlight 6 Ngày 5 Đêm
+                  span.inner-highlight #{tourDetail.time}
                 .inner-item
                   i.fa-solid.fa-truck-plane
                   span Phương Tiện:
-                  span.inner-highlight Ô tô 45 chỗ
+                  span.inner-highlight #{tourDetail.vehicle}
                 .inner-item
                   i.fa-solid.fa-calendar-days
                   span Ngày Khởi Hành:
-                  span.inner-highlight 20/10/2024
+                  span.inner-highlight #{tourDetail.departureDateFormat}
               .inner-form
                 label.inner-label Khởi Hành Tại:
                 select
-                  option(value="") Hà Nội
-                  option(value="") Đà Nẵng
-                  option(value="") Hồ Chí Minh
+                  each item in tourDetail.locationDetail
+                    option(value=item.id) #{item.name}
               .inner-quantity
                 label.inner-label Số Lượng Hành Khách
                 .inner-list
@@ -174,11 +173,12 @@ block main
                         value="1" 
                         min="0" 
                         type="number"
+                        stockAdult
                         )
                     .inner-item-price
-                      span 1
+                      span(displayPriceAdult) 1
                       span x
-                      span.inner-highlight 10.000.000
+                      span.inner-highlight(priceAdult) #{tourDetail.priceNewAdult.toLocaleString()}
                   .inner-item
                     .inner-item-label Trẻ em:
                     .inner-item-input
@@ -186,11 +186,12 @@ block main
                         value="0" 
                         min="0" 
                         type="number"
+                        stockChildren
                         )
                     .inner-item-price
-                      span 0
+                      span(displayPriceChildren) 0
                       span x
-                      span.inner-highlight 7.990.000
+                      span.inner-highlight(priceChildren) #{tourDetail.priceNewChildren.toLocaleString()}
                   .inner-item
                     .inner-item-label Em bé:
                     .inner-item-input
@@ -198,13 +199,14 @@ block main
                         value="0" 
                         min="0" 
                         type="number"
+                        stockBaby
                         )
                     .inner-item-price
-                      span 0
+                      span(displayPriceBaby) 0
                       span x
-                      span.inner-highlight 5.990.000
+                      span.inner-highlight(priceBaby) #{tourDetail.priceNewBaby.toLocaleString()}
               .inner-total
                 .inner-total-label Tổng cộng:
-                .inner-total-price 10.000.000 đ
+                .inner-total-price(totalPrice) #{tourDetail.priceNewAdult.toLocaleString()} đ
               button.inner-button-add-cart Thêm Vào Giỏ Hàng
     // End Section 10

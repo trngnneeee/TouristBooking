@@ -477,3 +477,42 @@ if (formSearch)
   })
 }
 // End Home Search Form
+
+// Total Price
+const totalPrice = document.querySelector("[totalPrice]");
+if (totalPrice) {
+  const stockFields = {
+    adult: document.querySelector("[stockAdult]"),
+    children: document.querySelector("[stockChildren]"),
+    baby: document.querySelector("[stockBaby]")
+  };
+
+  const prices = {
+    adult: Number(document.querySelector("[priceAdult]").innerHTML.replace(/,/g, '')),
+    children: Number(document.querySelector("[priceChildren]").innerHTML.replace(/,/g, '')),
+    baby: Number(document.querySelector("[priceBaby]").innerHTML.replace(/,/g, ''))
+  };
+
+  const displayFields = {
+    adult: document.querySelector("[displayPriceAdult]"),
+    children: document.querySelector("[displayPriceChildren]"),
+    baby: document.querySelector("[displayPriceBaby]")
+  };
+
+  function updateTotal() {
+    const total =
+      stockFields.adult.value * prices.adult +
+      stockFields.children.value * prices.children +
+      stockFields.baby.value * prices.baby;
+
+    totalPrice.innerHTML = `${total.toLocaleString()} đ`;
+  }
+
+  Object.keys(stockFields).forEach((key) => {
+    stockFields[key].addEventListener("change", () => {
+      displayFields[key].innerHTML = stockFields[key].value;
+      updateTotal();
+    });
+  });
+}
+// End Total Price
