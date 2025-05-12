@@ -65,6 +65,14 @@ module.exports.list = async (req, res) => {
 module.exports.multiApply = async (req, res) => {
   const { status, idList } = req.body;
 
+  if (!req.permissions.includes("contact-delete")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   await Contact.updateMany({
     _id: { $in: idList }
   }, {
@@ -79,6 +87,14 @@ module.exports.multiApply = async (req, res) => {
 
 module.exports.detetePatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("contact-delete")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
 
     await Contact.updateOne({
@@ -105,8 +121,7 @@ module.exports.trash = async (req, res) => {
     deleted: true
   };
 
-  if (req.query.search)
-  {
+  if (req.query.search) {
     const searchRegex = new RegExp(req.query.search);
     find.email = searchRegex;
   }
@@ -134,7 +149,7 @@ module.exports.trash = async (req, res) => {
     totalPage: totalPage,
     skip: skip
   }
-  
+
   const contactList = await Contact.find(find);
 
   for (const item of contactList) {
@@ -150,6 +165,14 @@ module.exports.trash = async (req, res) => {
 
 module.exports.trashMultiApply = async (req, res) => {
   const { status, idList } = req.body;
+
+  if (!req.permissions.includes("contact-trash")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
 
   switch (status) {
     case "hard-delete":
@@ -180,10 +203,17 @@ module.exports.trashMultiApply = async (req, res) => {
 }
 
 module.exports.recovery = async (req, res) => {
-  try
-  {
+  try {
+    if (!req.permissions.includes("contact-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
-    
+
     await Contact.updateOne({
       _id: id
     }, {
@@ -195,8 +225,7 @@ module.exports.recovery = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.json({
       code: "error",
       message: "ID không hợp lệ!"
@@ -205,10 +234,17 @@ module.exports.recovery = async (req, res) => {
 }
 
 module.exports.hardDelete = async (req, res) => {
-  try
-  {
+  try {
+    if (!req.permissions.includes("contact-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
-    
+
     await Contact.deleteOne({
       _id: id
     })
@@ -218,8 +254,7 @@ module.exports.hardDelete = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.json({
       code: "error",
       message: "ID không hợp lệ!"

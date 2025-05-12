@@ -53,6 +53,7 @@ block main
           - if (permissions.includes("category-create"))
             .inner-button-create
               a(href=`/${pathAdmin}/category/create`) + Tạo mới
+          - if (permissions.includes("category-trash"))
             .inner-button-trash
               a(href=`/${pathAdmin}/category/trash`) Thùng rác
       .section-6

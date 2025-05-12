@@ -424,6 +424,14 @@ module.exports.trash = async (req, res) => {
 module.exports.trashMultiApply = async (req, res) => {
   const { status, idList } = req.body;
 
+  if (!req.permissions.includes("category-trash")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   switch (status) {
     case "hard-delete":
       {
@@ -455,10 +463,17 @@ module.exports.trashMultiApply = async (req, res) => {
 }
 
 module.exports.recovery = async (req, res) => {
-  try
-  {
+  try {
+    if (!req.permissions.includes("category-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
-    
+
     await Category.updateOne({
       _id: id
     }, {
@@ -472,8 +487,7 @@ module.exports.recovery = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.json({
       code: "error",
       message: "ID không hợp lệ!"
@@ -482,10 +496,17 @@ module.exports.recovery = async (req, res) => {
 }
 
 module.exports.hardDelete = async (req, res) => {
-  try
-  {
+  try {
+    if (!req.permissions.includes("category-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
-    
+
     await Category.deleteOne({
       _id: id
     })
@@ -495,8 +516,7 @@ module.exports.hardDelete = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.json({
       code: "error",
       message: "ID không hợp lệ!"

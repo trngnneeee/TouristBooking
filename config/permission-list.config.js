@@ -20,6 +20,10 @@ module.exports.permissionList = [
     value: "category-delete"
   },
   {
+    label: "Thùng rác danh mục",
+    value: "category-trash"
+  },
+  {
     label: "Xem tour",
     value: "tour-view"
   },
@@ -50,6 +54,18 @@ module.exports.permissionList = [
   {
     label: "Xóa đơn hàng",
     value: "order-delete"
+  },
+  {
+    label: "Xem thông tin liên hệ",
+    value: "contact-view"
+  },
+  {
+    label: "Xóa thông tin liên hệ",
+    value: "contact-delete"
+  },
+  {
+    label: "Thùng rác thông tin liên hệ",
+    value: "contact-trash"
   },
   {
     label: "Cài đặt chung",

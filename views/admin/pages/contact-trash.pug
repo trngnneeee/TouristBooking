@@ -1,57 +1,58 @@
 extends ../layouts/default.pug 
 
 block main 
-  main.main
-    h1.box-title Thùng rác thông tin liên hệ
-    .section-5
-      .inner-wrap
-        .inner-change-status
-          .inner-item
-            select(class="contact-trash-apply-multi")
-              option(value="") -- Hành động --
-              option(value="recovery") Khôi phục
-              option(value="hard-delete") Xóa vĩnh viễn
-          .inner-item(
-            class="contact-trash-apply-multi-button"
-          )
-            button Áp dụng
-        .inner-search(class="contact-trash-search")
-          i.fa-solid.fa-magnifying-glass
-          input(
-            placeholder="Tìm kiếm" 
-            type="text"
+  - if (permissions.includes("contact-trash"))
+    main.main
+      h1.box-title Thùng rác thông tin liên hệ
+      .section-5
+        .inner-wrap
+          .inner-change-status
+            .inner-item
+              select(class="contact-trash-apply-multi")
+                option(value="") -- Hành động --
+                option(value="recovery") Khôi phục
+                option(value="hard-delete") Xóa vĩnh viễn
+            .inner-item(
+              class="contact-trash-apply-multi-button"
             )
-    .section-6
-      .table-2
-        table
-          thead
-            tr
-              th.inner-center
-                input.inner-check(type="checkbox" contact-check-all)
-              th Email
-              th Ngày tạo
-              th.inner-center Hành động
-          tbody
-            each item in contactList
+              button Áp dụng
+          .inner-search(class="contact-trash-search")
+            i.fa-solid.fa-magnifying-glass
+            input(
+              placeholder="Tìm kiếm" 
+              type="text"
+              )
+      .section-6
+        .table-2
+          table
+            thead
               tr
-                td.inner-center
-                  input.inner-check(type="checkbox" contact-check-all-item=item.id)
-                td #{item.email}
-                td #{item.createdAtFormat}
-                td.inner-center
-                  .inner-buttons
-                    button.inner-undo(
-                      data-api=`/${pathAdmin}/contact/recovery/${item.id}`
-                      recovery-contact-button
-                    )
-                      i.fa-solid.fa-rotate-left
-                    button.inner-delete(
-                      data-api=`/${pathAdmin}/contact/hard-delete/${item.id}`
-                      hard-delete-contact-button
-                    )
-                      i.fa-regular.fa-trash-can
-    .section-7
-      span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + contactList.length} của #{pagination.totalRecord}
-      select.inner-pagination(class="contact-trash-pagination")
-        - for (let i = 1; i <= pagination.totalPage; i++)
-          option(value=i) Trang #{i}
+                th.inner-center
+                  input.inner-check(type="checkbox" contact-check-all)
+                th Email
+                th Ngày tạo
+                th.inner-center Hành động
+            tbody
+              each item in contactList
+                tr
+                  td.inner-center
+                    input.inner-check(type="checkbox" contact-check-all-item=item.id)
+                  td #{item.email}
+                  td #{item.createdAtFormat}
+                  td.inner-center
+                    .inner-buttons
+                      button.inner-undo(
+                        data-api=`/${pathAdmin}/contact/recovery/${item.id}`
+                        recovery-contact-button
+                      )
+                        i.fa-solid.fa-rotate-left
+                      button.inner-delete(
+                        data-api=`/${pathAdmin}/contact/hard-delete/${item.id}`
+                        hard-delete-contact-button
+                      )
+                        i.fa-regular.fa-trash-can
+      .section-7
+        span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + contactList.length} của #{pagination.totalRecord}
+        select.inner-pagination(class="contact-trash-pagination")
+          - for (let i = 1; i <= pagination.totalPage; i++)
+            option(value=i) Trang #{i}
