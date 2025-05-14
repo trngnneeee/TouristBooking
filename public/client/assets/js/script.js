@@ -560,4 +560,10 @@ if (!cart)
 {
   localStorage.setItem("cart", JSON.stringify([]));
 }
+else
+{
+  const cart = JSON.parse(localStorage.getItem("cart"));
+  const miniCart = document.querySelector("[cart-quantity]");
+  miniCart.innerHTML = cart.length;
+}
 // End Init LocalStorage Cart
