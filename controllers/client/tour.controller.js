@@ -57,15 +57,9 @@ module.exports.detail = async (req, res) => {
 
         tourDetail.departureDateFormat = moment(tourDetail.departureDate).format("DD/MM/YYYY");
 
-        const locationDetail = [];
-        for (const item of tourDetail.locations)
-        {
-            const locationName = await Cities.findOne({
-                _id: item
-            })
-            locationDetail.push(locationName);
-        }
-        tourDetail.locationDetail = locationDetail;
+        tourDetail.locationDetail = await Cities.find({
+            _id: { $in: tourDetail.locations }
+        });
 
         res.render("client/pages/detail.pug", {
             pageTitle: "Chi tiết tour",
