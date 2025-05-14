@@ -80,7 +80,7 @@ block main
                   span.inner-highlight #{tourDetail.departureDateFormat}
               .inner-form
                 label.inner-label Khởi Hành Tại:
-                select
+                select(departure)
                   each item in tourDetail.locationDetail
                     option(value=item.id) #{item.name}
               .inner-quantity
@@ -99,7 +99,7 @@ block main
                     .inner-item-price
                       span(displayPriceAdult) 1
                       span x
-                      span.inner-highlight(priceAdult) #{tourDetail.priceNewAdult.toLocaleString()}
+                      span.inner-highlight(priceAdult) #{tourDetail.priceNewAdult.toLocaleString('vi-VN')}
                   .inner-item
                     .inner-item-label Trẻ em:
                     .inner-item-input
@@ -113,7 +113,7 @@ block main
                     .inner-item-price
                       span(displayPriceChildren) 0
                       span x
-                      span.inner-highlight(priceChildren) #{tourDetail.priceNewChildren.toLocaleString()}
+                      span.inner-highlight(priceChildren) #{tourDetail.priceNewChildren.toLocaleString('vi-VN')}
                   .inner-item
                     .inner-item-label Em bé:
                     .inner-item-input
@@ -127,9 +127,9 @@ block main
                     .inner-item-price
                       span(displayPriceBaby) 0
                       span x
-                      span.inner-highlight(priceBaby) #{tourDetail.priceNewBaby.toLocaleString()}
+                      span.inner-highlight(priceBaby) #{tourDetail.priceNewBaby.toLocaleString('vi-VN')}
               .inner-total
                 .inner-total-label Tổng cộng:
-                .inner-total-price(totalPrice) #{tourDetail.priceNewAdult.toLocaleString()} đ
-              button.inner-button-add-cart Thêm Vào Giỏ Hàng
+                .inner-total-price(totalPrice) #{tourDetail.priceNewAdult.toLocaleString('vi-VN')} đ
+              button.inner-button-add-cart(tour-id=tourDetail.id) Thêm Vào Giỏ Hàng
     // End Section 10

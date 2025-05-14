@@ -488,9 +488,9 @@ if (totalPrice) {
   };
 
   const prices = {
-    adult: Number(document.querySelector("[priceAdult]").innerHTML.replace(/,/g, '')),
-    children: Number(document.querySelector("[priceChildren]").innerHTML.replace(/,/g, '')),
-    baby: Number(document.querySelector("[priceBaby]").innerHTML.replace(/,/g, ''))
+    adult: Number(document.querySelector("[priceAdult]").innerHTML.replace(/\./g, '')),
+    children: Number(document.querySelector("[priceChildren]").innerHTML.replace(/\./g, '')),
+    baby: Number(document.querySelector("[priceBaby]").innerHTML.replace(/\./g, ''))
   };
 
   const displayFields = {
@@ -505,7 +505,7 @@ if (totalPrice) {
       stockFields.children.value * prices.children +
       stockFields.baby.value * prices.baby;
 
-    totalPrice.innerHTML = `${total.toLocaleString()} đ`;
+    totalPrice.innerHTML = `${total.toLocaleString('vi-VN')} đ`;
   }
 
   Object.keys(stockFields).forEach((key) => {
@@ -516,3 +516,48 @@ if (totalPrice) {
   });
 }
 // End Total Price
+
+// Add To Cart
+const addButton = document.querySelector("[tour-id]");
+if (addButton)
+{
+  addButton.addEventListener("click", () => {
+    const id = addButton.getAttribute("tour-id");
+    const quantitykAdult = parseInt(document.querySelector("[stockAdult]").value);
+    const quantityChildren = parseInt(document.querySelector("[stockChildren]").value);
+    const quantityBaby = parseInt(document.querySelector("[stockBaby]").value);
+    const departure = document.querySelector("[departure]").value;
+    if (quantitykAdult > 0 || quantityChildren > 0 || quantityBaby > 0)
+    {
+      const cartItem = {
+        tourID: id,
+        quantityAdult: quantitykAdult,
+        quantityChildren: quantityChildren,
+        quantityBaby: quantityBaby,
+        departure: departure
+      };
+
+      const cart = JSON.parse(localStorage.getItem("cart"));
+      const indexItemExist = cart.findIndex(item => item.tourID == cartItem.tourID);
+      if (indexItemExist != -1)
+      {
+        cart[indexItemExist] = cartItem;
+      }
+      else
+      {
+        cart.push(cartItem);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      window.location.href = "/cart";
+    }
+  })
+}
+// End Add To Cart
+
+// Init LocalStorage Cart
+const cart = localStorage.getItem("cart");
+if (!cart)
+{
+  localStorage.setItem("cart", JSON.stringify([]));
+}
+// End Init LocalStorage Cart
