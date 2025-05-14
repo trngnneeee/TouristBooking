@@ -46,6 +46,10 @@ block main
               accept="image/*" 
               type="file"
               )
+          .inner-group.inner-two-col
+            label(class="inner-label" for="images") Danh sách ảnh
+            div(class="inner-upload-image-multi" list-image-default=detailTour.images)
+              input(type="file" multiple data-allow-reorder="true" id="images" accept="image/*" filepond-image-multi name="images")
         .inner-group
           label.inner-label Giá cũ
           .inner-input-list

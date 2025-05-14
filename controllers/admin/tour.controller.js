@@ -168,7 +168,8 @@ module.exports.createPost = async (req, res) => {
     req.body.position = totalRecord + 1;
   }
 
-  req.body.avatar = req.file ? req.file.path : "";
+  req.body.avatar = (req.files.avatar && req.files.avatar.length > 0) ? req.files.avatar[0].path : "";
+  req.body.images = (req.files.images && req.files.images.length > 0) ? req.files.images.map(file => file.path) : [];
 
   req.body.priceAdult = req.body.priceAdult ? parseInt(req.body.priceAdult) : 0;
   req.body.priceChildren = req.body.priceChildren ? parseInt(req.body.priceChildren) : 0;
@@ -256,11 +257,16 @@ module.exports.editPatch = async (req, res) => {
       req.body.position = totalRecord + 1;
     }
 
-    if (req.file) {
-      req.body.avatar = req.file.path;
+    if (req.files.avatar && req.files.avatar.length > 0) {
+      req.body.avatar = req.files.avatar[0].path;
     } else {
       delete req.body.avatar;
     }
+
+    if (req.files.images && req.files.images.length > 0) {
+      req.body.images = req.files.images.map(file => file.path);
+    }
+    else delete req.body.images;
 
     req.body.priceAdult = req.body.priceAdult ? parseInt(req.body.priceAdult) : 0;
     req.body.priceChildren = req.body.priceChildren ? parseInt(req.body.priceChildren) : 0;
@@ -287,7 +293,13 @@ module.exports.editPatch = async (req, res) => {
     await Tours.updateOne({
       deleted: false,
       _id: id
-    }, req.body)
+    }, {
+      $set: {
+        ...req.body,
+        updatedBy: req.account.id,
+        updatedAt: Date.now()
+      }
+    })
 
     req.flash("success", "Chỉnh sửa tour thành công!")
     res.json({

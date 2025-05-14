@@ -1235,6 +1235,21 @@ a {
   right: -11px;
 }
 
+.section-8 form .inner-upload-image-multi .filepond--root {
+  width: 300px;
+  max-height: 400px;
+}
+
+.section-8 form .inner-upload-image-multi .filepond--drop-label label {
+  font-weight: 500;
+  font-size: 50px;
+  cursor: pointer;
+}
+
+.section-8 form .inner-upload-image-multi .filepond--credits {
+  display: none;
+}
+
 .section-8 form .inner-button {
   text-align: center;
 }

@@ -25,7 +25,8 @@ module.exports.createPost = (req, res, next) => {
     vehicle: Joi.string().allow(""),
     departureDate: Joi.string().allow(""),
     information: Joi.string().allow(""),
-    schedules: Joi.string().allow("")
+    schedules: Joi.string().allow(""),
+    images: Joi.string().allow("")
   })
 
   const {error} = schema.validate(req.body);
