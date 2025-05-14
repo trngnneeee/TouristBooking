@@ -27,9 +27,9 @@ html
       referrerpolicy="origin" 
       src="https://cdn.tiny.cloud/1/fspjvpatl3hzr9lgsffg9p64hr4caoewmxqnxhidilhdkvqa/tinymce/7/tinymce.min.js"
       )
-    script(src="/admin/assets/js/tinymce-config.js")
     script. 
       const pathAdmin = `#{pathAdmin}`;
+    script(src="/admin/assets/js/tinymce-config.js")
   body 
     - if (messages.success)
         div(class="alert alert-success" alert-time="3000")

@@ -9,6 +9,7 @@ const userRouter = require("./user.route");
 const contactRouter = require("./contact.route");
 const settingRouter = require("./setting.route");
 const profileRouter = require("./profile.route");
+const uploadRouter = require("./upload.route");
 
 const authMiddleware = require("../../middlewares/admin/auth.middleware");
 
@@ -27,6 +28,7 @@ router.use('/user', authMiddleware.verifyToken, userRouter);
 router.use('/contact', authMiddleware.verifyToken, contactRouter);
 router.use('/setting', authMiddleware.verifyToken, settingRouter);
 router.use('/profile', authMiddleware.verifyToken, profileRouter);
+router.use('/upload', authMiddleware.verifyToken, uploadRouter);
 router.get('*', (req, res) => {
   res.render("admin/pages/error-404.pug", {
     pageTitle: "404 Not Found"
