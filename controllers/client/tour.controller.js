@@ -51,7 +51,7 @@ module.exports.detail = async (req, res) => {
         }
 
         data.array.push({
-            link: `tours/detail/${tourDetail.slug}`,
+            link: `/tours/detail/${tourDetail.slug}`,
             title: `${tourDetail.name}`
         })
 
