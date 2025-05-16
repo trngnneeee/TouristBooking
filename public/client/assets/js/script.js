@@ -585,7 +585,7 @@ const renderCart = () => {
           str += `
             <div class="inner-tour-item">
               <div class="inner-actions">
-                <button class="inner-delete">
+                <button class="inner-delete" button-delete tourID=${item.tourID}>
                   <i class="fa-solid fa-xmark"></i>
                 </button>
                 <input class="inner-check" type="checkbox"/>
@@ -694,6 +694,24 @@ const renderCart = () => {
           }
         }
         // End Cart Input Change
+
+        // Xóa tour
+        const buttonDeleteList = document.querySelectorAll("[button-delete]");
+        if (buttonDeleteList.length)
+        {
+          for (const button of buttonDeleteList)
+          {
+            button.addEventListener("click", () => {
+              const tourID = button.getAttribute("tourID");
+              const cart = JSON.parse(localStorage.getItem("cart"));
+              const indexItem = cart.findIndex(tour => tour.tourID = tourID);
+              cart.splice(indexItem, 1);
+              localStorage.setItem("cart", JSON.stringify(cart));
+              renderCart();
+            })
+          }
+        }
+        // End Xóa tour
       }
     })
 }
