@@ -580,8 +580,9 @@ const renderCart = () => {
         // Hiển thị data
         const cart = data.cart;
         const cartList = document.querySelector("[cart-list]");
+        let str = "";
         for (const item of cart) {
-          const str = `
+          str += `
             <div class="inner-tour-item">
               <div class="inner-actions">
                 <button class="inner-delete">
@@ -614,21 +615,39 @@ const renderCart = () => {
                   <div class="inner-item">
                     <div class="inner-item-label">Người lớn:</div>
                     <div class="inner-item-input">
-                      <input value=${item.quantityAdult} min="0" type="number"/>
+                      <input 
+                        value=${item.quantityAdult} 
+                        min="0" 
+                        type="number"
+                        input-quantity="quantityAdult"
+                        tourID=${item.tourID}
+                      />
                     </div>
                     <div class="inner-item-price"><span>${item.quantityAdult}</span><span>x</span><span class="inner-highlight">${item.priceNewAdult.toLocaleString('vi-VN')}</span></div>
                   </div>
                   <div class="inner-item">
                     <div class="inner-item-label">Trẻ em:</div>
                     <div class="inner-item-input">
-                      <input value=${item.quantityChildren} min="0" type="number"/>
+                      <input 
+                        value=${item.quantityChildren} 
+                        min="0" 
+                        type="number"
+                        input-quantity="quantityChildren"
+                        tourID=${item.tourID}
+                      />
                     </div>
                     <div class="inner-item-price"><span>${item.quantityChildren}</span><span>x</span><span class="inner-highlight">${item.priceNewChildren.toLocaleString('vi-VN')}</span></div>
                   </div>
                   <div class="inner-item">
                     <div class="inner-item-label">Em bé:</div>
                     <div class="inner-item-input">
-                      <input value=${item.quantityBaby} min="0" type="number"/>
+                      <input 
+                        value=${item.quantityBaby} 
+                        min="0" 
+                        type="number"
+                        input-quantity="quantityBaby"
+                        tourID=${item.tourID}
+                      />
                     </div>
                     <div class="inner-item-price"><span>${item.quantityBaby}</span><span>x</span><span class="inner-highlight">${item.priceNewBaby.toLocaleString('vi-VN')}</span></div>
                   </div>
@@ -636,8 +655,8 @@ const renderCart = () => {
               </div>
             </div>
           `;
-          cartList.innerHTML += str;
         }
+        cartList.innerHTML = str;
         // End Hiển thị data
 
         // Cập nhật lại LocalStorage
@@ -656,6 +675,25 @@ const renderCart = () => {
         const totalPriceElement = document.querySelector("[cart-total]");
         totalPriceElement.innerHTML = totalPrice.toLocaleString("vi-VN");
         // End Tổng tiền
+
+        // Cart Input Change
+        const quantityInputList = document.querySelectorAll("[input-quantity]");
+        if (quantityInputList.length) {
+          for (const quantityInput of quantityInputList) {
+            quantityInput.addEventListener("change", () => {
+              const tourID = quantityInput.getAttribute("tourID");
+              const name = quantityInput.getAttribute("input-quantity");
+              const quantity = parseInt(quantityInput.value);
+
+              const cart = JSON.parse(localStorage.getItem("cart"));
+              const itemUpdate = cart.find(item => item.tourID == tourID);
+              itemUpdate[name] = quantity;
+              localStorage.setItem("cart", JSON.stringify(cart));
+              renderCart();
+            })
+          }
+        }
+        // End Cart Input Change
       }
     })
 }
