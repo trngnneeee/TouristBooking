@@ -650,6 +650,8 @@ const renderCart = () => {
         let totalPrice = 0;
         for (const item of cart) {
           totalPrice += item.quantityAdult * item.priceNewAdult;
+          totalPrice += item.quantityChildren * item.priceNewChildren;
+          totalPrice += item.quantityBaby * item.priceNewBaby;
         }
         const totalPriceElement = document.querySelector("[cart-total]");
         totalPriceElement.innerHTML = totalPrice.toLocaleString("vi-VN");
