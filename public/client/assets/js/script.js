@@ -529,7 +529,8 @@ if (addButton) {
         quantityAdult: quantitykAdult,
         quantityChildren: quantityChildren,
         quantityBaby: quantityBaby,
-        departure: departure
+        departure: departure,
+        checked: true
       };
 
       const cart = JSON.parse(localStorage.getItem("cart"));
@@ -588,7 +589,13 @@ const renderCart = () => {
                 <button class="inner-delete" button-delete tourID=${item.tourID}>
                   <i class="fa-solid fa-xmark"></i>
                 </button>
-                <input class="inner-check" type="checkbox"/>
+                <input 
+                  class="inner-check" 
+                  type="checkbox" 
+                  ${item.checked ? "checked" : ""}
+                  cart-check
+                  tourID=${item.tourID}
+                />
               </div>
               <div class="inner-product">
                 <div class="inner-image">
@@ -605,7 +612,7 @@ const renderCart = () => {
                   <div class="inner-meta">
                     <div class="inner-meta-item">Mã Tour:<b>TOUR000${item.position}</b></div>
                     <div class="inner-meta-item">Ngày Khởi Hành:<b>${item.departureDateFormat}</b></div>
-                    <div class="inner-meta-item">Khởi Hành Tại:<b>${item.departure}</b></div>
+                    <div class="inner-meta-item">Khởi Hành Tại:<b>${item.departureName}</b></div>
                   </div>
                 </div>
               </div>
@@ -668,9 +675,12 @@ const renderCart = () => {
         // Tổng tiền
         let totalPrice = 0;
         for (const item of cart) {
-          totalPrice += item.quantityAdult * item.priceNewAdult;
-          totalPrice += item.quantityChildren * item.priceNewChildren;
-          totalPrice += item.quantityBaby * item.priceNewBaby;
+          if (item.checked)
+          {
+            totalPrice += item.quantityAdult * item.priceNewAdult;
+            totalPrice += item.quantityChildren * item.priceNewChildren;
+            totalPrice += item.quantityBaby * item.priceNewBaby;
+          }
         }
         const totalPriceElement = document.querySelector("[cart-total]");
         totalPriceElement.innerHTML = totalPrice.toLocaleString("vi-VN");
@@ -712,6 +722,24 @@ const renderCart = () => {
           }
         }
         // End Xóa tour
+
+        // Cart Check
+        const checkList = document.querySelectorAll("[cart-check]");
+        if (checkList.length)
+        {
+          for (const input of checkList)
+          {
+            input.addEventListener("change", () => {
+              const tourID = input.getAttribute("tourID");
+              const cart = JSON.parse(localStorage.getItem("cart"));
+              const itemUpdate = cart.find(item => item.tourID == tourID);
+              itemUpdate.checked = input.checked;
+              localStorage.setItem("cart", JSON.stringify(cart));
+              renderCart();
+            })
+          }
+        }
+        // End Cart Check
       }
     })
 }
