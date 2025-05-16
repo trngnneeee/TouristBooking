@@ -429,10 +429,8 @@ if (tourFilterButton) {
     window.location.href = url.href;
   })
 
-  for (const item of filterList)
-  {
-    if (url.searchParams.get(item))
-    {
+  for (const item of filterList) {
+    if (url.searchParams.get(item)) {
       const target = document.querySelector(`[name=${item}]`);
       target.value = url.searchParams.get(item);
     }
@@ -442,8 +440,7 @@ if (tourFilterButton) {
 
 // Home Search Form
 const formSearch = document.querySelector("[form-search]");
-if (formSearch)
-{
+if (formSearch) {
   const url = new URL(`${window.location.origin}/search`);
   formSearch.addEventListener("submit", (event) => {
     event.preventDefault();
@@ -452,7 +449,7 @@ if (formSearch)
     if (departure)
       url.searchParams.set("departure", departure);
     else url.searchParams.delete("departure");
-    
+
     const stockAdult = parseInt(formSearch.querySelector("[stockAdult]").innerHTML);
     if (stockAdult)
       url.searchParams.set("stockAdult", stockAdult);
@@ -519,16 +516,14 @@ if (totalPrice) {
 
 // Add To Cart
 const addButton = document.querySelector("[tour-id]");
-if (addButton)
-{
+if (addButton) {
   addButton.addEventListener("click", () => {
     const id = addButton.getAttribute("tour-id");
     const quantitykAdult = parseInt(document.querySelector("[stockAdult]").value);
     const quantityChildren = parseInt(document.querySelector("[stockChildren]").value);
     const quantityBaby = parseInt(document.querySelector("[stockBaby]").value);
     const departure = document.querySelector("[departure]").value;
-    if (quantitykAdult > 0 || quantityChildren > 0 || quantityBaby > 0)
-    {
+    if (quantitykAdult > 0 || quantityChildren > 0 || quantityBaby > 0) {
       const cartItem = {
         tourID: id,
         quantityAdult: quantitykAdult,
@@ -539,12 +534,10 @@ if (addButton)
 
       const cart = JSON.parse(localStorage.getItem("cart"));
       const indexItemExist = cart.findIndex(item => item.tourID == cartItem.tourID);
-      if (indexItemExist != -1)
-      {
+      if (indexItemExist != -1) {
         cart[indexItemExist] = cartItem;
       }
-      else
-      {
+      else {
         cart.push(cartItem);
       }
       localStorage.setItem("cart", JSON.stringify(cart));
@@ -556,14 +549,117 @@ if (addButton)
 
 // Init LocalStorage Cart
 const cart = localStorage.getItem("cart");
-if (!cart)
-{
+if (!cart) {
   localStorage.setItem("cart", JSON.stringify([]));
 }
-else
-{
+else {
   const cart = JSON.parse(localStorage.getItem("cart"));
   const miniCart = document.querySelector("[cart-quantity]");
   miniCart.innerHTML = cart.length;
 }
 // End Init LocalStorage Cart
+
+// Cart Page
+const renderCart = () => {
+  const cart = JSON.parse(localStorage.getItem("cart"));
+  const finalData = {
+    cart: cart
+  };
+  fetch(`/cart`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(finalData)
+  })
+    .then(res => res.json())
+    .then((data) => {
+      if (data.code == "error")
+        alert(data.message);
+      if (data.code == "success") {
+        // Hiển thị data
+        const cart = data.cart;
+        const cartList = document.querySelector("[cart-list]");
+        for (const item of cart) {
+          const str = `
+            <div class="inner-tour-item">
+              <div class="inner-actions">
+                <button class="inner-delete">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+                <input class="inner-check" type="checkbox"/>
+              </div>
+              <div class="inner-product">
+                <div class="inner-image">
+                  <a href="#">
+                    <img alt="" src=${item.avatar}
+                  </a>
+                </div>
+                <div class="inner-content">
+                  <div class="inner-title">
+                    <a href='/tours/detail/${item.slug}'>
+                      ${item.name}
+                    </a>
+                  </div>
+                  <div class="inner-meta">
+                    <div class="inner-meta-item">Mã Tour:<b>TOUR000${item.position}</b></div>
+                    <div class="inner-meta-item">Ngày Khởi Hành:<b>${item.departureDateFormat}</b></div>
+                    <div class="inner-meta-item">Khởi Hành Tại:<b>${item.departure}</b></div>
+                  </div>
+                </div>
+              </div>
+              <div class="inner-quantity">
+                <label class="inner-label">Số Lượng Hành Khách</label>
+                <div class="inner-list">
+                  <div class="inner-item">
+                    <div class="inner-item-label">Người lớn:</div>
+                    <div class="inner-item-input">
+                      <input value=${item.quantityAdult} min="0" type="number"/>
+                    </div>
+                    <div class="inner-item-price"><span>${item.quantityAdult}</span><span>x</span><span class="inner-highlight">${item.priceNewAdult.toLocaleString('vi-VN')}</span></div>
+                  </div>
+                  <div class="inner-item">
+                    <div class="inner-item-label">Trẻ em:</div>
+                    <div class="inner-item-input">
+                      <input value=${item.quantityChildren} min="0" type="number"/>
+                    </div>
+                    <div class="inner-item-price"><span>${item.quantityChildren}</span><span>x</span><span class="inner-highlight">${item.priceNewChildren.toLocaleString('vi-VN')}</span></div>
+                  </div>
+                  <div class="inner-item">
+                    <div class="inner-item-label">Em bé:</div>
+                    <div class="inner-item-input">
+                      <input value=${item.quantityBaby} min="0" type="number"/>
+                    </div>
+                    <div class="inner-item-price"><span>${item.quantityBaby}</span><span>x</span><span class="inner-highlight">${item.priceNewBaby.toLocaleString('vi-VN')}</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          cartList.innerHTML += str;
+        }
+        // End Hiển thị data
+
+        // Cập nhật lại LocalStorage
+        localStorage.setItem("cart", JSON.stringify(cart));
+        const miniCart = document.querySelector("[cart-quantity]");
+        miniCart.innerHTML = cart.length;
+        // End Cập nhật lại LocalStorage
+
+        // Tổng tiền
+        let totalPrice = 0;
+        for (const item of cart) {
+          totalPrice += item.quantityAdult * item.priceNewAdult;
+        }
+        const totalPriceElement = document.querySelector("[cart-total]");
+        totalPriceElement.innerHTML = totalPrice.toLocaleString("vi-VN");
+        // End Tổng tiền
+      }
+    })
+}
+
+const cartPage = document.querySelector("[cart-page]");
+if (cartPage) {
+  renderCart();
+}
+// End Cart Page
