@@ -9,6 +9,7 @@ const schema = new mongoose.Schema({
   discount: Number,
   total: Number,
   paymentStatus: String,
+  paymentMethod: String,
   status: String,
   updatedBy: String,
   deleted: {

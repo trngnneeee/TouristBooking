@@ -410,8 +410,7 @@ if (orderForm) {
             cart = cart.filter(item => item.checked == false);
             localStorage.setItem("cart", JSON.stringify(cart));
 
-            window.location.reload();
-            // window.location.href = `/order/success/?orderID=${data.orderID}&phone=${phone}`;
+            window.location.href = `/order/success?orderID=${data.orderID}&phone=${phone}`;
           }
         })
       }
