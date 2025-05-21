@@ -14,3 +14,29 @@ module.exports.paymentMethod = [
     value: "bank"
   },
 ]
+
+module.exports.paymentStatus = [
+  {
+    label: "Chưa thanh toán",
+    value: "unpaid"
+  },
+  {
+    label: "Đã thanh toán",
+    value: "paid"
+  }
+];
+
+module.exports.orderStatus = [
+  {
+    label: "Khởi tạo",
+    value: "initial"
+  },
+  {
+    label: "Hoàn thành",
+    value: "done"
+  },
+  {
+    label: "Hủy",
+    value: "cancel"
+  }
+];
