@@ -84,14 +84,18 @@ block main
                     div TTTT: #{orderDetail.paymentStatusName}
                   td
                     - if (orderDetail.status == "initial")
-                      .badge.badge-orange Khởi tạo
+                      .badge.badge-orange #{orderDetail.statusName}
+                    - if (orderDetail.status == "done")
+                      .badge.badge-green #{orderDetail.statusName}
+                    - if (orderDetail.status == "cancel")
+                      .badge.badge-red #{orderDetail.statusName}
                   td.inner-center
                     div #{orderDetail.createdAtTimeFormat}
                     div #{orderDetail.createdAtDateFormat}
                   td
                     .inner-buttons
                       - if (permissions.includes("order-edit"))
-                        a(href=`/${pathAdmin}/order/edit`).inner-edit
+                        a(href=`/${pathAdmin}/order/edit/${orderDetail.id}`).inner-edit
                           i.fa-regular.fa-pen-to-square
                       - if (permissions.includes("order-delete"))
                         button.inner-delete
