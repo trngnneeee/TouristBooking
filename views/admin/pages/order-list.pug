@@ -61,7 +61,7 @@ block main
                   td
                     div Họ tên: #{orderDetail.fullName}
                     div SĐT: #{orderDetail.phone}
-                    div Ghi chú: T#{orderDetail.note}
+                    div Ghi chú: #{orderDetail.note}
                   td
                     each item in orderDetail.items
                       .inner-item
@@ -98,7 +98,10 @@ block main
                         a(href=`/${pathAdmin}/order/edit/${orderDetail.id}`).inner-edit
                           i.fa-regular.fa-pen-to-square
                       - if (permissions.includes("order-delete"))
-                        button.inner-delete
+                        button.inner-delete(
+                          data-api=`/${pathAdmin}/order/delete/${orderDetail.id}`
+                          order-delete
+                        )
                           i.fa-regular.fa-trash-can
       .section-7
         span.inner-label Hiển thị 1 - 9 của 78

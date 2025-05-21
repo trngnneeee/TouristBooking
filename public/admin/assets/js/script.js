@@ -1258,6 +1258,29 @@ if (orderEditForm) {
 }
 // End Order Edit Form
 
+// Order Delete
+const orderDeleteButtonList = document.querySelectorAll("[order-delete]");
+if (orderDeleteButtonList.length)
+{
+  for (const button of orderDeleteButtonList)
+  {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Order Delete
+
 // Setting Website Info Form
 const settingWebsiteInfoForm = document.querySelector("#setting-website-info-form");
 if (settingWebsiteInfoForm) {

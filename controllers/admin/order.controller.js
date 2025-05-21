@@ -72,6 +72,36 @@ module.exports.editPatch = async (req, res) => {
     })
   }
   catch (error) {
-    res.redirect(`/${pathAdmin}/order/list`);
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ!"
+    })
+  }
+}
+
+module.exports.deletePatch = async (req, res) => {
+  try
+  {
+    const id = req.params.id;
+    await Orders.updateOne({
+      _id: id,
+      deleted: false
+    }, {
+      deleted: true,
+      deletedAt: Date.now(),
+      deletedBy: req.account.id
+    })
+
+    req.flash("success", "Xóa thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch(error)
+  {
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ!"
+    })
   }
 }
