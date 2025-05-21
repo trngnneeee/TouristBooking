@@ -8,20 +8,20 @@ block main
         .inner-icon
           img(src="/admin/assets/images/section-1-icon-1.svg")
         .inner-content
-          .inner-title Người dùng
-          .inner-number 1.200
+          .inner-title Quản trị viên
+          .inner-number #{overView.userNum}
       .inner-item
         .inner-icon
           img(src="/admin/assets/images/section-1-icon-2.svg")
         .inner-content
           .inner-title Đơn hàng
-          .inner-number 3.600
+          .inner-number #{overView.orderNum}
       .inner-item
         .inner-icon
           img(src="/admin/assets/images/section-1-icon-3.svg")
         .inner-content
           .inner-title Doanh thu
-          .inner-number 300.000.000đ
+          .inner-number #{overView.totalPrice.toLocaleString("vi-VN")}
     .section-2
       .inner-head
         h2.inner-title Biểu đồ doanh thu
