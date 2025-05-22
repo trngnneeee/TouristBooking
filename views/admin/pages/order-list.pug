@@ -33,6 +33,15 @@ block main
             | Xóa bộ lọc
       .section-5
         .inner-wrap
+          .inner-change-status
+            .inner-item
+              select(class="order-apply-multi")
+                option(value="") -- Hành động --
+                option(value="delete") Xóa
+            .inner-item(
+              class="order-apply-multi-button"
+            )
+              button Áp dụng
           .inner-search
             i.fa-solid.fa-magnifying-glass
             input(
@@ -48,6 +57,8 @@ block main
           table
             thead
               tr
+                th.inner-center
+                    input.inner-check(type="checkbox" contact-check-all)
                 th Mã
                 th Thông tin khách
                 th Danh sách tour
@@ -58,6 +69,8 @@ block main
             tbody
               each orderDetail in orderList
                 tr
+                  td.inner-center
+                    input.inner-check(type="checkbox" contact-check-all-item=orderDetail.id)
                   td
                     .inner-code #{orderDetail.id}
                   td

@@ -12,10 +12,12 @@ router.patch('/delete/:id', orderController.deletePatch);
 
 router.get('/trash', orderController.trash);
 
-router.patch('/apply-multi', orderController.applyMultiPatch)
+router.patch('/trash-apply-multi', orderController.trashApplyMultiPatch)
 
 router.delete('/hard-delete/:id', orderController.hardDelete);
 
 router.patch('/recovery/:id', orderController.recoveryPatch);
+
+router.patch('/apply-multi', orderController.applyMultiPatch)
 
 module.exports = router;

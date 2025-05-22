@@ -244,7 +244,7 @@ module.exports.trash = async (req, res) => {
   })
 }
 
-module.exports.applyMultiPatch = async (req, res) => {
+module.exports.trashApplyMultiPatch = async (req, res) => {
   switch (req.body.status) {
     case "recovery":
       {
@@ -276,8 +276,7 @@ module.exports.applyMultiPatch = async (req, res) => {
 }
 
 module.exports.hardDelete = async (req, res) => {
-  try
-  {
+  try {
     const id = req.params.id;
     await Orders.deleteOne({
       _id: id
@@ -287,8 +286,7 @@ module.exports.hardDelete = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.json({
       code: "error",
       message: "ID không hợp lệ!"
@@ -297,8 +295,7 @@ module.exports.hardDelete = async (req, res) => {
 }
 
 module.exports.recoveryPatch = async (req, res) => {
-  try
-  {
+  try {
     const id = req.params.id;
     await Orders.updateOne({
       _id: id
@@ -312,11 +309,24 @@ module.exports.recoveryPatch = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.json({
       code: "error",
       message: "ID không hợp lệ!"
     })
   }
+}
+
+module.exports.applyMultiPatch = async (req, res) => {
+  await Orders.updateMany({
+    _id: { $in: req.body.idList }
+  }, {
+    deletedAt: Date.now(),
+    deletedBy: req.account.id,
+    deleted: true
+  })
+  req.flash("success", "Áp dụng thành công!");
+  res.json({
+    code: "success",
+  })
 }

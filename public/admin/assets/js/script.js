@@ -1366,6 +1366,41 @@ if (orderDeleteFilter) {
 }
 // End Order Delete Filter
 
+// Order Apply Multi
+const orderApplyMultiButton = document.querySelector(".order-apply-multi-button");
+if (orderApplyMultiButton) {
+  orderApplyMultiButton.addEventListener("click", () => {
+    const status = document.querySelector(".order-apply-multi").value;
+    const checkList = document.querySelectorAll("[contact-check-all-item]:checked");
+    let idList = [];
+    for (const item of checkList) {
+      idList.push(item.getAttribute("contact-check-all-item"));
+    }
+    if (status && idList.length) {
+      const finalData = {
+        status: status,
+        idList: idList
+      };
+      fetch(`/${pathAdmin}/order/apply-multi`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    }
+    else alert("Vui lòng chọn Đơn hàng hoặc Trạng thái cần áp dụng!");
+  })
+}
+// End Order Apply Multi
+
 // Order Search
 const orderSearch = document.querySelector("[order-search]");
 if (orderSearch) {
@@ -1417,7 +1452,7 @@ if (orderTrashApplyMultiButton) {
         status: status,
         idList: idList
       };
-      fetch(`/${pathAdmin}/order/apply-multi`, {
+      fetch(`/${pathAdmin}/order/trash-apply-multi`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
