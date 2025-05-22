@@ -98,7 +98,7 @@ block main
                     div Thanh toán: #{orderDetail.total.toLocaleString("vi-VN")}đ
                     div PTTT: #{orderDetail.paymentMethodName}
                     div TTTT: #{orderDetail.paymentStatusName}
-                  td
+                  td(style={width: "150px"})
                     - if (orderDetail.status == "initial")
                       .badge.badge-orange #{orderDetail.statusName}
                     - if (orderDetail.status == "done")
