@@ -1281,6 +1281,144 @@ if (orderDeleteButtonList.length)
 }
 // End Order Delete
 
+// Order Status Filter
+const orderStatusFiler = document.querySelector("[order-status]");
+if (orderStatusFiler)
+{
+  const url = new URL(window.location.href);
+  orderStatusFiler.addEventListener("change", () => {
+    const value = orderStatusFiler.value;
+    if (value)
+      url.searchParams.set("status", value);
+    else url.searchParams.delete("status");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("status"))
+    orderStatusFiler.value = url.searchParams.get("status");
+}
+// End Order Status Filter
+
+// Order Date Filter
+const orderStartDate = document.querySelector("[order-start-date]");
+if (orderStartDate)
+{
+  const url = new URL(window.location.href);
+  orderStartDate.addEventListener("change", () => {
+    const value = orderStartDate.value;
+    if (value)
+      url.searchParams.set("startDate", value);
+    else url.searchParams.delete("startDate");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("startDate"))
+    orderStartDate.value = url.searchParams.get("startDate");
+}
+const orderEndDate = document.querySelector("[order-end-date]");
+if (orderEndDate)
+{
+  const url = new URL(window.location.href);
+  orderEndDate.addEventListener("change", () => {
+    const value = orderEndDate.value;
+    if (value)
+      url.searchParams.set("endDate", value);
+    else url.searchParams.delete("endDate");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("endDate"))
+    orderEndDate.value = url.searchParams.get("endDate");
+}
+// End Order Date Filter
+
+// Order Payment Method Filter
+const orderPaymentMedthod = document.querySelector("[order-payment-method]");
+if (orderPaymentMedthod)
+{
+  const url = new URL(window.location.href);
+  orderPaymentMedthod.addEventListener("change", () => {
+    const value = orderPaymentMedthod.value;
+    if (value)
+      url.searchParams.set("paymentMethod", value);
+    else url.searchParams.delete("paymentMethod");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("paymentMethod"))
+    orderPaymentMedthod.value = url.searchParams.get("paymentMethod");
+}
+// End Order Payment Method Filter
+
+// Order Payment Status
+const orderPaymentStatus = document.querySelector("[order-payment-status]");
+if (orderPaymentStatus)
+{
+  const url = new URL(window.location.href);
+  orderPaymentStatus.addEventListener("change", () => {
+    const value = orderPaymentStatus.value;
+    if (value)
+      url.searchParams.set("paymentStatus", value);
+    else url.searchParams.delete("paymentStatus");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("paymentStatus"))
+    orderPaymentStatus.value = url.searchParams.get("paymentStatus");
+}
+// End Order Payment Status
+
+// Order Delete Filter
+const orderDeleteFilter = document.querySelector("[order-delete-filter]");
+if (orderDeleteFilter)
+{
+  const url = new URL(window.location.href);
+  orderDeleteFilter.addEventListener("click", () => {
+    url.search = "";
+    window.location.href = url.href;
+  })
+}
+// End Order Delete Filter
+
+// Order Search
+const orderSearch = document.querySelector("[order-search]");
+if (orderSearch)
+{
+  const url = new URL(window.location.href);
+  orderSearch.addEventListener("keyup", (event) => {
+    if (event.code == "Enter")
+    {
+      const value = orderSearch.value;
+      if (value)
+        url.searchParams.set("search", value);
+      else url.searchParams.delete("search");
+
+      window.location.href = url.href;
+    }
+  })
+  if (url.searchParams.get("search"))
+    orderSearch.value = url.searchParams.get("search");
+}
+// End Order Search
+
+// Order Pagination
+const orderPagination = document.querySelector("[order-pagination]");
+if (orderPagination)
+{
+  const url = new URL(window.location.href);
+  orderPagination.addEventListener("change", () => {
+    const value = orderPagination.value;
+      if (value)
+        url.searchParams.set("page", value);
+      else url.searchParams.delete("page");
+
+      window.location.href = url.href;
+  })
+  if (url.searchParams.get("page"))
+    orderPagination.value = url.searchParams.get("page");
+}
+// End Order Pagination
+
 // Setting Website Info Form
 const settingWebsiteInfoForm = document.querySelector("#setting-website-info-form");
 if (settingWebsiteInfoForm) {

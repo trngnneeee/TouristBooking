@@ -4,9 +4,69 @@ const moment = require("moment");
 const Cities = require("../../models/cities.model");
 
 module.exports.list = async (req, res) => {
-  const orderList = await Orders.find({
+  const find = {
     deleted: false
-  });
+  };
+
+  if (req.query.status) {
+    find.status = req.query.status;
+  }
+
+  const dateFilter = {};
+
+  if (req.query.startDate) {
+    const startDate = moment(req.query.startDate).startOf("date").toDate();
+    dateFilter.$gte = startDate;
+  }
+  if (req.query.endDate) {
+    const endDate = moment(req.query.endDate).endOf("date").toDate();
+    dateFilter.$lte = endDate;
+  }
+  if (Object.keys(dateFilter).length >= 1) {
+    find.createdAt = dateFilter;
+  }
+
+  if (req.query.paymentMethod)
+  {
+    find.paymentMethod = req.query.paymentMethod;
+  }
+
+  if (req.query.paymentStatus)
+  {
+    find.paymentStatus = req.query.paymentStatus;
+  }
+
+  if (req.query.search)
+  {
+    const search = new RegExp(req.query.search);
+    find.phone = search;
+  }
+
+  const limitItem = 3;
+  const totalItem = await Orders.countDocuments({
+    deleted: false
+  })
+  const totalPage = Math.ceil(totalItem / limitItem);
+
+  let page = 1;
+  if (req.query.page)
+  {
+    const tmp = parseInt(req.query.page);
+    if (tmp > 0)
+      page = tmp;
+  }
+
+  if (totalPage != 0 && page > totalPage)
+    page = totalPage;
+  const skip = (page - 1) * limitItem;
+
+  const pagination = {
+    totalItem: totalItem,
+    totalPage: totalPage,
+    skip: skip
+  }
+
+  const orderList = await Orders.find(find).limit(limitItem).skip(skip);
 
   for (const order of orderList) {
     order.paymentMethodName = variableConfig.paymentMethod.find(item => item.value == order.paymentMethod).label;
@@ -19,7 +79,11 @@ module.exports.list = async (req, res) => {
 
   res.render("admin/pages/order-list.pug", {
     pageTitle: "Quản lý đơn hàng",
-    orderList: orderList
+    orderList: orderList,
+    orderStatus: variableConfig.orderStatus,
+    paymentMethod: variableConfig.paymentMethod,
+    paymentStatus: variableConfig.paymentStatus,
+    pagination: pagination
   })
 }
 
@@ -80,8 +144,7 @@ module.exports.editPatch = async (req, res) => {
 }
 
 module.exports.deletePatch = async (req, res) => {
-  try
-  {
+  try {
     const id = req.params.id;
     await Orders.updateOne({
       _id: id,
@@ -97,8 +160,7 @@ module.exports.deletePatch = async (req, res) => {
       code: "success"
     })
   }
-  catch(error)
-  {
+  catch (error) {
     res.json({
       code: "error",
       message: "ID không hợp lệ!"

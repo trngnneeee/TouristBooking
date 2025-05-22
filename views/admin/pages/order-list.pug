@@ -10,27 +10,25 @@ block main
             i.fa-solid.fa-filter
             | Bộ lọc
           .inner-item
-            select
+            select(order-status)
               option(value="") Trạng thái
-              option(value="") Khởi tạo
-              option(value="") Hoàn thành
-              option(value="") Hủy
+              each item in orderStatus 
+                option(value=item.value) #{item.label}
           .inner-item.inner-date
-            input(type="date")
+            input(type="date" order-start-date)
             span -
-            input(type="date")
+            input(type="date" order-end-date)
           .inner-item
-            select
+            select(order-payment-method)
               option(value="") Phương thức thanh toán
-              option(value="") Ví Momo
-              option(value="") VNPay
-              option(value="") ZaloPay
+              each item in paymentMethod
+                option(value=item.value) #{item.label}
           .inner-item
-            select
+            select(order-payment-status)
               option(value="") Trạng thái thanh toán
-              option(value="") Đã thanh toán
-              option(value="") Chưa thanh toán
-          .inner-item.inner-reset
+              each item in paymentStatus
+                option(value=item.value) #{item.label}
+          .inner-item.inner-reset(order-delete-filter)
             i.fa-solid.fa-rotate-left
             | Xóa bộ lọc
       .section-5
@@ -38,7 +36,8 @@ block main
           .inner-search
             i.fa-solid.fa-magnifying-glass
             input(
-              placeholder="Tìm kiếm" 
+              order-search
+              placeholder="Tìm kiếm theo số điện thoại" 
               type="text"
               )
       .section-6
@@ -104,8 +103,7 @@ block main
                         )
                           i.fa-regular.fa-trash-can
       .section-7
-        span.inner-label Hiển thị 1 - 9 của 78
-        select.inner-pagination
-          option Trang 1
-          option Trang 2
-          option Trang 3
+        span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + orderList.length} của #{pagination.totalItem}
+        select.inner-pagination(order-pagination)
+          - for (let i = 1; i <= pagination.totalPage; i++)
+            option(value=i) Trang #{i}
