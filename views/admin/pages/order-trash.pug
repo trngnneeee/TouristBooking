@@ -3,7 +3,7 @@ extends ../layouts/default.pug
 block main 
   - if (permissions.includes("order-view"))
     main.main
-      h1.box-title Quản lý đơn hàng
+      h1.box-title Thùng rác đơn hàng
       .section-4
         .inner-wrap
           .inner-item.inner-label
@@ -33,6 +33,16 @@ block main
             | Xóa bộ lọc
       .section-5
         .inner-wrap
+          .inner-change-status
+            .inner-item
+              select(class="order-trash-apply-multi")
+                option(value="") -- Hành động --
+                option(value="recovery") Khôi phục
+                option(value="hard-delete") Xóa vĩnh viễn
+            .inner-item(
+              class="order-trash-apply-multi-button"
+            )
+              button Áp dụng
           .inner-search
             i.fa-solid.fa-magnifying-glass
             input(
@@ -40,14 +50,13 @@ block main
               placeholder="Tìm kiếm theo số điện thoại" 
               type="text"
               )
-          //- - if (permissions.includes("category-trash"))
-          .inner-button-trash
-            a(href=`/${pathAdmin}/order/trash`) Thùng rác
       .section-6
         .table-2
           table
             thead
               tr
+                th.inner-center
+                    input.inner-check(type="checkbox" contact-check-all)
                 th Mã
                 th Thông tin khách
                 th Danh sách tour
@@ -58,6 +67,8 @@ block main
             tbody
               each orderDetail in orderList
                 tr
+                  td.inner-center
+                    input.inner-check(type="checkbox" contact-check-all-item=orderDetail.id)
                   td
                     .inner-code #{orderDetail.id}
                   td
@@ -94,17 +105,18 @@ block main
                   td.inner-center
                     div #{orderDetail.createdAtTimeFormat}
                     div #{orderDetail.createdAtDateFormat}
-                  td
+                  td.inner-center
                     .inner-buttons
-                      - if (permissions.includes("order-edit"))
-                        a(href=`/${pathAdmin}/order/edit/${orderDetail.id}`).inner-edit
-                          i.fa-regular.fa-pen-to-square
-                      - if (permissions.includes("order-delete"))
-                        button.inner-delete(
-                          data-api=`/${pathAdmin}/order/delete/${orderDetail.id}`
-                          order-delete
-                        )
-                          i.fa-regular.fa-trash-can
+                      button.inner-undo(
+                        data-api=`/${pathAdmin}/order/recovery/${orderDetail.id}`
+                        recovery-order-button
+                      )
+                        i.fa-solid.fa-rotate-left
+                      button.inner-delete(
+                        data-api=`/${pathAdmin}/order/hard-delete/${orderDetail.id}`
+                        hard-delete-order-button
+                      )
+                        i.fa-regular.fa-trash-can
       .section-7
         span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + orderList.length} của #{pagination.totalItem}
         select.inner-pagination(order-pagination)

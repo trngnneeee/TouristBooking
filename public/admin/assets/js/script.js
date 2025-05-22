@@ -108,16 +108,16 @@ if (listFilepondImage.length > 0) {
 // Filepond Image Multi
 const listFilepondImageMulti = document.querySelectorAll("[filepond-image-multi]");
 let filePondMulti = {};
-if(listFilepondImageMulti.length > 0) {
+if (listFilepondImageMulti.length > 0) {
   listFilepondImageMulti.forEach(filepondImage => {
     FilePond.registerPlugin(FilePondPluginImagePreview);
     FilePond.registerPlugin(FilePondPluginFileValidateType);
 
     let files = null;
     const elementListImageDefault = filepondImage.closest("[list-image-default]");
-    if(elementListImageDefault) {
+    if (elementListImageDefault) {
       let listImageDefault = elementListImageDefault.getAttribute("list-image-default");
-      if(listImageDefault) {
+      if (listImageDefault) {
         listImageDefault = JSON.parse(listImageDefault);
         files = [];
         listImageDefault.forEach(image => {
@@ -568,7 +568,7 @@ if (tourCreateForm) {
       formData.append("information", information);
       formData.append("schedules", JSON.stringify(schedules)); // Mảng -> Gửi JSON để ko lỗi
 
-      if(filePondMulti.images.getFiles().length > 0) {
+      if (filePondMulti.images.getFiles().length > 0) {
         filePondMulti.images.getFiles().forEach(item => {
           formData.append("images", item.file);
         })
@@ -685,7 +685,7 @@ if (tourEditForm) {
       formData.append("information", information);
       formData.append("schedules", JSON.stringify(schedules)); // Mảng -> Gửi JSON để ko lỗi
 
-      if(filePondMulti.images.getFiles().length > 0) {
+      if (filePondMulti.images.getFiles().length > 0) {
         filePondMulti.images.getFiles().forEach(item => {
           formData.append("images", item.file);
         })
@@ -856,11 +856,10 @@ if (tourCategoryFilter) {
 
 // Category Trash Multi Apply
 const categoryTrashApplyMultiButton = document.querySelector(".category-trash-apply-multi-button")
-if (categoryTrashApplyMultiButton)
-{
+if (categoryTrashApplyMultiButton) {
   const button = categoryTrashApplyMultiButton.querySelector("button");
   button.addEventListener("click", () => {
-    const select = document.querySelector(".category-trash-apply-multi");  
+    const select = document.querySelector(".category-trash-apply-multi");
     const status = select.value;
 
     const idList = [];
@@ -868,8 +867,7 @@ if (categoryTrashApplyMultiButton)
     for (const item of contactTrashCheckAllItemList)
       idList.push(item.getAttribute("check-item"));
 
-    if (idList.length && status)
-    {
+    if (idList.length && status) {
       const finalData = {
         status: status,
         idList: idList
@@ -897,10 +895,8 @@ if (categoryTrashApplyMultiButton)
 
 // Category Trash Recovery
 const categoryTrashRecoveryList = document.querySelectorAll("[recovery-category-button]");
-if (categoryTrashRecoveryList)
-{
-  for (const button of categoryTrashRecoveryList)
-  {
+if (categoryTrashRecoveryList) {
+  for (const button of categoryTrashRecoveryList) {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
 
@@ -921,10 +917,8 @@ if (categoryTrashRecoveryList)
 
 // Category Trash Hard Delete
 const categoryTrashHardDeleteList = document.querySelectorAll("[hard-delete-category-button]");
-if (categoryTrashHardDeleteList)
-{
-  for (const button of categoryTrashHardDeleteList)
-  {
+if (categoryTrashHardDeleteList) {
+  for (const button of categoryTrashHardDeleteList) {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
 
@@ -1260,10 +1254,8 @@ if (orderEditForm) {
 
 // Order Delete
 const orderDeleteButtonList = document.querySelectorAll("[order-delete]");
-if (orderDeleteButtonList.length)
-{
-  for (const button of orderDeleteButtonList)
-  {
+if (orderDeleteButtonList.length) {
+  for (const button of orderDeleteButtonList) {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
       fetch(api, {
@@ -1283,8 +1275,7 @@ if (orderDeleteButtonList.length)
 
 // Order Status Filter
 const orderStatusFiler = document.querySelector("[order-status]");
-if (orderStatusFiler)
-{
+if (orderStatusFiler) {
   const url = new URL(window.location.href);
   orderStatusFiler.addEventListener("change", () => {
     const value = orderStatusFiler.value;
@@ -1301,8 +1292,7 @@ if (orderStatusFiler)
 
 // Order Date Filter
 const orderStartDate = document.querySelector("[order-start-date]");
-if (orderStartDate)
-{
+if (orderStartDate) {
   const url = new URL(window.location.href);
   orderStartDate.addEventListener("change", () => {
     const value = orderStartDate.value;
@@ -1316,8 +1306,7 @@ if (orderStartDate)
     orderStartDate.value = url.searchParams.get("startDate");
 }
 const orderEndDate = document.querySelector("[order-end-date]");
-if (orderEndDate)
-{
+if (orderEndDate) {
   const url = new URL(window.location.href);
   orderEndDate.addEventListener("change", () => {
     const value = orderEndDate.value;
@@ -1334,8 +1323,7 @@ if (orderEndDate)
 
 // Order Payment Method Filter
 const orderPaymentMedthod = document.querySelector("[order-payment-method]");
-if (orderPaymentMedthod)
-{
+if (orderPaymentMedthod) {
   const url = new URL(window.location.href);
   orderPaymentMedthod.addEventListener("change", () => {
     const value = orderPaymentMedthod.value;
@@ -1352,8 +1340,7 @@ if (orderPaymentMedthod)
 
 // Order Payment Status
 const orderPaymentStatus = document.querySelector("[order-payment-status]");
-if (orderPaymentStatus)
-{
+if (orderPaymentStatus) {
   const url = new URL(window.location.href);
   orderPaymentStatus.addEventListener("change", () => {
     const value = orderPaymentStatus.value;
@@ -1370,8 +1357,7 @@ if (orderPaymentStatus)
 
 // Order Delete Filter
 const orderDeleteFilter = document.querySelector("[order-delete-filter]");
-if (orderDeleteFilter)
-{
+if (orderDeleteFilter) {
   const url = new URL(window.location.href);
   orderDeleteFilter.addEventListener("click", () => {
     url.search = "";
@@ -1382,12 +1368,10 @@ if (orderDeleteFilter)
 
 // Order Search
 const orderSearch = document.querySelector("[order-search]");
-if (orderSearch)
-{
+if (orderSearch) {
   const url = new URL(window.location.href);
   orderSearch.addEventListener("keyup", (event) => {
-    if (event.code == "Enter")
-    {
+    if (event.code == "Enter") {
       const value = orderSearch.value;
       if (value)
         url.searchParams.set("search", value);
@@ -1403,21 +1387,101 @@ if (orderSearch)
 
 // Order Pagination
 const orderPagination = document.querySelector("[order-pagination]");
-if (orderPagination)
-{
+if (orderPagination) {
   const url = new URL(window.location.href);
   orderPagination.addEventListener("change", () => {
     const value = orderPagination.value;
-      if (value)
-        url.searchParams.set("page", value);
-      else url.searchParams.delete("page");
+    if (value)
+      url.searchParams.set("page", value);
+    else url.searchParams.delete("page");
 
-      window.location.href = url.href;
+    window.location.href = url.href;
   })
   if (url.searchParams.get("page"))
     orderPagination.value = url.searchParams.get("page");
 }
 // End Order Pagination
+
+// Order Trash Apply Multi
+const orderTrashApplyMultiButton = document.querySelector(".order-trash-apply-multi-button");
+if (orderTrashApplyMultiButton) {
+  orderTrashApplyMultiButton.addEventListener("click", () => {
+    const status = document.querySelector(".order-trash-apply-multi").value;
+    const checkList = document.querySelectorAll("[contact-check-all-item]:checked");
+    let idList = [];
+    for (const item of checkList) {
+      idList.push(item.getAttribute("contact-check-all-item"));
+    }
+    if (status && idList.length) {
+      const finalData = {
+        status: status,
+        idList: idList
+      };
+      fetch(`/${pathAdmin}/order/apply-multi`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    }
+    else alert("Vui lòng chọn Đơn hàng hoặc Trạng thái cần áp dụng!");
+  })
+}
+// End Order Trash Apply Multi
+
+// Order Hard Delete
+const orderHardDeleteButtonList = document.querySelectorAll("[hard-delete-order-button]");
+if (orderHardDeleteButtonList.length)
+{
+  for (const button of orderHardDeleteButtonList)
+  {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "DELETE"
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Order Hard Delete
+
+// Order Recovery 
+const orderRecoveryButtonList = document.querySelectorAll("[recovery-order-button]");
+if (orderRecoveryButtonList.length)
+{
+  for (const button of orderRecoveryButtonList)
+  {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Order Recovery 
 
 // Setting Website Info Form
 const settingWebsiteInfoForm = document.querySelector("#setting-website-info-form");
@@ -1571,21 +1635,18 @@ if (adminAccountCheckAll) {
 
 // Admin Account Multiple Apply
 const adminAccountMultipleApply = document.querySelector("[admin-account-multi-apply-button]");
-if (adminAccountMultipleApply)
-{
+if (adminAccountMultipleApply) {
   adminAccountMultipleApply.addEventListener("click", () => {
     const statusSelect = document.querySelector("[admin-account-multi-apply-status]");
     const status = statusSelect.value;
 
     const idList = [];
     const itemList = document.querySelectorAll("[admin-account-checkall-item]:checked");
-    for (const item of itemList)
-    {
+    for (const item of itemList) {
       idList.push(item.getAttribute("admin-account-checkall-item"));
     }
 
-    if (status && idList.length > 0)
-    {
+    if (status && idList.length > 0) {
       const finalData = {
         status: status,
         idList: idList
@@ -1607,20 +1668,18 @@ if (adminAccountMultipleApply)
         })
     }
     else
-    alert("Vui lòng chọn Tài khoản quản trị hoặc Trạng thái cần áp dụng!");
+      alert("Vui lòng chọn Tài khoản quản trị hoặc Trạng thái cần áp dụng!");
   })
 }
 // End Admin Account Multiple Apply
 
 // Admin Account Search
 const adminAccountSearch = document.querySelector("[admin-account-search]");
-if (adminAccountSearch)
-{
+if (adminAccountSearch) {
   const input = adminAccountSearch.querySelector("input");
   const url = new URL(window.location.href);
   input.addEventListener("keyup", (event) => {
-    if (event.code == "Enter")
-    {
+    if (event.code == "Enter") {
       const value = input.value;
       if (value)
         url.searchParams.set("search", value);
@@ -1629,8 +1688,7 @@ if (adminAccountSearch)
       window.location.href = url.href;
     }
   })
-  if (url.searchParams.get("search"))
-  {
+  if (url.searchParams.get("search")) {
     const input = adminAccountSearch.querySelector("input");
     input.value = url.searchParams.get("search");
   }
@@ -1639,8 +1697,7 @@ if (adminAccountSearch)
 
 // Admin Account Pagination
 const adminAccountPagination = document.querySelector("[admin-account-pagination]");
-if (adminAccountPagination)
-{
+if (adminAccountPagination) {
   const url = new URL(window.location.href);
   adminAccountPagination.addEventListener("change", () => {
     const value = adminAccountPagination.value;
@@ -2241,8 +2298,7 @@ if (alertTime) {
 
 // Contact Date Filter
 const contactStartDate = document.querySelector("[contact-start-date]");
-if (contactStartDate)
-{
+if (contactStartDate) {
   const url = new URL(window.location.href);
   contactStartDate.addEventListener("change", () => {
     const value = contactStartDate.value;
@@ -2258,8 +2314,7 @@ if (contactStartDate)
 }
 
 const contactEndDate = document.querySelector("[contact-end-date]");
-if (contactEndDate)
-{
+if (contactEndDate) {
   const url = new URL(window.location.href);
   contactEndDate.addEventListener("change", () => {
     const value = contactEndDate.value;
@@ -2277,8 +2332,7 @@ if (contactEndDate)
 
 // Contact Remove Filter
 const contactRemoveFilter = document.querySelector("[contact-remove-filter]");
-if (contactRemoveFilter)
-{
+if (contactRemoveFilter) {
   const url = new URL(window.location.href);
   contactRemoveFilter.addEventListener("click", () => {
     url.search = "";
@@ -2289,12 +2343,10 @@ if (contactRemoveFilter)
 
 // Contact Check All
 const contactCheckAll = document.querySelector("[contact-check-all]");
-if (contactCheckAll)
-{
+if (contactCheckAll) {
   contactCheckAll.addEventListener("click", () => {
     const contactCheckAllItemList = document.querySelectorAll("[contact-check-all-item]");
-    for (const item of contactCheckAllItemList)
-    {
+    for (const item of contactCheckAllItemList) {
       item.checked = contactCheckAll.checked;
     }
   })
@@ -2303,21 +2355,18 @@ if (contactCheckAll)
 
 // Contact Multiple Apply
 const contactMultiApplyButton = document.querySelector("[contact-multiple-apply-button]");
-if (contactMultiApplyButton)
-{
+if (contactMultiApplyButton) {
   contactMultiApplyButton.addEventListener("click", () => {
     const select = document.querySelector("[contact-multiple-apply-select]");
     const status = select.value;
 
     const itemList = document.querySelectorAll("[contact-check-all-item]:checked");
     const idList = [];
-    for (const item of itemList)
-    {
+    for (const item of itemList) {
       idList.push(item.getAttribute("contact-check-all-item"));
     }
 
-    if (status && idList.length)
-    {
+    if (status && idList.length) {
       const finalData = {
         status: status,
         idList: idList
@@ -2345,12 +2394,10 @@ if (contactMultiApplyButton)
 
 // Contact Search
 const contactSearch = document.querySelector("[contact-search]");
-if (contactSearch)
-{
+if (contactSearch) {
   const url = new URL(window.location.href);
   contactSearch.addEventListener("keyup", (event) => {
-    if (event.code == "Enter")
-    {
+    if (event.code == "Enter") {
       const value = contactSearch.value;
       if (value)
         url.searchParams.set("search", value);
@@ -2367,10 +2414,8 @@ if (contactSearch)
 
 // Contact Delete
 const contactDeleteButtonList = document.querySelectorAll("[contact-delete]");
-if (contactDeleteButtonList)
-{
-  for (const item of contactDeleteButtonList)
-  {
+if (contactDeleteButtonList) {
+  for (const item of contactDeleteButtonList) {
     item.addEventListener("click", () => {
       const api = item.getAttribute("data-api");
       fetch(api, {
@@ -2390,8 +2435,7 @@ if (contactDeleteButtonList)
 
 // Contact Pagination
 const contactPagination = document.querySelector("[contact-pagination]");
-if (contactPagination)
-{
+if (contactPagination) {
   const url = new URL(window.location.href);
   contactPagination.addEventListener("change", () => {
     const value = contactPagination.value;
@@ -2409,11 +2453,10 @@ if (contactPagination)
 
 // Contact Trash Multiple Apply
 const contactTrashApplyMultiButton = document.querySelector(".contact-trash-apply-multi-button")
-if (contactTrashApplyMultiButton)
-{
+if (contactTrashApplyMultiButton) {
   const button = contactTrashApplyMultiButton.querySelector("button");
   button.addEventListener("click", () => {
-    const select = document.querySelector(".contact-trash-apply-multi");  
+    const select = document.querySelector(".contact-trash-apply-multi");
     const status = select.value;
 
     const idList = [];
@@ -2421,8 +2464,7 @@ if (contactTrashApplyMultiButton)
     for (const item of contactTrashCheckAllItemList)
       idList.push(item.getAttribute("contact-check-all-item"));
 
-    if (idList.length && status)
-    {
+    if (idList.length && status) {
       const finalData = {
         status: status,
         idList: idList
@@ -2450,13 +2492,11 @@ if (contactTrashApplyMultiButton)
 
 // Contact Trash Search
 const contactTrashSearch = document.querySelector(".contact-trash-search");
-if (contactTrashSearch)
-{
+if (contactTrashSearch) {
   const url = new URL(window.location.href);
   const input = contactTrashSearch.querySelector("input");
   input.addEventListener("keyup", (event) => {
-    if (event.code == "Enter")
-    {
+    if (event.code == "Enter") {
       const value = input.value;
       if (value)
         url.searchParams.set("search", value);
@@ -2466,8 +2506,7 @@ if (contactTrashSearch)
     }
   })
 
-  if (url.searchParams.get("search"))
-  {
+  if (url.searchParams.get("search")) {
     const input = contactTrashSearch.querySelector("input");
     input.value = url.searchParams.get("search");
   }
@@ -2476,10 +2515,8 @@ if (contactTrashSearch)
 
 // Contact Trash Recovery
 const contactTrashRecoveryList = document.querySelectorAll("[recovery-contact-button]");
-if (contactTrashRecoveryList)
-{
-  for (const button of contactTrashRecoveryList)
-  {
+if (contactTrashRecoveryList) {
+  for (const button of contactTrashRecoveryList) {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
 
@@ -2500,10 +2537,8 @@ if (contactTrashRecoveryList)
 
 // Contact Trash Hard Delete
 const contactTrashHardDeleteList = document.querySelectorAll("[hard-delete-contact-button]");
-if (contactTrashHardDeleteList)
-{
-  for (const button of contactTrashHardDeleteList)
-  {
+if (contactTrashHardDeleteList) {
+  for (const button of contactTrashHardDeleteList) {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
 
@@ -2524,8 +2559,7 @@ if (contactTrashHardDeleteList)
 
 // Contact Trash Pagination
 const contactTrashPagination = document.querySelector("[contact-trash-pagination]");
-if (contactTrashPagination)
-{
+if (contactTrashPagination) {
   const url = new URL(window.location.href);
   contactTrashPagination.addEventListener("change", () => {
     const value = contactTrashPagination.value;

@@ -26,18 +26,15 @@ module.exports.list = async (req, res) => {
     find.createdAt = dateFilter;
   }
 
-  if (req.query.paymentMethod)
-  {
+  if (req.query.paymentMethod) {
     find.paymentMethod = req.query.paymentMethod;
   }
 
-  if (req.query.paymentStatus)
-  {
+  if (req.query.paymentStatus) {
     find.paymentStatus = req.query.paymentStatus;
   }
 
-  if (req.query.search)
-  {
+  if (req.query.search) {
     const search = new RegExp(req.query.search);
     find.phone = search;
   }
@@ -49,8 +46,7 @@ module.exports.list = async (req, res) => {
   const totalPage = Math.ceil(totalItem / limitItem);
 
   let page = 1;
-  if (req.query.page)
-  {
+  if (req.query.page) {
     const tmp = parseInt(req.query.page);
     if (tmp > 0)
       page = tmp;
@@ -161,6 +157,163 @@ module.exports.deletePatch = async (req, res) => {
     })
   }
   catch (error) {
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ!"
+    })
+  }
+}
+
+module.exports.trash = async (req, res) => {
+  const find = {
+    deleted: true
+  };
+
+  if (req.query.status) {
+    find.status = req.query.status;
+  }
+
+  const dateFilter = {};
+
+  if (req.query.startDate) {
+    const startDate = moment(req.query.startDate).startOf("date").toDate();
+    dateFilter.$gte = startDate;
+  }
+  if (req.query.endDate) {
+    const endDate = moment(req.query.endDate).endOf("date").toDate();
+    dateFilter.$lte = endDate;
+  }
+  if (Object.keys(dateFilter).length >= 1) {
+    find.createdAt = dateFilter;
+  }
+
+  if (req.query.paymentMethod) {
+    find.paymentMethod = req.query.paymentMethod;
+  }
+
+  if (req.query.paymentStatus) {
+    find.paymentStatus = req.query.paymentStatus;
+  }
+
+  if (req.query.search) {
+    const search = new RegExp(req.query.search);
+    find.phone = search;
+  }
+
+  const limitItem = 3;
+  const totalItem = await Orders.countDocuments({
+    deleted: true
+  })
+  const totalPage = Math.ceil(totalItem / limitItem);
+
+  let page = 1;
+  if (req.query.page) {
+    const tmp = parseInt(req.query.page);
+    if (tmp > 0)
+      page = tmp;
+  }
+
+  if (totalPage != 0 && page > totalPage)
+    page = totalPage;
+  const skip = (page - 1) * limitItem;
+
+  const pagination = {
+    totalItem: totalItem,
+    totalPage: totalPage,
+    skip: skip
+  }
+
+  const orderList = await Orders.find(find).limit(limitItem).skip(skip);
+
+  for (const order of orderList) {
+    order.paymentMethodName = variableConfig.paymentMethod.find(item => item.value == order.paymentMethod).label;
+    order.paymentStatusName = variableConfig.paymentStatus.find(item => item.value == order.paymentStatus).label;
+    order.statusName = variableConfig.orderStatus.find(item => item.value == order.status).label;
+
+    order.createdAtTimeFormat = moment(order.createdAt).format("HH:mm");
+    order.createdAtDateFormat = moment(order.createdAt).format("DD/MM/YYYY");
+  }
+
+  res.render("admin/pages/order-trash.pug", {
+    pageTitle: "Thùng rác đơn hàng",
+    orderList: orderList,
+    orderStatus: variableConfig.orderStatus,
+    paymentMethod: variableConfig.paymentMethod,
+    paymentStatus: variableConfig.paymentStatus,
+    pagination: pagination
+  })
+}
+
+module.exports.applyMultiPatch = async (req, res) => {
+  switch (req.body.status) {
+    case "recovery":
+      {
+        await Orders.updateMany({
+          _id: { $in: req.body.idList }
+        }, {
+          updatedAt: Date.now(),
+          updatedBy: req.account.id,
+          deleted: false
+        })
+        req.flash("success", "Áp dụng thành công!");
+        res.json({
+          code: "success",
+        })
+        break;
+      }
+    case "hard-delete":
+      {
+        await Orders.deleteMany({
+          _id: { $in: req.body.idList }
+        })
+        req.flash("success", "Xóa vĩnh viễn thành công!");
+        res.json({
+          code: "success",
+        })
+        break;
+      }
+  }
+}
+
+module.exports.hardDelete = async (req, res) => {
+  try
+  {
+    const id = req.params.id;
+    await Orders.deleteOne({
+      _id: id
+    })
+    req.flash("success", "Xóa vĩnh viễn thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch(error)
+  {
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ!"
+    })
+  }
+}
+
+module.exports.recoveryPatch = async (req, res) => {
+  try
+  {
+    const id = req.params.id;
+    await Orders.updateOne({
+      _id: id
+    }, {
+      deleted: false,
+      updatedAt: Date.now(),
+      updatedBy: req.account.id
+    })
+    req.flash("success", "Khôi phục thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch(error)
+  {
     res.json({
       code: "error",
       message: "ID không hợp lệ!"
