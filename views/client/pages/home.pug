@@ -205,7 +205,7 @@ block main
           +cardItem(item)
         // End Product Item
       .inner-button
-        a.button-outline(href="#") Xem tất cả
+        a.button-outline(href=`/category/${path.nationalPath}`) Xem tất cả
   // End Section 4
 
   // Section 5
@@ -235,11 +235,11 @@ block main
         data-aos="fade-up"
         )
         // Product Item
-        each item in dataSection4 
+        each item in dataSection5
           +cardItem(item)
         // End Product Item
       .inner-button
-        a.button-outline(href="#") Xem tất cả
+        a.button-outline(href=`/category/${path.internationalPath}`) Xem tất cả
   // End Section 6
 
   // Section 7

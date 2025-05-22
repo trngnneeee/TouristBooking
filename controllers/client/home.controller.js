@@ -29,10 +29,31 @@ module.exports.home = async (req, res) => {
             item.departureDateFormat = departureDate;
         }
     }
+
+    // Section 5
+    const internationalTourId = "681b4977c12d9cea3e49177a";
+    const innationalTourIdList = findAllCategory(categoryList, internationalTourId);
+
+    const dataSection5 = await Tours.find({
+        deleted: false,
+        category: { $in: innationalTourIdList }
+    }).limit(4);
+
+    const path = {};
+    const nationalCategory = await Category.findOne({
+        _id: nationalTourId
+    })
+    const internationalCategory = await Category.findOne({
+        _id: internationalTourId
+    })
+    path.nationalPath = nationalCategory.slug
+    path.internationalPath = internationalCategory.slug
     
     res.render("client/pages/home.pug", {
         pageTitle: "Trang chủ",
         tourList: tourList,
-        dataSection4: dataSection4
+        dataSection4: dataSection4,
+        dataSection5: dataSection5,
+        path: path
     })
 }
