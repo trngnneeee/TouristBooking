@@ -37,7 +37,8 @@ block main
             .inner-item
               select(class="order-apply-multi")
                 option(value="") -- Hành động --
-                option(value="delete") Xóa
+                - if (permissions.includes("order-delete"))
+                  option(value="delete") Xóa
             .inner-item(
               class="order-apply-multi-button"
             )
@@ -49,9 +50,9 @@ block main
               placeholder="Tìm kiếm theo số điện thoại" 
               type="text"
               )
-          //- - if (permissions.includes("category-trash"))
-          .inner-button-trash
-            a(href=`/${pathAdmin}/order/trash`) Thùng rác
+          - if (permissions.includes("order-trash"))
+            .inner-button-trash
+              a(href=`/${pathAdmin}/order/trash`) Thùng rác
       .section-6
         .table-2
           table

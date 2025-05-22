@@ -117,6 +117,14 @@ module.exports.edit = async (req, res) => {
 
 module.exports.editPatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("order-edit")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
 
     req.body.updatedAt = Date.now();
@@ -141,6 +149,14 @@ module.exports.editPatch = async (req, res) => {
 
 module.exports.deletePatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("order-delete")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
     await Orders.updateOne({
       _id: id,
@@ -248,6 +264,14 @@ module.exports.trashApplyMultiPatch = async (req, res) => {
   switch (req.body.status) {
     case "recovery":
       {
+        if (!req.permissions.includes("order-trash")) {
+          res.json({
+            code: "error",
+            message: "Không có quyền sử dụng tính năng này!"
+          })
+          return;
+        }
+
         await Orders.updateMany({
           _id: { $in: req.body.idList }
         }, {
@@ -263,6 +287,14 @@ module.exports.trashApplyMultiPatch = async (req, res) => {
       }
     case "hard-delete":
       {
+        if (!req.permissions.includes("order-trash")) {
+          res.json({
+            code: "error",
+            message: "Không có quyền sử dụng tính năng này!"
+          })
+          return;
+        }
+
         await Orders.deleteMany({
           _id: { $in: req.body.idList }
         })
@@ -277,6 +309,14 @@ module.exports.trashApplyMultiPatch = async (req, res) => {
 
 module.exports.hardDelete = async (req, res) => {
   try {
+    if (!req.permissions.includes("order-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
     await Orders.deleteOne({
       _id: id
@@ -296,6 +336,14 @@ module.exports.hardDelete = async (req, res) => {
 
 module.exports.recoveryPatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("order-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
     await Orders.updateOne({
       _id: id
@@ -318,6 +366,14 @@ module.exports.recoveryPatch = async (req, res) => {
 }
 
 module.exports.applyMultiPatch = async (req, res) => {
+  if (!req.permissions.includes("order-delete")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   await Orders.updateMany({
     _id: { $in: req.body.idList }
   }, {

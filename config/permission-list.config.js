@@ -56,6 +56,10 @@ module.exports.permissionList = [
     value: "order-delete"
   },
   {
+    label: "Thùng rác đơn hàng",
+    value: "order-trash"
+  },
+  {
     label: "Xem thông tin liên hệ",
     value: "contact-view"
   },
