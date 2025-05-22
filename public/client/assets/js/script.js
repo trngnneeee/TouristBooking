@@ -487,10 +487,10 @@ if (formSearch) {
   formSearch.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    const departure = event.target.departure.value;
-    if (departure)
-      url.searchParams.set("departure", departure);
-    else url.searchParams.delete("departure");
+    const destination = event.target.destination.value;
+    if (destination)
+      url.searchParams.set("destination", destination);
+    else url.searchParams.delete("destination");
 
     const stockAdult = parseInt(formSearch.querySelector("[stockAdult]").innerHTML);
     if (stockAdult)
