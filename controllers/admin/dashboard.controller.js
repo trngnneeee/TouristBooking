@@ -44,3 +44,56 @@ module.exports.dashboard = async (req, res) => {
     newOrderList: newOrderList
   })
 }
+
+module.exports.dashboardPost = async (req, res) => {
+  const currentMonthOrderList = await Orders.find({
+    deleted: false,
+    createdAt: {
+      $gte: new Date(req.body.currentYear, req.body.currentMonth - 1, 1),
+      $lte: new Date(req.body.currentYear, req.body.currentMonth, 1),
+    }
+  }
+)
+  const previousMonthOrderList = await Orders.find({
+    deleted: false,
+    createdAt: {
+      $gte: new Date(req.body.previousYear, req.body.previousMonth - 1, 1),
+      $lte: new Date(req.body.previousYear, req.body.previousMonth, 1),
+    }
+  })
+
+  const currentMonthData = [];
+  const previousMonthData = [];
+  for (const day of req.body.dayArray)
+  {
+    let totalPrice = 0;
+    for (const order of currentMonthOrderList)
+    {
+      if (new Date(order.createdAt).getDate() == day)
+      {
+        totalPrice += order.total;
+      }
+    }
+    currentMonthData[day - 1] = totalPrice;
+  }
+  for (const day of req.body.dayArray)
+  {
+    let totalPrice = 0;
+    for (const order of previousMonthOrderList)
+    {
+      if (new Date(order.createdAt).getDate() == day)
+      {
+        totalPrice += order.total;
+      }
+    }
+    previousMonthData[day - 1] = totalPrice;
+  }
+
+
+
+  res.json({
+    code: "success",
+    currentMonthData: currentMonthData,
+    previousMonthData: previousMonthData
+  })
+}

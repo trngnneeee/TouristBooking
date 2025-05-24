@@ -78,6 +78,13 @@ block main
                   )
                 label(for="methodMomo") Ví MoMo
               .inner-item
+                input#methodZaloPay(
+                  value="zalopay" 
+                  name="method" 
+                  type="radio"
+                  )
+                label(for="methodZaloPay") Ví ZaloPay
+              .inner-item
                 input#methodBank(
                   value="bank" 
                   name="method" 
@@ -86,9 +93,9 @@ block main
                 label(for="methodBank") Chuyển khoản ngân hàng
             .inner-info-bank
               .inner-title Thông tin chuyển khoản
-              .inner-text Ngân hàng : Vietcombank
-              .inner-text Tên tài khoản: Le Van A
-              .inner-text STK: 0123456789
+              .inner-text Ngân hàng : MB Bank
+              .inner-text Tên tài khoản: DANG TRUONG NGUYEN
+              .inner-text STK: 06050007774
           .inner-button
             button(type="submit") ĐẶT TOUR
   // End Section 12

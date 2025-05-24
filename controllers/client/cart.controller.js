@@ -1,10 +1,12 @@
 const Cities = require("../../models/cities.model");
 const Tours = require("../../models/tour.model");
 const moment = require("moment");
+const variableConfig = require("../../config/variable.config");
 
 module.exports.cart = (req, res) => {
   res.render("client/pages/cart.pug", {
-    pageTitle: "Giỏ hàng"
+    pageTitle: "Giỏ hàng",
+    paymentMethod: variableConfig.paymentMethod
   })
 }
 

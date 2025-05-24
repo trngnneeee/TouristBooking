@@ -139,48 +139,107 @@ if (listFilepondImageMulti.length > 0) {
 // Biểu đồ doanh thu
 const revenueChart = document.querySelector("#revenue-chart");
 if (revenueChart) {
-  new Chart(revenueChart, {
-    type: 'line',
-    data: {
-      labels: ['01', '02', '03', '04', '05'],
-      datasets: [
-        {
-          label: 'Tháng 04/2025', // Nhãn của dataset
-          data: [1200000, 1800000, 3200000, 900000, 1600000], // Dữ liệu
-          borderColor: '#4379EE', // Màu viền
-          borderWidth: 1.5, // Độ dày của đường
-        },
-        {
-          label: 'Tháng 03/2025', // Nhãn của dataset
-          data: [1000000, 900000, 1200000, 1200000, 1400000], // Dữ liệu
-          borderColor: '#EF3826', // Màu viền
-          borderWidth: 1.5, // Độ dày của đường
-        }
-      ]
-    },
-    options: {
-      plugins: {
-        legend: {
-          position: 'bottom'
-        }
-      },
-      scales: {
-        x: {
-          title: {
-            display: true,
-            text: 'Ngày'
-          }
-        },
-        y: {
-          title: {
-            display: true,
-            text: 'Doanh thu (VND)'
-          }
-        }
-      },
-      maintainAspectRatio: false, // Không giữ tỷ lệ khung hình mặc định
+  let chart = null;
+
+  const renderChart = (date) => {
+    const currentMonth = date.getMonth() + 1;
+    const currentYear = date.getFullYear();
+
+    const previousMonthDate = new Date(currentYear, currentMonth - 1, 1);
+    const previousMonth = previousMonthDate.getMonth();
+    const previousYear = previousMonthDate.getFullYear();
+
+    const currentMonthDateNum = new Date(currentYear, currentMonth, 0).getDate();
+    const previousMonthDateNum = new Date(previousYear, previousMonth, 0).getDate();
+
+    const days = currentMonthDateNum > previousMonthDateNum ? currentMonthDateNum : previousMonthDateNum;
+    let dayArray = [];
+    for (let i = 1; i <= days; i++) {
+      dayArray.push(i);
     }
-  });
+
+    const finalData = {
+      currentMonth: currentMonth,
+      previousMonth: previousMonth,
+      currentYear: currentYear,
+      previousYear: previousYear,
+      dayArray: dayArray
+    };
+
+    fetch(`/${pathAdmin}/dashboard`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(finalData)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.code == "error")
+          alert(data.message);
+        if (data.code == "success") {
+          if (chart) {
+            chart.destroy();  // Hủy chart cũ nếu tồn tại
+          }
+          chart = new Chart(revenueChart, {
+            type: 'line',
+            data: {
+              labels: dayArray,
+              datasets: [
+                {
+                  label: `Tháng ${previousMonth}/${previousYear}`, // Nhãn của dataset
+                  data: data.currentMonthData, // Dữ liệu
+                  borderColor: '#4379EE', // Màu viền
+                  borderWidth: 1.5, // Độ dày của đường
+                },
+                {
+                  label: `Tháng ${currentMonth}/${currentYear}`, // Nhãn của dataset
+                  data: data.previousMonthData, // Dữ liệu
+                  borderColor: '#EF3826', // Màu viền
+                  borderWidth: 1.5, // Độ dày của đường
+                }
+              ]
+            },
+            options: {
+              plugins: {
+                legend: {
+                  position: 'bottom'
+                }
+              },
+              scales: {
+                x: {
+                  title: {
+                    display: true,
+                    text: 'Ngày'
+                  }
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'Doanh thu (VND)'
+                  }
+                }
+              },
+              maintainAspectRatio: false, // Không giữ tỷ lệ khung hình mặc định
+            }
+          });
+        }
+      })
+  }
+
+  const now = new Date();
+  renderChart(now);
+
+  const dashboardDateFilter = document.querySelector("[dashboard-date-filter]");
+  if (dashboardDateFilter) {
+    dashboardDateFilter.addEventListener("change", () => {
+      const value = dashboardDateFilter.value;
+      const date = new Date(value);
+      renderChart(date);
+    })
+  }
+
+
 }
 // Hết Biểu đồ doanh thu
 
@@ -1474,10 +1533,8 @@ if (orderTrashApplyMultiButton) {
 
 // Order Hard Delete
 const orderHardDeleteButtonList = document.querySelectorAll("[hard-delete-order-button]");
-if (orderHardDeleteButtonList.length)
-{
-  for (const button of orderHardDeleteButtonList)
-  {
+if (orderHardDeleteButtonList.length) {
+  for (const button of orderHardDeleteButtonList) {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
       fetch(api, {
@@ -1497,10 +1554,8 @@ if (orderHardDeleteButtonList.length)
 
 // Order Recovery 
 const orderRecoveryButtonList = document.querySelectorAll("[recovery-order-button]");
-if (orderRecoveryButtonList.length)
-{
-  for (const button of orderRecoveryButtonList)
-  {
+if (orderRecoveryButtonList.length) {
+  for (const button of orderRecoveryButtonList) {
     button.addEventListener("click", () => {
       const api = button.getAttribute("data-api");
       fetch(api, {
