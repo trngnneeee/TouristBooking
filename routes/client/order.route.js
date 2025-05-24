@@ -6,4 +6,8 @@ router.post('/create', orderController.createPost);
 
 router.get('/success', orderController.success);
 
+router.get('/zalopay', orderController.zalopay);
+
+router.post('/zalopay-result', orderController.zalopayResult);
+
 module.exports = router;

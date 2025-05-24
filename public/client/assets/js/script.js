@@ -389,7 +389,7 @@ if (orderForm) {
           phone: phone,
           note: note,
           paymentMethod: method,
-          items:cart
+          items: cart
         }
 
         fetch(`/order/create`, {
@@ -399,20 +399,30 @@ if (orderForm) {
           },
           body: JSON.stringify(finalData)
         })
-        .then(res => res.json())
-        .then((data) => {
-          if (data.code == "error")
-            alert(data.message);
-          if (data.code == "success")
-          {
-            // Cập nhật lại giỏ hàng
-            let cart = JSON.parse(localStorage.getItem("cart"));
-            cart = cart.filter(item => item.checked == false);
-            localStorage.setItem("cart", JSON.stringify(cart));
+          .then(res => res.json())
+          .then((data) => {
+            if (data.code == "error")
+              alert(data.message);
+            if (data.code == "success") {
+              // Cập nhật lại giỏ hàng
+              let cart = JSON.parse(localStorage.getItem("cart"));
+              cart = cart.filter(item => item.checked == false);
+              localStorage.setItem("cart", JSON.stringify(cart));
 
-            window.location.href = `/order/success?orderID=${data.orderID}&phone=${phone}`;
-          }
-        })
+              switch (method) {
+                case "money":
+                  {
+                    window.location.href = `/order/success?orderID=${data.orderID}&phone=${phone}`;
+                    break;
+                  }
+                case "zalopay":
+                  {
+                    window.location.href = `/order/zalopay?orderID=${data.orderID}`
+                    break;
+                  }
+              }
+            }
+          })
       }
       else alert("Vui lòng đặt ít nhất một tour!");
     })
