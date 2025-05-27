@@ -68,6 +68,14 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+  if (!req.permissions.includes("voucher-create")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   const existVoucher = await Voucher.findOne({
     name: req.body.name
   });
@@ -176,6 +184,14 @@ module.exports.edit = async (req, res) => {
 
 module.exports.editPatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("voucher-edit")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
 
     req.body.expire = new Date(req.body.expire);
@@ -206,6 +222,14 @@ module.exports.editPatch = async (req, res) => {
 
 module.exports.deletePatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("voucher-delete")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
     await Voucher.updateOne({
       _id: id
@@ -233,6 +257,13 @@ module.exports.applyMultiPatch = async (req, res) => {
   switch (status) {
     case "delete":
       {
+        if (!req.permissions.includes("voucher-delete")) {
+          res.json({
+            code: "error",
+            message: "Không có quyền sử dụng tính năng này!"
+          })
+          return;
+        }
         await Voucher.updateMany({
           _id: { $in: idList },
           deleted: false
@@ -249,6 +280,13 @@ module.exports.applyMultiPatch = async (req, res) => {
       }
     case "active": case "inactive":
       {
+        if (!req.permissions.includes("voucher-edit")) {
+          res.json({
+            code: "error",
+            message: "Không có quyền sử dụng tính năng này!"
+          })
+          return;
+        }
         await Voucher.updateMany({
           _id: { $in: idList },
           deleted: false
@@ -269,6 +307,14 @@ module.exports.applyMultiPatch = async (req, res) => {
 module.exports.trashApplyMultiPatch = async (req, res) => {
   const { status, idList } = req.body;
 
+  if (!req.permissions.includes("voucher-trash")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   await Voucher.updateMany({
     _id: { $in: idList },
     deleted: true
@@ -285,6 +331,14 @@ module.exports.trashApplyMultiPatch = async (req, res) => {
 }
 
 module.exports.trashApplyMultiDelete = async (req, res) => {
+  if (!req.permissions.includes("voucher-trash")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   const { status, idList } = req.body;
 
   await Voucher.deleteMany({
@@ -300,8 +354,16 @@ module.exports.trashApplyMultiDelete = async (req, res) => {
 
 module.exports.recoveryPatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("voucher-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
-    
+
     await Voucher.updateOne({
       _id: id
     }, {
@@ -325,8 +387,16 @@ module.exports.recoveryPatch = async (req, res) => {
 
 module.exports.hardDelete = async (req, res) => {
   try {
+    if (!req.permissions.includes("voucher-trash")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
-    
+
     await Voucher.deleteOne({
       _id: id
     });

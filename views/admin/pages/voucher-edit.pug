@@ -2,6 +2,7 @@ extends ../layouts/default.pug
 include ../mixins/options.pug
 
 block main 
+  - if (permissions.includes("voucher-edit"))
     main.main
       h1.box-title Chỉnh sửa Voucher
       .section-8

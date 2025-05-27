@@ -60,6 +60,26 @@ module.exports.permissionList = [
     value: "order-trash"
   },
   {
+    label: "Xem Voucher",
+    value: "voucher-view"
+  },
+  {
+    label: "Tạo Voucher",
+    value: "voucher-create"
+  },
+  {
+    label: "Sửa Voucher",
+    value: "voucher-edit"
+  },
+  {
+    label: "Xóa Voucher",
+    value: "voucher-delete"
+  },
+  {
+    label: "Thùng rác Voucher",
+    value: "voucher-trash"
+  },
+  {
     label: "Xem thông tin liên hệ",
     value: "contact-view"
   },
