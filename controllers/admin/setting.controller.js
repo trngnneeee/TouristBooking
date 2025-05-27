@@ -22,6 +22,14 @@ module.exports.websiteInfo = async (req, res) => {
 }
 
 module.exports.websiteInfoPatch = async (req, res) => {
+  if (!req.permissions.includes("setting-website-info")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   if (req.files && req.files.logo)
     req.body.logo = req.files.logo[0].path;
   else delete req.body.logo;
@@ -54,25 +62,11 @@ module.exports.accountAdminList = async (req, res) => {
     find.status = req.query.status;
   }
 
-  const dateFilter = {};
-  if (req.query.startDate) {
-    const startDate = moment(req.query.startDate).startOf("date").toDate();
-    dateFilter.$gte = startDate;
-  }
-  if (req.query.endDate) {
-    const endDate = moment(req.query.endDate).endOf("date").toDate();
-    dateFilter.$lte = endDate;
-  }
-  if (Object.keys(dateFilter).length >= 1) {
-    find.createdAt = dateFilter;
-  }
-
   if (req.query.role) {
     find.role = req.query.role;
   }
 
-  if (req.query.search)
-  {
+  if (req.query.search) {
     const search = slugify(req.query.search, {
       lower: true,
       locale: "vi"
@@ -82,20 +76,17 @@ module.exports.accountAdminList = async (req, res) => {
   }
 
   const limitItem = 3;
-  const totalRecord = await AccountAdmin.countDocuments({
-    deleted: false
-  });
+  const totalRecord = await AccountAdmin.countDocuments(find);
   const totalPage = Math.ceil(totalRecord / limitItem);
   let page = 1;
-  if (req.query.page)
-  {
+  if (req.query.page) {
     const currentPage = parseInt(req.query.page);
     if (currentPage > 0)
       page = currentPage
   }
   if (page > totalPage && totalPage != 0)
     page = totalPage
-  
+
   const skip = (page - 1) * limitItem;
 
   const pagination = {
@@ -133,6 +124,14 @@ module.exports.accountAdminList = async (req, res) => {
 }
 
 module.exports.accountAdminCreatePost = async (req, res) => {
+  if (!req.permissions.includes("setting-admin-account")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   const existAccount = await AccountAdmin.findOne({
     email: req.body.email
   })
@@ -204,6 +203,14 @@ module.exports.accountAdminEdit = async (req, res) => {
 
 module.exports.accountAdminEditPatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("setting-admin-account")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+
     const id = req.params.id;
 
     req.body.updatedBy = req.account.id;
@@ -234,6 +241,14 @@ module.exports.accountAdminEditPatch = async (req, res) => {
 }
 
 module.exports.accountAdminMultiApply = async (req, res) => {
+  if (!req.permissions.includes("setting-admin-account")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   const { status, idList } = req.body;
 
   switch (status) {
@@ -270,6 +285,206 @@ module.exports.accountAdminMultiApply = async (req, res) => {
   }
 }
 
+module.exports.accountAdminDelete = async (req, res) => {
+  try {
+    if (!req.permissions.includes("setting-admin-account")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+    const id = req.params.id;
+    await AccountAdmin.updateOne({
+      _id: id
+    }, {
+      deleted: true,
+      deletedBy: req.account.id,
+      deletedAt: Date.now()
+    })
+    req.flash("success", "Xóa thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch (error) {
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ"
+    })
+  }
+}
+
+module.exports.accountAdminTrash = async (req, res) => {
+  const find = {
+    deleted: true
+  };
+
+  if (req.query.status) {
+    find.status = req.query.status;
+  }
+
+  if (req.query.role) {
+    find.role = req.query.role;
+  }
+
+  if (req.query.search) {
+    const search = slugify(req.query.search, {
+      lower: true,
+      locale: "vi"
+    });
+    const searchRegex = new RegExp(search);
+    find.slug = searchRegex;
+  }
+
+  const limitItem = 3;
+  const totalRecord = await AccountAdmin.countDocuments(find);
+  const totalPage = Math.ceil(totalRecord / limitItem);
+  let page = 1;
+  if (req.query.page) {
+    const currentPage = parseInt(req.query.page);
+    if (currentPage > 0)
+      page = currentPage
+  }
+  if (page > totalPage && totalPage != 0)
+    page = totalPage
+
+  const skip = (page - 1) * limitItem;
+
+  const pagination = {
+    totalRecord: totalRecord,
+    totalPage: totalPage,
+    skip: skip
+  }
+
+  const adminAccountList = await AccountAdmin.find(find)
+    .sort({
+      createdAt: "desc"
+    })
+    .limit(limitItem)
+    .skip(skip);
+
+  for (const item of adminAccountList) {
+    if (item.role) {
+      const roleInfo = await Role.findOne({
+        _id: item.role
+      })
+      item.roleInfo = roleInfo.name;
+    }
+  }
+
+  const roleList = await Role.find({
+    deleted: false
+  })
+
+  res.render("admin/pages/setting-account-admin-trash.pug", {
+    pageTitle: "Thùng rác tài khoản quản trị",
+    adminAccountList: adminAccountList,
+    roleList: roleList,
+    pagination: pagination
+  })
+}
+
+module.exports.accountAdminTrashMultiApplyPatch = async (req, res) => {
+  if (!req.permissions.includes("setting-admin-account")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
+  const { status, idList } = req.body;
+
+  await AccountAdmin.updateMany({
+    _id: { $in: idList }
+  }, {
+    deleted: false,
+    deletedAt: Date.now(),
+    deletedBy: req.account.id
+  })
+  req.flash("success", "Khôi phục thành công!");
+  res.json({
+    code: "success"
+  })
+}
+
+module.exports.accountAdminTrashMultiApplyDelete = async (req, res) => {
+  if (!req.permissions.includes("setting-admin-account")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
+  const { status, idList } = req.body;
+
+  await AccountAdmin.deleteMany({
+    _id: { $in: idList }
+  })
+  req.flash("success", "Xóa vĩnh viễn thành công!");
+  res.json({
+    code: "success"
+  })
+}
+
+module.exports.accountAdminRecovery = async (req, res) => {
+  try {
+    if (!req.permissions.includes("setting-admin-account")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+    const id = req.params.id;
+    await AccountAdmin.updateOne({
+      _id: id
+    }, {
+      deleted: false,
+      updatedBy: req.account.id,
+      updatedAt: Date.now()
+    })
+    req.flash("success", "Khôi phục thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch (error) {
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ"
+    })
+  }
+}
+
+module.exports.accountAdminHardDelete = async (req, res) => {
+  try {
+    if (!req.permissions.includes("setting-admin-account")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
+    const id = req.params.id;
+    await AccountAdmin.deleteOne({
+      _id: id
+    })
+    req.flash("success", "Xóa vĩnh viễn thành công!");
+    res.json({
+      code: "success"
+    })
+  }
+  catch (error) {
+    res.json({
+      code: "error",
+      message: "ID không hợp lệ"
+    })
+  }
+}
+
 module.exports.roleList = async (req, res) => {
   const find = {
     deleted: false
@@ -300,6 +515,14 @@ module.exports.roleCreate = (req, res) => {
 }
 
 module.exports.roleCreatePost = async (req, res) => {
+  if (!req.permissions.includes("setting-role")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   req.body.createdBy = req.account.id;
   req.body.updatedBy = req.account.id;
 
@@ -335,6 +558,13 @@ module.exports.roleEdit = async (req, res) => {
 
 module.exports.roleEditPatch = async (req, res) => {
   try {
+    if (!req.permissions.includes("setting-role")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
     const id = req.params.id;
 
     await Role.updateOne({
@@ -352,6 +582,13 @@ module.exports.roleEditPatch = async (req, res) => {
 }
 
 module.exports.roleApplyMulti = async (req, res) => {
+  if (!req.permissions.includes("setting-role")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
   await Role.deleteMany({
     _id: { $in: req.body.roleList }
   })
@@ -363,6 +600,13 @@ module.exports.roleApplyMulti = async (req, res) => {
 }
 module.exports.roleDelete = async (req, res) => {
   try {
+    if (!req.permissions.includes("setting-role")) {
+      res.json({
+        code: "error",
+        message: "Không có quyền sử dụng tính năng này!"
+      })
+      return;
+    }
     const id = req.params.id;
 
     await Role.deleteOne({

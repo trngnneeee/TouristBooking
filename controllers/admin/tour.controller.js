@@ -530,6 +530,14 @@ module.exports.applyMulti = async (req, res) => {
 }
 
 module.exports.trashApplyMultiPatch = async (req, res) => {
+  if (!req.permissions.includes("tour-trash")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   const idList = req.body;
 
   await Tours.updateMany({
@@ -547,6 +555,14 @@ module.exports.trashApplyMultiPatch = async (req, res) => {
 }
 
 module.exports.trashApplyMultiDelete = async (req, res) => {
+  if (!req.permissions.includes("tour-trash")) {
+    res.json({
+      code: "error",
+      message: "Không có quyền sử dụng tính năng này!"
+    })
+    return;
+  }
+
   const idList = req.body;
 
   await Tours.deleteMany({

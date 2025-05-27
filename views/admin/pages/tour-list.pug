@@ -2,7 +2,7 @@ extends ../layouts/default.pug
 include ../mixins/options.pug
 
 block main
-  - if (permissions.includes("category-view"))
+  - if (permissions.includes("tour-view"))
     main.main
       h1.box-title Quản lý tour
       .section-4
@@ -13,8 +13,10 @@ block main
           .inner-item
             select(class="tour-status-filter")
               option(value="") Trạng thái
-              option(value="active") Hoạt động
-              option(value="inactive") Tạm dừng
+              - if (permissions.includes("tour-edit"))
+                option(value="active") Hoạt động
+              - if (permissions.includes("tour-edit"))
+                option(value="inactive") Tạm dừng
           .inner-item
             select(class="tour-create-status" style={width: "150px"})
               option(value="") Người tạo

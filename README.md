@@ -32,8 +32,8 @@ This project demonstrates modern web development with features such as:
 | Database       | MongoDB                                                    |
 | Authentication | [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) |
 | Security       | bcrypt, crypto-js                                          |
-| Validation     | Just-validate, Joi                                         |
-| Email          | Nodemailer                                                 |
+| Validation     | [Just-validate](https://github.com/horprogs/Just-validate), [Joi](https://joi.dev/api/?v=17.13.3)                                         |
+| Email          | [Nodemailer](https://nodemailer.com/)                                                 |
 
 ## 🛠️ How to Run Locally
 
@@ -80,13 +80,17 @@ yarn start
 
 ### 🌐 Access the Application
 
-* Local Website: [http://localhost:8000](http://localhost:8000)
+* Local Website: [http://localhost:3000](http://localhost:3000)
+
+### Management
+- Client: [http://localhost:3000](http://localhost:3000)
+- Admin: [http://localhost:3000/admin/dashboard](http://localhost:3000/admin/dashboard): Get started by creating an Admin account and waiting for being approved
 
 ## 📬 Contact
 
 For any queries or contributions, feel free to reach out:
 
-* 📧 Email: [yourname@example.com](mailto:yourname@example.com)
+* 📧 Email: [dtn06052005@gmail.com](mailto:dtn06052005@gmail.com)
 * 🐙 GitHub: [https://github.com/trngnneeee](https://github.com/trngnneeee)
 
 ## 📝 License

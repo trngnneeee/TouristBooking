@@ -1,59 +1,60 @@
 extends ../layouts/default.pug 
 
 block main
-  main.main
-    h1.box-title Thông tin website
-    .section-8
-      form#setting-website-info-form
-        .inner-group
-          label.inner-label(for="websiteName") Tên website
-          input#websiteName(
-            value=websiteInfo.websiteName 
-            name="websiteName" 
-            type="text"
-            )
-        .inner-group
-          label.inner-label(for="phone") Số điện thoại
-          input#phone(
-            value=websiteInfo.phone
-            name="phone" 
-            type="text"
-            )
-        .inner-group
-          label.inner-label(for="email") Email
-          input#email(
-            value=websiteInfo.email
-            name="email" 
-            type="text"
-            )
-        .inner-group
-          label.inner-label(for="address") Địa chỉ
-          input#address(
-            value=websiteInfo.address 
-            name="address" 
-            type="text"
-            )
-        .inner-group
-          label.inner-label(for="logo") Logo
-          .inner-upload-image
-            input#logo(
-              name="logo" 
-              filepond-image="" 
-              accept="image/*" 
-              type="file"
-              image-default=websiteInfo.logo
+  - if (permissions.includes("setting-website-info"))
+    main.main
+      h1.box-title Thông tin website
+      .section-8
+        form#setting-website-info-form
+          .inner-group
+            label.inner-label(for="websiteName") Tên website
+            input#websiteName(
+              value=websiteInfo.websiteName 
+              name="websiteName" 
+              type="text"
               )
-        .inner-group
-          label.inner-label(for="favicon") Favicon
-          .inner-upload-image
-            input#favicon(
-              name="favicon" 
-              filepond-image="" 
-              accept="image/*" 
-              type="file"
-              image-default=websiteInfo.favicon
+          .inner-group
+            label.inner-label(for="phone") Số điện thoại
+            input#phone(
+              value=websiteInfo.phone
+              name="phone" 
+              type="text"
               )
-        .inner-button.inner-two-col
-          button Cập nhật
-      .inner-back
-        a(href=`/${pathAdmin}/setting/list`) Quay lại danh sách
+          .inner-group
+            label.inner-label(for="email") Email
+            input#email(
+              value=websiteInfo.email
+              name="email" 
+              type="text"
+              )
+          .inner-group
+            label.inner-label(for="address") Địa chỉ
+            input#address(
+              value=websiteInfo.address 
+              name="address" 
+              type="text"
+              )
+          .inner-group
+            label.inner-label(for="logo") Logo
+            .inner-upload-image
+              input#logo(
+                name="logo" 
+                filepond-image="" 
+                accept="image/*" 
+                type="file"
+                image-default=websiteInfo.logo
+                )
+          .inner-group
+            label.inner-label(for="favicon") Favicon
+            .inner-upload-image
+              input#favicon(
+                name="favicon" 
+                filepond-image="" 
+                accept="image/*" 
+                type="file"
+                image-default=websiteInfo.favicon
+                )
+          .inner-button.inner-two-col
+            button Cập nhật
+        .inner-back
+          a(href=`/${pathAdmin}/setting/list`) Quay lại danh sách

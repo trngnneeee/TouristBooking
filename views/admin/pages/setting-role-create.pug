@@ -1,34 +1,35 @@
 extends ../layouts/default.pug
 
 block main 
-  main.main
-    h1.box-title Tạo nhóm quyền
-    .section-8
-      form#setting-role-create-form
-        .inner-group
-          label.inner-label(for="name") Tên nhóm quyền
-          input#name(
-            name="name" 
-            type="text"
-            )
-        .inner-group
-          label.inner-label(for="description") Mô tả ngắn
-          input#description(
-            name="description" 
-            type="text"
-            )
-        .inner-group
-          label.inner-label Phân quyền
-          .inner-checkbox-list
-            each item in permissionList
-              .inner-checkbox-item
-                input(
-                  value=item.value
-                  name="permissions" 
-                  type="checkbox"
-                  )
-                label #{item.label}
-        .inner-button.inner-two-col
-          button Tạo mới
-      .inner-back
-        a(href=`/${pathAdmin}/setting/role/list`) Quay lại danh sách
+  - if (permissions.includes("setting-role"))
+    main.main
+      h1.box-title Tạo nhóm quyền
+      .section-8
+        form#setting-role-create-form
+          .inner-group
+            label.inner-label(for="name") Tên nhóm quyền
+            input#name(
+              name="name" 
+              type="text"
+              )
+          .inner-group
+            label.inner-label(for="description") Mô tả ngắn
+            input#description(
+              name="description" 
+              type="text"
+              )
+          .inner-group
+            label.inner-label Phân quyền
+            .inner-checkbox-list
+              each item in permissionList
+                .inner-checkbox-item
+                  input(
+                    value=item.value
+                    name="permissions" 
+                    type="checkbox"
+                    )
+                  label #{item.label}
+          .inner-button.inner-two-col
+            button Tạo mới
+        .inner-back
+          a(href=`/${pathAdmin}/setting/role/list`) Quay lại danh sách

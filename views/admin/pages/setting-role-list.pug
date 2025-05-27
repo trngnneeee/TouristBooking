@@ -1,51 +1,52 @@
 extends ../layouts/default.pug
 
 block main 
-  main.main
-    h1.box-title Nhóm quyền
-    .section-5
-      .inner-wrap
-        .inner-change-status
-          .inner-item
-            select(role-status-apply)
-              option(value="") -- Hành động --
-              option(value="delete") Xóa
-          .inner-item(role-apply-button)
-            button Áp dụng
-        .inner-search(role-search)
-          i.fa-solid.fa-magnifying-glass
-          input(
-            placeholder="Tìm kiếm" 
-            type="text"
-            )
-        .inner-button-create
-          a(href=`/${pathAdmin}/setting/role/create`) + Tạo mới
-    .section-6
-      .table-2
-        table
-          thead
-            tr
-              th.inner-center
-                input.inner-check(type="checkbox" role-check-all)
-              th Tên nhóm quyền
-              th Mô tả ngắn
-              th Hành động
-          tbody
-            each item in roleList
+  - if (permissions.includes("setting-role"))
+    main.main
+      h1.box-title Nhóm quyền
+      .section-5
+        .inner-wrap
+          .inner-change-status
+            .inner-item
+              select(role-status-apply)
+                option(value="") -- Hành động --
+                option(value="delete") Xóa vĩnh viễn
+            .inner-item(role-apply-button)
+              button Áp dụng
+          .inner-search(role-search)
+            i.fa-solid.fa-magnifying-glass
+            input(
+              placeholder="Tìm kiếm" 
+              type="text"
+              )
+          .inner-button-create
+            a(href=`/${pathAdmin}/setting/role/create`) + Tạo mới
+      .section-6
+        .table-2
+          table
+            thead
               tr
-                td.inner-center
-                  input.inner-check(type="checkbox" item-check-all=item.id)
-                td #{item.name}
-                td #{item.description}
-                td
-                  .inner-buttons
-                    a.inner-edit(
-                      role-edit-button
-                      href=`/${pathAdmin}/setting/role/edit/${item.id}`
-                    )
-                      i.fa-regular.fa-pen-to-square
-                    button.inner-delete(
-                      role-delete 
-                      data-api=`/${pathAdmin}/setting/role/delete/${item.id}`
-                    )
-                      i.fa-regular.fa-trash-can
+                th.inner-center
+                  input.inner-check(type="checkbox" role-check-all)
+                th Tên nhóm quyền
+                th Mô tả ngắn
+                th Hành động
+            tbody
+              each item in roleList
+                tr
+                  td.inner-center
+                    input.inner-check(type="checkbox" item-check-all=item.id)
+                  td #{item.name}
+                  td #{item.description}
+                  td
+                    .inner-buttons
+                      a.inner-edit(
+                        role-edit-button
+                        href=`/${pathAdmin}/setting/role/edit/${item.id}`
+                      )
+                        i.fa-regular.fa-pen-to-square
+                      button.inner-delete(
+                        role-delete 
+                        data-api=`/${pathAdmin}/setting/role/delete/${item.id}`
+                      )
+                        i.fa-regular.fa-trash-can

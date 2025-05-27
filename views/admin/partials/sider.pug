@@ -20,18 +20,20 @@ nav.sider
         a(href=`/${pathAdmin}/order/list`)
           i.fa-solid.fa-list-check
           | Quản lý đơn hàng
-    li
-      a(href=`/${pathAdmin}/voucher/list`)
-        i.fa-solid.fa-ticket-simple
-        | Quản lý voucher
+    - if (permissions.includes("voucher-view"))
+      li
+        a(href=`/${pathAdmin}/voucher/list`)
+          i.fa-solid.fa-ticket-simple
+          | Quản lý voucher
     //- li
     //-   a(href=`/${pathAdmin}/user/list`)
     //-     i.fa-solid.fa-user
     //-     | Quản lý người dùng
-    li
-      a(href=`/${pathAdmin}/contact/list`)
-        i.fa-solid.fa-user-group
-        | Thông tin liên hệ
+    - if (permissions.includes("contact-view"))
+      li
+        a(href=`/${pathAdmin}/contact/list`)
+          i.fa-solid.fa-user-group
+          | Thông tin liên hệ
   hr
   ul.inner-menu
     - if (permissions.includes("setting-view"))

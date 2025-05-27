@@ -3,7 +3,7 @@ extends ../layouts/default.pug
 block main 
   - if (permissions.includes("setting-admin-account"))
     main.main
-      h1.box-title Tài khoản quản trị
+      h1.box-title Thùng rác tài khoản quản trị
       .section-4
         .inner-wrap
           .inner-item.inner-label
@@ -26,23 +26,18 @@ block main
         .inner-wrap
           .inner-change-status
             .inner-item
-              select(admin-account-multi-apply-status)
+              select(admin-account-trash-multi-apply-status)
                 option(value="") -- Hành động --
-                option(value="active") Hoạt động
-                option(value="inactive") Dừng hoạt động
-                option(value="delete") Xóa
+                option(value="recovery") Khôi phục 
+                option(value="hard-delete") Xóa vĩnh viễn
             .inner-item
-              button(admin-account-multi-apply-button) Áp dụng
+              button(admin-account-trash-multi-apply-button) Áp dụng
           .inner-search(admin-account-search)
             i.fa-solid.fa-magnifying-glass
             input(
               placeholder="Tìm kiếm" 
               type="text"
               )
-          .inner-button-create
-            a(href=`/${pathAdmin}/setting/account-admin/create`) + Tạo mới
-          .inner-button-trash
-            a(href=`/${pathAdmin}/setting/account-admin/trash`) Thùng rác
       .section-6
         .table-2
           table
@@ -77,13 +72,14 @@ block main
                       .badge.badge-red Tạm dừng
                   td
                     .inner-buttons
-                      a.inner-edit(
-                        href=`/${pathAdmin}/setting/account-admin/edit/${item.id}`
+                      button.inner-undo(
+                        data-api=`/${pathAdmin}/setting/account-admin/recovery/${item.id}`
+                        admin-account-recovery
                       )
-                        i.fa-regular.fa-pen-to-square
+                        i.fa-solid.fa-rotate-left
                       button.inner-delete(
-                        data-api=`/${pathAdmin}/setting/account-admin/delete/${item.id}`
-                        admin-account-delete
+                        data-api=`/${pathAdmin}/setting/account-admin/hard-delete/${item.id}`
+                        admin-account-hard-delete
                       )
                         i.fa-regular.fa-trash-can
       .section-7

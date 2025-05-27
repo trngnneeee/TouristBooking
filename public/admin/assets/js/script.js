@@ -1648,40 +1648,6 @@ if (adminAccountStatusFilter) {
 }
 // End Admin Account Status Filter
 
-// Admin Account Date Filter
-const adminAccountStartDateFilter = document.querySelector("[admin-account-start-date-filter]");
-if (adminAccountStartDateFilter) {
-  const url = new URL(window.location.href);
-  adminAccountStartDateFilter.addEventListener("change", () => {
-    const value = adminAccountStartDateFilter.value;
-    if (value)
-      url.searchParams.set("startDate", value);
-    else url.searchParams.delete("startDate");
-
-    window.location.href = url.href;
-  })
-
-  if (url.searchParams.get("startDate"))
-    adminAccountStartDateFilter.value = url.searchParams.get("startDate")
-}
-
-const adminAccountEndDateFilter = document.querySelector("[admin-account-end-date-filter]");
-if (adminAccountEndDateFilter) {
-  const url = new URL(window.location.href);
-  adminAccountEndDateFilter.addEventListener("change", () => {
-    const value = adminAccountEndDateFilter.value;
-    if (value)
-      url.searchParams.set("endDate", value);
-    else url.searchParams.delete("endDate");
-
-    window.location.href = url.href;
-  })
-
-  if (url.searchParams.get("endDate"))
-    adminAccountEndDateFilter.value = url.searchParams.get("endDate")
-}
-// End Admin Account Date Filter
-
 // Admin Account Role Filter
 const adminAccountRoleFilter = document.querySelector("[admin-account-role-filter]");
 if (adminAccountRoleFilter) {
@@ -1802,6 +1768,27 @@ if (adminAccountPagination) {
     adminAccountPagination.value = url.searchParams.get("page");
 }
 // End Admin Account Pagination
+
+// Admin Account Delete
+const adminAccountDeleteList = document.querySelectorAll("[admin-account-delete]");
+if (adminAccountDeleteList.length > 0) {
+  for (const button of adminAccountDeleteList) {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Admin Account Delete
 
 // Setting Account Admin Create Form
 const settingAccountAdminCreateForm = document.querySelector("#setting-account-admin-create-form");
@@ -2009,6 +1996,112 @@ if (settingAccountAdminEditForm) {
     ;
 }
 // End Setting Account Admin Edit Form
+
+// Admin Account Trash Multi Apply
+const adminAccountTrashMultipleApply = document.querySelector("[admin-account-trash-multi-apply-button]");
+if (adminAccountTrashMultipleApply) {
+  adminAccountTrashMultipleApply.addEventListener("click", () => {
+    const statusSelect = document.querySelector("[admin-account-trash-multi-apply-status]");
+    const status = statusSelect.value;
+
+    const idList = [];
+    const itemList = document.querySelectorAll("[admin-account-checkall-item]:checked");
+    for (const item of itemList) {
+      idList.push(item.getAttribute("admin-account-checkall-item"));
+    }
+
+    if (status && idList.length > 0) {
+      const finalData = {
+        status: status,
+        idList: idList
+      };
+
+      switch (status) {
+        case "recovery":
+          {
+            fetch(`/${pathAdmin}/setting/account-admin/trash/multi-apply`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(finalData)
+            })
+              .then(res => res.json())
+              .then((data) => {
+                if (data.code == "error")
+                  alert(data.message);
+                if (data.code == "success")
+                  window.location.reload();
+              })
+            break;
+          }
+        case "hard-delete":
+          {
+            fetch(`/${pathAdmin}/setting/account-admin/trash/multi-apply`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(finalData)
+            })
+              .then(res => res.json())
+              .then((data) => {
+                if (data.code == "error")
+                  alert(data.message);
+                if (data.code == "success")
+                  window.location.reload();
+              })
+            break;
+          }
+      }
+    }
+    else
+      alert("Vui lòng chọn Tài khoản quản trị hoặc Trạng thái cần áp dụng!");
+  })
+}
+// End Admin Account Trash Multi Apply
+
+// Admin Account Recovery
+const adminAccountRecovery = document.querySelectorAll("[admin-account-recovery]");
+if (adminAccountRecovery.length) {
+  for (const button of adminAccountRecovery) {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Admin Account Recovery
+
+// Admin Account Hard Delete
+const adminAccountHardDelete = document.querySelectorAll("[admin-account-hard-delete]");
+if (adminAccountHardDelete.length) {
+  for (const button of adminAccountHardDelete) {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "DELETE"
+      })
+        .then(res => res.json())
+        .then((data) => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Admin Account Hard Delete
 
 // Setting Role Create Form
 const settingRoleCreateForm = document.querySelector("#setting-role-create-form");
