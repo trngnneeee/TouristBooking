@@ -7,6 +7,7 @@ const contactRouter = require("./contact.route");
 const categoryRouter = require("./category.route");
 const searchRouter = require("./search.route");
 const orderRouter = require("./order.route");
+const voucherRouter = require("./voucher.route");
 
 const settingMiddleware = require("../../middlewares/client/setting.middleware");
 const categoryMiddleware = require("../../middlewares/client/category.middleware");
@@ -58,6 +59,11 @@ router.use(
   categoryMiddleware.categoryList,
   settingMiddleware.websiteInfo,
   orderRouter
+)
+
+router.use(
+  '/voucher',
+  voucherRouter
 )
 
 module.exports = router;

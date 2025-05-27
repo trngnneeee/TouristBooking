@@ -316,20 +316,6 @@ if (emailForm) {
 }
 // End Email Form
 
-// Coupon Form
-const couponForm = document.querySelector("#coupon-form");
-if (couponForm) {
-  const validation = new JustValidate('#coupon-form');
-
-  validation
-    .onSuccess((event) => {
-      const coupon = event.target.coupon.value;
-      console.log(coupon);
-    })
-    ;
-}
-// End Email Form
-
 // Order Form
 const orderForm = document.querySelector("#order-form");
 if (orderForm) {
@@ -383,13 +369,17 @@ if (orderForm) {
         }
       });
 
+      const tmp = JSON.parse(localStorage.getItem("discount"));
+      const discount = tmp.map(item => item.name);
+      
       if (cart.length > 0) {
         const finalData = {
           fullName: fullName,
           phone: phone,
           note: note,
           paymentMethod: method,
-          items: cart
+          items: cart,
+          discountList: discount
         }
 
         fetch(`/order/create`, {
@@ -408,6 +398,7 @@ if (orderForm) {
               let cart = JSON.parse(localStorage.getItem("cart"));
               cart = cart.filter(item => item.checked == false);
               localStorage.setItem("cart", JSON.stringify(cart));
+              localStorage.removeItem("discount");
 
               switch (method) {
                 case "money":
@@ -730,14 +721,33 @@ const renderCart = () => {
         // End Cập nhật lại LocalStorage
 
         // Tổng tiền
-        let totalPrice = 0;
+        let subTotalPrice = 0;
         for (const item of cart) {
           if (item.checked) {
-            totalPrice += item.quantityAdult * item.priceNewAdult;
-            totalPrice += item.quantityChildren * item.priceNewChildren;
-            totalPrice += item.quantityBaby * item.priceNewBaby;
+            subTotalPrice += item.quantityAdult * item.priceNewAdult;
+            subTotalPrice += item.quantityChildren * item.priceNewChildren;
+            subTotalPrice += item.quantityBaby * item.priceNewBaby;
           }
         }
+        let totalPrice = subTotalPrice;
+
+        const couponList = JSON.parse(localStorage.getItem("discount"));
+        let totalDiscount = 0;
+        if (couponList && couponList.length > 0) {
+          for (const item of couponList) {
+            let tmp = parseInt(totalPrice * parseInt(item.percentage) / 100);
+            if (tmp > parseInt(item.maxDiscount)) tmp = parseInt(item.maxDiscount);
+            totalDiscount += tmp;
+            totalPrice -= tmp;
+          }
+        }
+
+        const subTotalPriceElement = document.querySelector("[cart-sub-total]");
+        subTotalPriceElement.innerHTML = subTotalPrice.toLocaleString("vi-VN");
+
+        const discountElement = document.querySelector("[cart-discount]");
+        discountElement.innerHTML = totalDiscount.toLocaleString("vi-VN");
+
         const totalPriceElement = document.querySelector("[cart-total]");
         totalPriceElement.innerHTML = totalPrice.toLocaleString("vi-VN");
         // End Tổng tiền
@@ -792,6 +802,56 @@ const renderCart = () => {
           }
         }
         // End Cart Check
+
+        // Coupon Form
+        const couponForm = document.querySelector("#coupon-form");
+        if (couponForm) {
+          const validation = new JustValidate('#coupon-form');
+
+          validation.onSuccess((event) => {
+            const couponCode = event.target.coupon.value.trim();
+
+            let discountList = JSON.parse(localStorage.getItem("discount")) || [];
+
+            // Kiểm tra mã đã tồn tại chưa
+            if (discountList.find(item => item.name === couponCode)) {
+              alert("Mã khuyến mãi đã được sử dụng!");
+              event.target.coupon.value = "";
+              return;
+            }
+
+            // Giới hạn số lượng mã giảm giá
+            if (discountList.length >= 4) {
+              alert("Chỉ được áp dụng tối đa 4 mã khuyến mãi cho 1 đơn hàng!");
+              event.target.coupon.value = "";
+              return;
+            }
+
+            // Gửi mã lên server để kiểm tra
+            fetch('/voucher/check', {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify({ coupon: couponCode })
+            })
+              .then(res => res.json())
+              .then(data => {
+                if (data.code === "error") {
+                  alert(data.message);
+                  event.target.coupon.value = "";
+                } else {
+                  // Thêm vào discountList
+                  discountList.push(data.coupon);
+                  localStorage.setItem("discount", JSON.stringify(discountList));
+                  event.target.coupon.value = "";
+
+                  renderCart();
+                }
+              });
+          });
+        }
+        // End Coupon Form
       }
     })
 }

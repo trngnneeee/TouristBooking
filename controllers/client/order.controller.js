@@ -6,6 +6,7 @@ const axios = require('axios').default;
 const CryptoJS = require('crypto-js');
 const { paymentMethod } = require("../../config/variable.config");
 const sortHelper = require("../../helpers/sort.helper");
+const Voucher = require("../../models/voucher.model");
 
 module.exports.createPost = async (req, res) => {
   try {
@@ -52,7 +53,23 @@ module.exports.createPost = async (req, res) => {
     // Tổng tiền thanh toán
     req.body.subTotal = subTotal;
     req.body.discount = 0;
-    req.body.total = req.body.subTotal - req.body.discount;
+    req.body.total = subTotal;
+    
+    for (const code of req.body.discountList)
+    {
+      const voucherDetail = await Voucher.findOne({
+        name: code,
+        status: "active",
+        deleted: false
+      })
+      if (voucherDetail)
+      {
+        let tmp = parseInt(req.body.total * voucherDetail.percentage / 100);
+        if (tmp > voucherDetail.maxDiscount) tmp = voucherDetail.maxDiscount;
+        req.body.total -= tmp;
+        req.body.discount += tmp;
+      }
+    }
 
     // Tình trạng thanh toán
     req.body.paymentStatus = "unpaid";
@@ -70,6 +87,7 @@ module.exports.createPost = async (req, res) => {
     })
   }
   catch (error) {
+    console.log(error);
     res.json({
       code: "error",
       message: "Đặt hàng không thành công!"
