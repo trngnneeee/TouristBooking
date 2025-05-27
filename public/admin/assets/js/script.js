@@ -2664,3 +2664,373 @@ if (contactTrashPagination) {
     contactTrashPagination.value = url.searchParams.get("page");
 }
 // End Contact Trash Pagination
+
+// Voucher Create
+const voucherCreateForm = document.querySelector("#voucher-create-form");
+if (voucherCreateForm) {
+  const validation = new JustValidate('#voucher-create-form');
+
+  validation
+    .addField('#name', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập tên voucher!'
+      },
+      {
+        rule: 'customRegexp',
+        value: /^[^\s]+$/,
+        errorMessage: 'Tên voucher không được chứa khoảng trắng!'
+      }
+    ])
+    .addField('#percentage', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập phần trăm giảm của voucher!'
+      }
+    ])
+    .addField('#expire', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập ngày hết hạn của voucher!'
+      }
+    ])
+    .onSuccess((event) => {
+      const name = event.target.name.value;
+      const percentage = event.target.percentage.value;
+      const maxDiscount = event.target.maxDiscount.value;
+      const expire = event.target.expire.value;
+      const status = event.target.status.value;
+
+      const finalData = {
+        name: name,
+        percentage: percentage,
+        maxDiscount: maxDiscount,
+        expire: expire,
+        status: status
+      };
+
+      fetch(`/${pathAdmin}/voucher/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.href = `/${pathAdmin}/voucher/list`;
+        })
+    })
+    ;
+}
+// End Voucher Create
+
+// Voucher Edit
+const voucherEditForm = document.querySelector("#voucher-edit-form");
+if (voucherEditForm) {
+  const validation = new JustValidate('#voucher-edit-form');
+
+  validation
+    .addField('#name', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập tên voucher!'
+      },
+      {
+        rule: 'customRegexp',
+        value: /^[^\s]+$/,
+        errorMessage: 'Tên voucher không được chứa khoảng trắng!'
+      }
+    ])
+    .addField('#percentage', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập phần trăm giảm của voucher!'
+      }
+    ])
+    .addField('#expire', [
+      {
+        rule: 'required',
+        errorMessage: 'Vui lòng nhập ngày hết hạn của voucher!'
+      }
+    ])
+    .onSuccess((event) => {
+      const id = event.target.id.value;
+      const name = event.target.name.value;
+      const percentage = event.target.percentage.value;
+      const maxDiscount = event.target.maxDiscount.value;
+      const expire = event.target.expire.value;
+      const status = event.target.status.value;
+
+      const finalData = {
+        name: name,
+        percentage: percentage,
+        maxDiscount: maxDiscount,
+        expire: expire,
+        status: status
+      };
+
+      fetch(`/${pathAdmin}/voucher/edit/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+    ;
+}
+// End Voucher Edit
+
+// Voucher Delete
+const voucherDeleteButtonList = document.querySelectorAll("[voucher-delete-button]");
+if (voucherDeleteButtonList) {
+  for (const button of voucherDeleteButtonList) {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Voucher Delete
+
+// Voucher List Filter
+/* Status */
+const voucherStatus = document.querySelector("[voucher-status]");
+if (voucherStatus) {
+  const url = new URL(window.location.href);
+  voucherStatus.addEventListener("change", () => {
+    const value = voucherStatus.value;
+    if (value)
+      url.searchParams.set("status", value);
+    else url.searchParams.delete("status");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("status"))
+    voucherStatus.value = url.searchParams.get("status");
+}
+/* Date */
+const voucherStartDate = document.querySelector("[voucherStartDate]");
+if (voucherStartDate) {
+  const url = new URL(window.location.href);
+  voucherStartDate.addEventListener("change", () => {
+    const value = voucherStartDate.value;
+    if (value)
+      url.searchParams.set("startDate", value);
+    else url.searchParams.delete("startDate");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("startDate"))
+    voucherStartDate.value = url.searchParams.get("startDate");
+}
+const voucherEndDate = document.querySelector("[voucherEndDate]");
+if (voucherEndDate) {
+  const url = new URL(window.location.href);
+  voucherEndDate.addEventListener("change", () => {
+    const value = voucherEndDate.value;
+    if (value)
+      url.searchParams.set("endDate", value);
+    else url.searchParams.delete("endDate");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("endDate"))
+    voucherEndDate.value = url.searchParams.get("endDate");
+}
+/* Remove Filter */
+const voucherRemoveFilter = document.querySelector("[voucher-delete-filter]");
+if (voucherRemoveFilter) {
+  const url = new URL(window.location.href);
+  voucherRemoveFilter.addEventListener("click", () => {
+    url.search = "";
+    window.location.href = url.href;
+  })
+}
+/* Apply Multi */
+const voucherApplyMultiButton = document.querySelector("[voucher-apply-multi-button]");
+if (voucherApplyMultiButton) {
+  voucherApplyMultiButton.addEventListener("click", () => {
+    const status = document.querySelector("[voucher-apply-multi-select]").value;
+    let idList = [];
+    const checkList = document.querySelectorAll("[contact-check-all-item]:checked");
+    for (const item of checkList) {
+      idList.push(item.getAttribute("contact-check-all-item"));
+    }
+    if (idList.length && status) {
+      const finalData = {
+        status: status,
+        idList: idList
+      }
+      fetch(`/${pathAdmin}/voucher/apply-multi`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(finalData)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    }
+    else alert("Vui lòng chọn Voucher hoặc Danh mục cần áp dụng!");
+  })
+}
+/* Search */
+const voucherSearch = document.querySelector("[voucher-search]");
+if (voucherSearch) {
+  const url = new URL(window.location.href);
+  voucherSearch.addEventListener("keyup", (event) => {
+    if (event.code == "Enter") {
+      const value = voucherSearch.value;
+      if (value)
+        url.searchParams.set("search", value);
+      else url.searchParams.delete("search");
+
+      window.location.href = url.href;
+    }
+  })
+  if (url.searchParams.get("search"))
+    voucherSearch.value = url.searchParams.get("search");
+}
+/* Pagination */
+const voucherPagination = document.querySelector("[voucher-pagination]");
+if (voucherPagination) {
+  const url = new URL(window.location.href);
+  voucherPagination.addEventListener("change", () => {
+    const value = voucherPagination.value;
+    if (value)
+      url.searchParams.set("page", value);
+    else url.searchParams.delete("page");
+
+    window.location.href = url.href;
+  })
+  if (url.searchParams.get("page"))
+    voucherPagination.value = url.searchParams.get("page");
+}
+// End Voucher List Filter
+
+// Voucher Trash Filter
+const voucherTrashApplyMultiButton = document.querySelector("[voucher-trash-apply-multi-button]");
+if (voucherTrashApplyMultiButton) {
+  voucherTrashApplyMultiButton.addEventListener("click", () => {
+    const status = document.querySelector("[voucher-trash-apply-multi-select]").value;
+    let idList = [];
+    const checkList = document.querySelectorAll("[contact-check-all-item]:checked");
+    for (const item of checkList) {
+      idList.push(item.getAttribute("contact-check-all-item"));
+    }
+    if (idList.length && status) {
+      const finalData = {
+        status: status,
+        idList: idList
+      }
+      switch (status) {
+        case "hard-delete":
+          {
+            fetch(`/${pathAdmin}/voucher/trash/apply-multi`, {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(finalData)
+            })
+              .then(res => res.json())
+              .then(data => {
+                if (data.code == "error")
+                  alert(data.message);
+                if (data.code == "success")
+                  window.location.reload();
+              })
+            break;
+          }
+        case "recovery":
+          {
+            fetch(`/${pathAdmin}/voucher/trash/apply-multi`, {
+              method: "PATCH",
+              headers: {
+                "Content-Type": "application/json"
+              },
+              body: JSON.stringify(finalData)
+            })
+              .then(res => res.json())
+              .then(data => {
+                if (data.code == "error")
+                  alert(data.message);
+                if (data.code == "success")
+                  window.location.reload();
+              })
+            break;
+          }
+      }
+    }
+    else alert("Vui lòng chọn Voucher hoặc Danh mục cần áp dụng!");
+  })
+}
+// End Voucher Trash Filter
+
+// Voucher Trash Recovery
+const voucherTrashRecoveryList = document.querySelectorAll("[voucher-trash-recovery]");
+if (voucherTrashRecoveryList) {
+  for (const button of voucherTrashRecoveryList) {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "PATCH"
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Voucher Trash Recovery
+
+// Voucher Trash Hard Delete
+const voucherTrashHardDeleteList = document.querySelectorAll("[voucher-trash-hard-delete]");
+if (voucherTrashHardDeleteList) {
+  for (const button of voucherTrashHardDeleteList) {
+    button.addEventListener("click", () => {
+      const api = button.getAttribute("data-api");
+      fetch(api, {
+        method: "DELETE"
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.code == "error")
+            alert(data.message);
+          if (data.code == "success")
+            window.location.reload();
+        })
+    })
+  }
+}
+// End Voucher Trash Hard Delete

@@ -532,8 +532,6 @@ module.exports.applyMulti = async (req, res) => {
 module.exports.trashApplyMultiPatch = async (req, res) => {
   const idList = req.body;
 
-  console.log(idList);
-
   await Tours.updateMany({
     _id: { $in: idList }
   }, {

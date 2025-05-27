@@ -1,0 +1,87 @@
+extends ../layouts/default.pug
+
+block main 
+  main.main
+    h1.box-title Quản lý Voucher
+    .section-4
+      .inner-wrap
+        .inner-item.inner-label
+          i.fa-solid.fa-filter
+          | Bộ lọc
+        .inner-item
+          select(voucher-status)
+            option(value="") Trạng thái
+            option(value="active") Hoạt động
+            option(value="inactive") Tạm dừng
+        .inner-item.inner-date
+          input(type="date" voucherStartDate)
+          span -
+          input(type="date" voucherEndDate)
+        .inner-item.inner-reset(voucher-delete-filter)
+          i.fa-solid.fa-rotate-left
+          | Xóa bộ lọc
+    .section-5
+      .inner-wrap
+        .inner-change-status
+          .inner-item
+            select(voucher-apply-multi-select)
+              option(value="") -- Hành động --
+              option(value="active") Hoạt động
+              option(value="inactive") Dừng hoạt động
+              option(value="delete") Xóa
+          .inner-item(voucher-apply-multi-button)
+            button Áp dụng
+        .inner-search
+          i.fa-solid.fa-magnifying-glass
+          input(
+            placeholder="Tìm kiếm" 
+            type="text"
+            voucher-search
+            )
+        .inner-button-create
+          a(href=`/${pathAdmin}/voucher/create`) + Tạo mới
+        .inner-button-trash
+          a(href=`/${pathAdmin}/voucher/trash`) Thùng rác
+    .section-6
+      .table-2
+        table
+          thead
+            tr
+              th.inner-center
+                input.inner-check(type="checkbox" contact-check-all)
+              th Mã voucher
+              th Phần trăm giảm
+              th Giảm tối đa
+              th Ngày hết hạn
+              th Trạng thái
+              th Hành động
+          tbody
+            each item in voucherList
+              tr
+                td.inner-center
+                  input.inner-check(type="checkbox" contact-check-all-item=item.id)
+                td #{item.name}
+                td #{item.percentage}%
+                td #{item.maxDiscount.toLocaleString("vi-VN")}đ
+                td #{item.expireFormat}
+                td
+                  - if (item.status == "active")
+                    .badge.badge-green Hoạt động
+                  - if (item.status == "inactive")
+                    .badge.badge-red Tạm dừng
+                td
+                  .inner-buttons
+                    a.inner-edit(
+                      href=`/${pathAdmin}/voucher/edit/${item.id}`
+                    )
+                      i.fa-regular.fa-pen-to-square
+                    button.inner-delete(
+                      data-api=`/${pathAdmin}/voucher/delete/${item.id}`
+                      voucher-delete-button
+                    )
+                      i.fa-regular.fa-trash-can
+    .section-7
+      span.inner-label Hiển thị #{pagination.skip + 1} - #{pagination.skip + voucherList.length} của #{pagination.totalRecord}
+      select.inner-pagination(voucher-pagination)
+        - for (let i = 1; i <= pagination.totalPage; i++)
+          option(value=i) Trang #{i}

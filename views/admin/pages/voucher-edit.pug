@@ -1,0 +1,55 @@
+extends ../layouts/default.pug 
+include ../mixins/options.pug
+
+block main 
+    main.main
+      h1.box-title Chỉnh sửa Voucher
+      .section-8
+        form#voucher-edit-form
+          .inner-group(style={display: "none"})
+            label.inner-label(for="id") ID
+            input#id(
+              name="id" 
+              type="text"
+              value=voucherDetail.id
+              )
+          .inner-group
+            label.inner-label(for="name") Tên mã Voucher
+            input#name(
+              name="name" 
+              type="text"
+              value=voucherDetail.name
+              )
+          .inner-group
+            label.inner-label(for="percentage") Phần trăm giảm
+            input#percentage(
+              name="percentage" 
+              type="number"
+              min="0"
+              max="100"
+              value=voucherDetail.percentage
+              )
+          .inner-group
+            label.inner-label(for="maxDiscount") Giảm tối đa
+            input#maxDiscount(
+              name="maxDiscount" 
+              type="number"
+              min="0"
+              value=voucherDetail.maxDiscount
+              )
+          .inner-group
+            label.inner-label(for="expire") Ngày hết hạn
+              input#expire(
+                name="expire" 
+                type="date"
+                value=voucherDetail.expireFormat
+                )
+          .inner-group
+            label.inner-label(for="status") Trạng thái
+            select#status(name="status")
+              option(value="active" selected=(voucherDetail.status=="active")) Hoạt động
+              option(value="inactive" selected=(voucherDetail.status=="inactive")) Dừng hoạt động
+          .inner-button.inner-two-col
+            button Chỉnh sửa
+        .inner-back
+          a(href=`/${pathAdmin}/voucher/list`) Quay lại danh sách
