@@ -14,6 +14,10 @@ module.exports.paymentMethod = [
     value: "zalopay"
   },
   {
+    label: "VNPAY",
+    value: "vnpay"
+  },
+  {
     label: "Chuyển khoản ngân hàng",
     value: "bank"
   },

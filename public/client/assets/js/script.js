@@ -420,6 +420,11 @@ if (orderForm) {
                     window.location.href = `/order/zalopay?orderID=${data.orderID}`
                     break;
                   }
+                case "vnpay":
+                  {
+                    window.location.href = `/order/vnpay?orderID=${data.orderID}`
+                    break;
+                  }
               }
             }
           })
