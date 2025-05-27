@@ -1,18 +1,27 @@
 const router = require('express').Router();
 
 const voucherController =  require("../../controllers/admin/voucher.controller");
+const voucherValidate = require("../../validates/admin/voucher.validate");
 
 router.get('/list', voucherController.list);
 
 router.get('/create', voucherController.create);
 
-router.post('/create', voucherController.createPost);
+router.post(
+  '/create', 
+  voucherValidate.createPost,
+  voucherController.createPost
+);
 
 router.get('/trash', voucherController.trash);
 
 router.get('/edit/:id', voucherController.edit);
 
-router.patch('/edit/:id', voucherController.editPatch);
+router.patch(
+  '/edit/:id', 
+  voucherValidate.createPost,
+  voucherController.editPatch
+);
 
 router.patch('/delete/:id', voucherController.deletePatch);
 

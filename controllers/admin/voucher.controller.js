@@ -48,7 +48,7 @@ module.exports.list = async (req, res) => {
     skip: skip
   }
 
-  const voucherList = await Voucher.find(find).limit(limitItem).skip(skip);
+  const voucherList = await Voucher.find(find).limit(limitItem).skip(skip).sort({createdAt: "desc"});
 
   for (const item of voucherList) {
     item.expireFormat = moment(item.expire).format("DD/MM/YYYY");
