@@ -56,7 +56,36 @@ module.exports.list = async (req, res) => {
       category: { $in: nationalTourIdList }
     }
 
-    const tourList = await Tours.find(find);
+    let sort = "";
+    if (req.query.sort)
+    {
+      sort = req.query.sort;
+    }
+
+    const limitItem = 6;
+    // Đếm tổng số tour trong danh mục
+    const totalRecord = await Tours.countDocuments(find);
+    const totalPage = Math.ceil(totalRecord / limitItem);
+
+    let page = 1;
+    if (req.query.page)
+    {
+      const tmp = parseInt(req.query.page);
+      if (tmp > 0) page = tmp;
+    }
+    if (totalRecord != 0 && page > totalPage) page = totalPage;
+    const skip = (page - 1) * limitItem;
+
+    const pagination = {
+      totalRecord: totalRecord,
+      totalPage: totalPage,
+      skip: skip
+    }
+
+    let tourList = [];
+    if (sort)
+      tourList = await Tours.find(find).sort({priceNewAdult: sort}).limit(limitItem).skip(skip);
+    else tourList = await Tours.find(find).limit(limitItem).skip(skip);
 
     for (const item of tourList) {
       if (item.departureDate) {
@@ -64,9 +93,6 @@ module.exports.list = async (req, res) => {
         item.departureDateFormat = departureDate;
       }
     }
-
-    // Đếm tổng số tour trong danh mục
-    const totalTour = await Tours.countDocuments(find);
 
     // Danh sách tỉnh
     const cityList = await Cities.find({});
@@ -76,8 +102,8 @@ module.exports.list = async (req, res) => {
       data: data,
       category: category,
       tourList: tourList,
-      totalTour: totalTour,
-      cityList: cityList
+      cityList: cityList,
+      pagination: pagination
     })
   }
   else {

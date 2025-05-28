@@ -861,3 +861,113 @@ if (cartPage) {
   renderCart();
 }
 // End Cart Page
+
+// Tour Category Sort
+const priceAscButton = document.querySelector("[price-asc]");
+if (priceAscButton)
+{
+  const url = new URL(window.location.href);
+  priceAscButton.addEventListener("click", () => {
+    if (!url.searchParams.get("sort")) 
+      url.searchParams.set("sort", "asc");
+    else 
+    {
+      if (url.searchParams.get("sort") == "desc")
+        url.searchParams.set("sort", "asc");
+      else url.searchParams.delete("sort");
+    }
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("sort") == "asc")
+  {
+    priceAscButton.classList.add("active");
+  }
+}
+const priceDescButton = document.querySelector("[price-desc]");
+if (priceDescButton)
+{
+  const url = new URL(window.location.href);
+  priceDescButton.addEventListener("click", () => {
+    if (!url.searchParams.get("sort")) 
+      url.searchParams.set("sort", "desc");
+    else 
+    {
+      if (url.searchParams.get("sort") == "asc")
+        url.searchParams.set("sort", "desc");
+      else url.searchParams.delete("sort");
+    }
+    window.location.href = url.href;
+  })
+
+  if (url.searchParams.get("sort") == "desc")
+  {
+    priceDescButton.classList.add("active");
+  }
+}
+// End Tour Category Sort
+
+// Category Pagination
+const categoryPaginationList = document.querySelectorAll("[category-pagination]");
+if (categoryPaginationList.length)
+{
+  const url = new URL(window.location.href);
+  for (const button of categoryPaginationList)
+  {
+    button.addEventListener("click", () => {
+      const value = button.getAttribute("value");
+      url.searchParams.set("page", value);
+      window.location.href  = url.href;
+    })
+  }
+  if (url.searchParams.get("page"))
+  {
+    for (const button of categoryPaginationList)
+    {
+      if (button.getAttribute("value") != url.searchParams.get("page"))
+        button.classList.remove("active");
+      else button.classList.add("active");
+    }
+  }
+}
+const categoryPre = document.querySelector("[category-pagination-pre]");
+if (categoryPre)
+{
+  categoryPre.addEventListener("click", () => {
+    const buttonList = document.querySelectorAll("[category-pagination]");
+    const url = new URL(window.location.href);
+    buttonList.forEach((button, index) => {
+      if (button.classList.contains("active"))
+      {
+        // Nếu page 1 -> không cho chuyển
+        if (index == 0) return;
+        buttonList[index - 1].classList.add("active");
+        buttonList[index].classList.remove("active");
+        url.searchParams.set("page", buttonList[index - 1].getAttribute("value"));
+        window.location.href = url.href;
+        return;
+      }
+    })
+  })
+}
+const categoryNext = document.querySelector("[category-pagination-next]");
+if (categoryNext)
+{
+  categoryNext.addEventListener("click", () => {
+    const buttonList = document.querySelectorAll("[category-pagination]");
+    const url = new URL(window.location.href);
+    buttonList.forEach((button, index) => {
+      if (button.classList.contains("active"))
+      {
+        // Nếu page 1 -> không cho chuyển
+        if (index == buttonList.length - 1) return;
+        buttonList[index + 1].classList.add("active");
+        buttonList[index].classList.remove("active");
+        url.searchParams.set("page", buttonList[index + 1].getAttribute("value"));
+        window.location.href = url.href;
+        return;
+      }
+    })
+  })
+}
+// End Category Pagination
