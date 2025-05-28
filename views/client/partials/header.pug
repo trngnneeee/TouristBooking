@@ -28,12 +28,12 @@ header.header
             )
       // Menu
       nav.inner-menu
-        ul
+        ul(header-nav)
           li
-            a.active(href="/") Trang chủ
+            a.active(href="/" target-nav) Trang chủ
           each item in categoryList
             li
-              a(href=`/category/${item.slug}`) #{item.name}
+              a(href=`/category/${item.slug}` target-nav) #{item.name}
               i.fa-solid.fa-caret-down
               ul
                 - if (item.children)

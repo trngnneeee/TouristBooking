@@ -971,3 +971,18 @@ if (categoryNext)
   })
 }
 // End Category Pagination
+
+// Header Active
+const headerNav = document.querySelector("[header-nav]");
+if (headerNav)
+{
+  const url = new URL(window.location.href);
+  const aList = headerNav.querySelectorAll("[target-nav]");
+  for (const a of aList)
+  {
+    if (a.getAttribute("href") == url.pathname) 
+      a.classList.add("active");
+    else a.classList.remove("active");
+  }
+}
+// End Header Active
