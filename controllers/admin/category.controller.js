@@ -48,7 +48,7 @@ module.exports.list = async (req, res) => {
   // End Tìm kiếm
 
   // Phân trang
-  const limitItem = 3;
+  const limitItem = 10;
   let page = 1;
   if (req.query.page) {
     const currentPage = parseInt(req.query.page);
@@ -364,7 +364,7 @@ module.exports.trash = async (req, res) => {
   // End Tìm kiếm
 
   // Phân trang
-  const limitItem = 3;
+  const limitItem = 10;
   let page = 1;
   if (req.query.page) {
     const currentPage = parseInt(req.query.page);

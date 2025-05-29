@@ -28,7 +28,7 @@ module.exports.list = async (req, res) => {
     find.name = searchRegex;
   }
 
-  const limitItem = 3;
+  const limitItem = 10;
   const totalRecord = await Voucher.countDocuments({
     deleted: false
   });

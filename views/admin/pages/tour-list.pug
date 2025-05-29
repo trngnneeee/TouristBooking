@@ -77,7 +77,6 @@ block main
                 th Ảnh đại diện
                 th Giá
                 th Còn lại
-                th.inner-center Vị trí
                 th.inner-center Trạng thái
                 th Tạo bởi
                 th Cập nhật bởi
@@ -87,7 +86,7 @@ block main
                 tr
                   td.inner-center
                     input.inner-check(type="checkbox" item-checked=item.id)
-                  td #{item.name}
+                  td(style={width: "200px"}) #{item.name}
                   td
                     img.inner-avatar(src=item.avatar)
                   td
@@ -98,7 +97,6 @@ block main
                     div NL: #{item.stockAdult}
                     div TE: #{item.stockChildren}
                     div EB: #{item.stockBaby}
-                  td.inner-center 1
                   td.inner-center
                     - if(item.status == "active")
                       .badge.badge-green Hoạt động

@@ -66,7 +66,7 @@ module.exports.list = async (req, res) => {
     find.slug = searchRegex;
   }
 
-  const limitItem = 3;
+  const limitItem = 10;
   const totalRecord = await Tours.countDocuments(find);
   const totalPage = Math.ceil(totalRecord / limitItem);
 
@@ -363,7 +363,7 @@ module.exports.trash = async (req, res) => {
     find.slug = searchRegex;
   }
 
-  const limitItem = 3;
+  const limitItem = 10;
   const totalRecord = await Tours.countDocuments(find);
   const totalPage = Math.ceil(totalRecord / limitItem);
   let page = 1;

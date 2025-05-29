@@ -39,7 +39,7 @@ module.exports.list = async (req, res) => {
     find.phone = search;
   }
 
-  const limitItem = 3;
+  const limitItem = 10;
   const totalItem = await Orders.countDocuments({
     deleted: false
   })
@@ -216,7 +216,7 @@ module.exports.trash = async (req, res) => {
     find.phone = search;
   }
 
-  const limitItem = 3;
+  const limitItem = 10;
   const totalItem = await Orders.countDocuments({
     deleted: true
   })
