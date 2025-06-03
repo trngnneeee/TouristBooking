@@ -506,12 +506,12 @@ if (formSearch) {
     const stockChildren = parseInt(formSearch.querySelector("[stockChildren]").innerHTML);
     if (stockChildren)
       url.searchParams.set("stockChildren", stockChildren);
-    else url.searchParams.delete("stockAdult");
+    else url.searchParams.delete("stockChildren");
 
     const stockBaby = parseInt(formSearch.querySelector("[stockBaby]").innerHTML);
     if (stockBaby)
       url.searchParams.set("stockBaby", stockBaby);
-    else url.searchParams.delete("stockAdult");
+    else url.searchParams.delete("stockBaby");
 
     const departureDate = event.target.departureDate.value;
     if (departureDate)
